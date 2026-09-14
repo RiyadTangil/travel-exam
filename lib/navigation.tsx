@@ -3,6 +3,7 @@ import {
   UserPlus,
   GraduationCap,
   Building2,
+  HelpCircle,
 } from "lucide-react";
 
 export type NavItem = {
@@ -22,6 +23,11 @@ export const getNavItems = (): NavItem[] => [
     title: "শিক্ষার্থীর প্রোফাইল / Candidates",
     icon: <GraduationCap className="h-5 w-5" />,
     href: "/dashboard/candidates",
+  },
+  {
+    title: "প্রশ্ন ব্যাংক / Question Bank",
+    icon: <HelpCircle className="h-5 w-5" />,
+    href: "/dashboard/questions",
   },
   {
     title: "স্টাফ ও টিম / Staff Management",
