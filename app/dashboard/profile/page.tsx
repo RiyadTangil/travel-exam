@@ -131,22 +131,12 @@ interface Company {
   email: string;
   mobileNumber: string;
   address: string;
-  businessType?: string;
-  tradeLicenseNo?: string;
-  tinNo?: string;
-  binNo?: string;
-  phone?: string;
-  contactPerson?: string;
-  designation?: string;
-  extraInfo?: string;
-  facebook?: string;
-  website?: string;
   logoUrl?: string;
   subscription?: {
-    plan: string;
+    plan?: string;
     status: string;
-    startDate: string;
-    endDate: string;
+    startDate?: string;
+    endDate?: string;
   };
   clientsCount?: {
     b2b: number;
@@ -188,17 +178,6 @@ export default function CompanyProfilePage() {
     email: "",
     mobileNumber: "",
     address: "",
-    address2: "",
-    businessType: "",
-    tradeLicenseNo: "",
-    tinNo: "",
-    binNo: "",
-    phone: "",
-    contactPerson: "",
-    designation: "",
-    extraInfo: "",
-    facebook: "",
-    website: "",
     logoUrl: "",
   });
 
@@ -266,17 +245,6 @@ export default function CompanyProfilePage() {
             email: data.company.email || "",
             mobileNumber: data.company.mobileNumber || "",
             address: data.company.address || "",
-            address2: data.company.address2 || "",
-            businessType: data.company.businessType || "",
-            tradeLicenseNo: data.company.tradeLicenseNo || "",
-            tinNo: data.company.tinNo || "",
-            binNo: data.company.binNo || "",
-            phone: data.company.phone || "",
-            contactPerson: data.company.contactPerson || "",
-            designation: data.company.designation || "",
-            extraInfo: data.company.extraInfo || "",
-            facebook: data.company.facebook || "",
-            website: data.company.website || "",
             logoUrl: data.company.logoUrl || "",
           });
         }
@@ -614,342 +582,160 @@ export default function CompanyProfilePage() {
     );
   }
 
+  const getCompanyInitials = (name: string) =>
+    name ? name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2) : "AG";
+
   return (
     <PageWrapper
       breadcrumbs={[
-        { label: "Configuration", href: "/dashboard/configuration/companies" },
-        { label: "Company Profile" },
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "আমার এজেন্সি / Agency Profile" },
       ]}
     >
-      <div className="mx-auto w-full  px-4 pb-12">
-        {/* Header Section */}
-        <Card className="mb-8 p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm border-gray-200 overflow-hidden">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Company Profile</h1>
-            <p className="text-gray-500 mt-1">Manage your agency information and branding</p>
-          </div>
+      <div className="mx-auto max-w-2xl px-3 sm:px-4 py-4">
+        {/* Unified Compact Company Profile Card */}
+        <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-200/40 overflow-hidden">
           
-          <div className="flex items-center gap-3">
-            <Badge variant="outline" className="px-3 py-1 border-sky-200 bg-sky-50 text-sky-700 capitalize">
-              {company?.subscription?.status || "Trial"} Plan
-            </Badge>
-          </div>
-        </Card>
+          {/* Sleek Top Banner */}
+          <div className="relative overflow-hidden bg-gradient-to-r from-[#005CC1] via-[#0284C7] to-[#0ea5e9] p-5 sm:p-6 text-white">
+            {/* Background Glows */}
+            <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+            <div className="absolute -left-8 -bottom-8 w-36 h-36 rounded-full bg-blue-400/20 blur-xl pointer-events-none" />
 
-        {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-dashed border-gray-200">
-            <Loader2 className="h-10 w-10 text-sky-500 animate-spin mb-4" />
-            <p className="text-gray-500 font-medium">Loading your profile...</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Left Column: Form Info */}
-               <div className="space-y-6">
-                <Card className="shadow-sm border-gray-200 overflow-hidden">
-                  <CardHeader className="border-b border-gray-50 bg-white">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Upload className="w-5 h-5 text-sky-600" />
-                      Company Logo
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <LogoUpload 
-                      defaultUrl={formData.logoUrl}
-                      onUploadSuccess={handleLogoUpload}
-                      onRemove={() => handleLogoUpload("")}
-                      maxSizeMB={2}
-                    />
-                    <p className="text-xs text-gray-500 mt-6 text-center leading-relaxed">
-                      Recommended: Square image (200x200px).<br />
-                      Supports PNG, JPG or WebP.
-                    </p>
-                  </CardContent>
-                </Card>
-
-                {/* Account Summary */}
-                <Card className="shadow-sm border-gray-200 bg-sky-50/50">
-                  <CardHeader>
-                    <CardTitle className="text-base font-semibold">Account Summary</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-600">Subscription</span>
-                      <Badge variant="outline" className="bg-white text-sky-600 border-sky-200">
-                        {company?.subscription?.status || "Active"}
-                      </Badge>
-                    </div>
-                    <div className="pt-4 border-t border-sky-100 flex justify-between items-center text-xs text-gray-500">
-                      <span>Last Updated</span>
-                      <span>{company?.updatedAt ? formatDate(company.updatedAt) : "N/A"}</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-              {/* Right Column: Logo & Stats */}
-               <div className="lg:col-span-2 space-y-6">
-                <Card className="shadow-sm border-gray-200 overflow-hidden">
-                  <CardHeader className="border-b border-gray-50 bg-white">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Building2 className="w-5 h-5 text-sky-600" />
-                      Organization Information
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="name" className="text-gray-700">Agency Name</Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          required
-                          disabled={!canEdit}
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="businessType" className="text-gray-700">Business Type</Label>
-                        <Input
-                          id="businessType"
-                          name="businessType"
-                          placeholder="Travel Agency, Tour Operator, etc."
-                          value={formData.businessType}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="mobileNumber" className="text-gray-700 flex items-center gap-1">
-                          <span className="text-red-500">*</span> Mobile No
-                        </Label>
-                        <Input
-                          id="mobileNumber"
-                          name="mobileNumber"
-                          placeholder="+880..."
-                          value={formData.mobileNumber}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          required
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="phone" className="text-gray-700">Phone (Landline)</Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          placeholder="Phone number"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="tradeLicenseNo" className="text-gray-700">Trade License</Label>
-                        <Input
-                          id="tradeLicenseNo"
-                          name="tradeLicenseNo"
-                          placeholder="Trade License No"
-                          value={formData.tradeLicenseNo}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="tinNo" className="text-gray-700">TIN Number</Label>
-                        <Input
-                          id="tinNo"
-                          name="tinNo"
-                          placeholder="TIN Number"
-                          value={formData.tinNo}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="binNo" className="text-gray-700">BIN Number</Label>
-                        <Input
-                          id="binNo"
-                          name="binNo"
-                          placeholder="BIN Number"
-                          value={formData.binNo}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          disabled={!canEdit}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="mt-6 space-y-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="address" className="text-gray-700 flex items-center gap-1">
-                          <span className="text-red-500">*</span> Address 1
-                        </Label>
-                        <Textarea
-                          id="address"
-                          name="address"
-                          placeholder="Primary company address"
-                          value={formData.address}
-                          onChange={handleInputChange}
-                          rows={2}
-                          className="border-gray-300 focus:ring-sky-500 resize-none"
-                          required
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="address2" className="text-gray-700">Address 2</Label>
-                        <Textarea
-                          id="address2"
-                          name="address2"
-                          placeholder="Secondary company address (Optional)"
-                          value={formData.address2}
-                          onChange={handleInputChange}
-                          rows={2}
-                          className="border-gray-300 focus:ring-sky-500 resize-none"
-                          disabled={!canEdit}
-                        />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="shadow-sm border-gray-200 overflow-hidden">
-                  <CardHeader className="border-b border-gray-50 bg-white">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Info className="w-5 h-5 text-sky-600" />
-                      Extra Information
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="contactPerson" className="text-gray-700">Contact Person</Label>
-                        <Input
-                          id="contactPerson"
-                          name="contactPerson"
-                          placeholder="Full name of contact person"
-                          value={formData.contactPerson}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="designation" className="text-gray-700">Designation</Label>
-                        <Input
-                          id="designation"
-                          name="designation"
-                          placeholder="e.g. Managing Director, Manager"
-                          value={formData.designation}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="email" className="text-gray-700">Email Address</Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          placeholder="agency@example.com"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          required
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="website" className="text-gray-700">Website</Label>
-                        <Input
-                          id="website"
-                          name="website"
-                          placeholder="https://www.example.com"
-                          value={formData.website}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="facebook" className="text-gray-700">Facebook</Label>
-                        <Input
-                          id="facebook"
-                          name="facebook"
-                          placeholder="Facebook page URL"
-                          value={formData.facebook}
-                          onChange={handleInputChange}
-                          className="py-5 border-gray-300 focus:ring-sky-500"
-                          disabled={!canEdit}
-                        />
-                      </div>
-
-                      <div className="space-y-2 md:col-span-2">
-                        <Label htmlFor="extraInfo" className="text-gray-700">Extra Info</Label>
-                        <Textarea
-                          id="extraInfo"
-                          name="extraInfo"
-                          placeholder="Additional information about your agency"
-                          value={formData.extraInfo}
-                          onChange={handleInputChange}
-                          rows={2}
-                          className="border-gray-300 focus:ring-sky-500 resize-none"
-                          disabled={!canEdit}
-                        />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+            <div className="relative z-10 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3.5 min-w-0">
+                <div className="h-13 w-13 sm:h-14 sm:w-14 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-black text-lg sm:text-xl shrink-0 shadow-inner overflow-hidden">
+                  {formData.logoUrl ? (
+                    <img src={formData.logoUrl} alt={formData.name} className="h-full w-full object-cover" />
+                  ) : (
+                    getCompanyInitials(formData.name || "Agency")
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                    <span className="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider">
+                      এজেন্সি প্রোফাইল / Agency
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/90 backdrop-blur-md text-[10px] font-bold tracking-wider">
+                      {company?.subscription?.status || "Active"}
+                    </span>
+                  </div>
+                  <h1 className="text-lg sm:text-xl font-black tracking-tight truncate text-white">
+                    {formData.name || "My Agency"}
+                  </h1>
+                  <p className="text-[11px] text-blue-100 flex items-center gap-1 mt-0.5 truncate">
+                    <Mail className="h-3 w-3 shrink-0 text-blue-200" />
+                    <span>{formData.email || "No email provided"}</span>
+                  </p>
+                </div>
               </div>
 
-            
+              {/* Verified Badge */}
+              <div className="shrink-0 text-right">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 text-[#005CC1] font-bold text-xs shadow-sm">
+                  <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
+                  <span>Verified Agency</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Form Content */}
+          <form onSubmit={handleSubmit} className="p-5 sm:p-7 space-y-6">
+            {/* Logo Upload Section */}
+            <div className="flex flex-col items-center justify-center pt-1 pb-4 border-b border-slate-100">
+              <LogoUpload
+                defaultUrl={formData.logoUrl}
+                onUploadSuccess={handleLogoUpload}
+                onRemove={() => handleLogoUpload("")}
+                maxSizeMB={2}
+              />
+              <p className="text-[11px] text-slate-400 mt-2 font-medium text-center">
+                লোগো পরিবর্তন করতে ছবিতে ক্লিক করুন / Click image to update logo
+              </p>
             </div>
 
-            {/* Form Footer */}
-            <div className="sticky bottom-6 z-10">
-              <Card className="shadow-lg border-sky-100 bg-white/90 backdrop-blur-sm">
-                <CardContent className="p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <p className="text-sm text-gray-500 flex items-center gap-2">
-                    {!canEdit ? (
-                      <><AlertCircle className="h-4 w-4 text-amber-500" /> View-only mode</>
-                    ) : (
-                      <><CheckCircle className="h-4 w-4 text-green-500" /> All changes will be saved to your organization profile</>
-                    )}
-                  </p>
-                  {canEdit && (
-                    <Button type="submit" disabled={saving}>
-                      {saving ? (
-                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving Changes...</>
-                      ) : (
-                        <><Save className="mr-2 h-4 w-4" /> Save Profile Info</>
-                      )}
-                    </Button>
+            {/* Essential Fields */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <Building2 className="h-3.5 w-3.5 text-[#005CC1]" />
+                  এজেন্সির মৌলিক তথ্য / Agency Information
+                </span>
+                <span className="text-[10px] text-slate-400 font-medium">Click field to edit</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <FloatingInput
+                  id="name"
+                  label="এজেন্সির নাম / Agency Name *"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  disabled={!canEdit}
+                />
+
+                <FloatingInput
+                  id="mobileNumber"
+                  label="মোবাইল নম্বর / Phone Number *"
+                  value={formData.mobileNumber}
+                  onChange={handleInputChange}
+                  icon={Phone}
+                  required
+                  disabled={!canEdit}
+                />
+
+                <FloatingInput
+                  id="email"
+                  type="email"
+                  label="অফিসিয়াল ইমেইল / Official Email *"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  icon={Mail}
+                  required
+                  disabled={!canEdit}
+                />
+
+                <FloatingInput
+                  id="address"
+                  label="অফিস ঠিকানা / Office Address *"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  icon={MapPin}
+                  required
+                  disabled={!canEdit}
+                />
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="pt-2 flex items-center justify-between">
+              <p className="text-[11px] text-slate-400 hidden sm:block">
+                {!canEdit ? "কেবলমাত্র দেখার অনুমতি রয়েছে" : "সকল পরিবর্তন স্বয়ংক্রিয়ভাবে সংরক্ষিত হবে"}
+              </p>
+
+              {canEdit && (
+                <Button
+                  type="submit"
+                  disabled={saving}
+                  className="w-full sm:w-auto bg-[#005CC1] hover:bg-[#004ca3] text-white font-semibold px-8 py-2.5 rounded-xl shadow-lg shadow-blue-500/15 flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 text-sm"
+                >
+                  {saving ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      সংরক্ষণ হচ্ছে...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-4 w-4" />
+                      পরিবর্তন সংরক্ষণ করুন / Save Changes
+                    </>
                   )}
-                </CardContent>
-              </Card>
+                </Button>
+              )}
             </div>
           </form>
-        )}
+        </div>
       </div>
     </PageWrapper>
   );

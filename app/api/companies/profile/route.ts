@@ -113,18 +113,7 @@ export async function PATCH(request: NextRequest) {
       'email', 
       'mobileNumber', 
       'address', 
-      'address2', 
-      'logoUrl', 
-      'businessType', 
-      'tradeLicenseNo', 
-      'tinNo',
-      'binNo',
-      'phone',
-      'contactPerson',
-      'designation',
-      'extraInfo', 
-      'facebook', 
-      'website'
+      'logoUrl'
     ];
     
     // Filter to only allowed fields
