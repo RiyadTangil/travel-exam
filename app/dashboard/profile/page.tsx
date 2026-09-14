@@ -423,44 +423,44 @@ export default function CompanyProfilePage() {
           { label: "আমার প্রোফাইল / Candidate Profile" },
         ]}
       >
-        <div className="mx-auto max-w-2xl px-3 sm:px-4 py-4">
+        <div className="mx-auto max-w-4xl lg:max-w-5xl px-3 sm:px-6 py-4 sm:py-6">
           {/* Unified Compact Profile Card */}
           <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-200/40 overflow-hidden">
             
             {/* Sleek Top Banner */}
-            <div className="relative overflow-hidden bg-gradient-to-r from-[#005CC1] via-[#0284C7] to-[#0ea5e9] p-5 sm:p-6 text-white">
+            <div className="relative overflow-hidden bg-gradient-to-r from-[#005CC1] via-[#0284C7] to-[#0ea5e9] p-6 sm:p-8 lg:p-9 text-white">
               {/* Background Glows */}
-              <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 blur-2xl pointer-events-none" />
-              <div className="absolute -left-8 -bottom-8 w-36 h-36 rounded-full bg-blue-400/20 blur-xl pointer-events-none" />
+              <div className="absolute -right-8 -top-8 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+              <div className="absolute -left-8 -bottom-8 w-44 h-44 rounded-full bg-blue-400/20 blur-xl pointer-events-none" />
 
-              <div className="relative z-10 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3.5 min-w-0">
-                  <div className="h-13 w-13 sm:h-14 sm:w-14 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-black text-lg sm:text-xl shrink-0 shadow-inner">
+              <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="h-14 w-14 sm:h-18 sm:w-18 lg:h-20 lg:w-20 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-black text-xl sm:text-2xl lg:text-3xl shrink-0 shadow-inner">
                     {getInitials(candidateData.fullName || session?.user?.name || "")}
                   </div>
                   <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-1.5 mb-1">
-                      <span className="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider">
+                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
                         পরীক্ষার্থী / Candidate
                       </span>
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/90 backdrop-blur-md text-[10px] font-mono font-bold tracking-wider">
+                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/90 backdrop-blur-md text-[10px] sm:text-[11px] font-mono font-bold tracking-wider">
                         পাসপোর্ট: {candidateData.passportNumber || "—"}
                       </span>
                     </div>
-                    <h1 className="text-lg sm:text-xl font-black tracking-tight truncate text-white">
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight truncate text-white">
                       {candidateData.fullName || session?.user?.name || "Student Candidate"}
                     </h1>
-                    <p className="text-[11px] text-blue-100 flex items-center gap-1 mt-0.5 truncate">
-                      <Building2 className="h-3 w-3 shrink-0 text-blue-200" />
+                    <p className="text-xs sm:text-sm text-blue-100 flex items-center gap-1.5 mt-0.5 truncate">
+                      <Building2 className="h-3.5 w-3.5 shrink-0 text-blue-200" />
                       <span>{session?.user?.companyName || "Registered Agency"}</span>
                     </p>
                   </div>
                 </div>
 
                 {/* Status Badge */}
-                <div className="shrink-0 text-right">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 text-[#005CC1] font-bold text-xs shadow-sm">
-                    <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+                <div className="shrink-0 self-end sm:self-center">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 text-[#005CC1] font-bold text-xs sm:text-sm shadow-sm">
+                    <span className="h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse" />
                     <span>{candidateData.examStatus || "PENDING"}</span>
                   </div>
                 </div>
@@ -468,22 +468,22 @@ export default function CompanyProfilePage() {
             </div>
 
             {/* Profile Form with Floating Labels */}
-            <form onSubmit={handleCandidateSave} className="p-5 sm:p-7 space-y-5">
+            <form onSubmit={handleCandidateSave} className="p-6 sm:p-8 lg:p-9 space-y-6 sm:space-y-7">
               
               {/* Profile Header */}
               <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                  <User className="h-3.5 w-3.5 text-[#005CC1]" />
+                <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                  <User className="h-4 w-4 text-[#005CC1]" />
                   শিক্ষার্থীর তথ্য / Profile Information
                 </span>
-                <span className="text-[10px] text-slate-400 font-medium">Click field to edit</span>
+                <span className="text-[11px] text-slate-400 font-medium">Click field to edit</span>
               </div>
 
-              {/* Single Unified Grid with Equal Spacing */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Responsive Grid: 1 col on mobile, 2 on tablet, 3 on desktop */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
                 <FloatingInput
                   id="cand-name"
-                  label="শিক্ষার্থীর নাম / Full Name"
+                  label="শিক্ষার্থীর নাম / Full Name *"
                   value={candidateData.fullName}
                   onChange={(e) => setCandidateData({ ...candidateData, fullName: e.target.value })}
                   required
@@ -528,35 +528,42 @@ export default function CompanyProfilePage() {
                   disabled
                   icon={Shield}
                 />
+              </div>
 
-                {/* Password Section Divider */}
-                <div className="sm:col-span-2 pt-2 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                    <KeyRound className="h-3.5 w-3.5 text-[#005CC1]" />
+              {/* Password Section */}
+              <div className="pt-3 border-t border-slate-100 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                    <KeyRound className="h-4 w-4 text-[#005CC1]" />
                     পাসওয়ার্ড পরিবর্তন / Change Password
                   </span>
-                  <span className="text-[10px] text-slate-400 font-medium">ঐচ্ছিক / Optional</span>
+                  <span className="text-[11px] text-slate-400 font-medium">ঐচ্ছিক / Optional</span>
                 </div>
 
-                <FloatingInput
-                  id="cand-pass"
-                  type="password"
-                  label="নতুন পাসওয়ার্ড / New Password"
-                  value={candidatePassword}
-                  onChange={(e) => setCandidatePassword(e.target.value)}
-                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6 max-w-2xl">
+                  <FloatingInput
+                    id="cand-pass"
+                    type="password"
+                    label="নতুন পাসওয়ার্ড / New Password"
+                    value={candidatePassword}
+                    onChange={(e) => setCandidatePassword(e.target.value)}
+                  />
 
-                <FloatingInput
-                  id="cand-confirm-pass"
-                  type="password"
-                  label="কনফার্ম পাসওয়ার্ড / Confirm Password"
-                  value={candidateConfirmPassword}
-                  onChange={(e) => setCandidateConfirmPassword(e.target.value)}
-                />
+                  <FloatingInput
+                    id="cand-confirm-pass"
+                    type="password"
+                    label="কনফার্ম পাসওয়ার্ড / Confirm Password"
+                    value={candidateConfirmPassword}
+                    onChange={(e) => setCandidateConfirmPassword(e.target.value)}
+                  />
+                </div>
               </div>
 
               {/* Submit Action */}
-              <div className="pt-2 flex justify-end">
+              <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p className="text-xs text-slate-400">
+                  লক করা তথ্য পরিবর্তন করতে এজেন্সির সাথে যোগাযোগ করুন
+                </p>
                 <Button
                   type="submit"
                   disabled={savingCandidate}
@@ -592,19 +599,19 @@ export default function CompanyProfilePage() {
         { label: "আমার এজেন্সি / Agency Profile" },
       ]}
     >
-      <div className="mx-auto max-w-2xl px-3 sm:px-4 py-4">
+      <div className="mx-auto max-w-4xl lg:max-w-5xl px-3 sm:px-6 py-4 sm:py-6">
         {/* Unified Compact Company Profile Card */}
         <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-200/40 overflow-hidden">
           
           {/* Sleek Top Banner */}
-          <div className="relative overflow-hidden bg-gradient-to-r from-[#005CC1] via-[#0284C7] to-[#0ea5e9] p-5 sm:p-6 text-white">
+          <div className="relative overflow-hidden bg-gradient-to-r from-[#005CC1] via-[#0284C7] to-[#0ea5e9] p-6 sm:p-8 lg:p-9 text-white">
             {/* Background Glows */}
-            <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 blur-2xl pointer-events-none" />
-            <div className="absolute -left-8 -bottom-8 w-36 h-36 rounded-full bg-blue-400/20 blur-xl pointer-events-none" />
+            <div className="absolute -right-8 -top-8 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+            <div className="absolute -left-8 -bottom-8 w-44 h-44 rounded-full bg-blue-400/20 blur-xl pointer-events-none" />
 
-            <div className="relative z-10 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3.5 min-w-0">
-                <div className="h-13 w-13 sm:h-14 sm:w-14 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-black text-lg sm:text-xl shrink-0 shadow-inner overflow-hidden">
+            <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4 min-w-0">
+                <div className="h-14 w-14 sm:h-18 sm:w-18 lg:h-20 lg:w-20 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-black text-xl sm:text-2xl lg:text-3xl shrink-0 shadow-inner overflow-hidden">
                   {formData.logoUrl ? (
                     <img src={formData.logoUrl} alt={formData.name} className="h-full w-full object-cover" />
                   ) : (
@@ -612,28 +619,28 @@ export default function CompanyProfilePage() {
                   )}
                 </div>
                 <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-1.5 mb-1">
-                    <span className="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider">
+                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                    <span className="px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
                       এজেন্সি প্রোফাইল / Agency
                     </span>
-                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/90 backdrop-blur-md text-[10px] font-bold tracking-wider">
+                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/90 backdrop-blur-md text-[10px] sm:text-[11px] font-bold tracking-wider">
                       {company?.subscription?.status || "Active"}
                     </span>
                   </div>
-                  <h1 className="text-lg sm:text-xl font-black tracking-tight truncate text-white">
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight truncate text-white">
                     {formData.name || "My Agency"}
                   </h1>
-                  <p className="text-[11px] text-blue-100 flex items-center gap-1 mt-0.5 truncate">
-                    <Mail className="h-3 w-3 shrink-0 text-blue-200" />
+                  <p className="text-xs sm:text-sm text-blue-100 flex items-center gap-1.5 mt-0.5 truncate">
+                    <Mail className="h-3.5 w-3.5 shrink-0 text-blue-200" />
                     <span>{formData.email || "No email provided"}</span>
                   </p>
                 </div>
               </div>
 
               {/* Verified Badge */}
-              <div className="shrink-0 text-right">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 text-[#005CC1] font-bold text-xs shadow-sm">
-                  <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
+              <div className="shrink-0 self-end sm:self-center">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 text-[#005CC1] font-bold text-xs sm:text-sm shadow-sm">
+                  <CheckCircle className="h-4 w-4 text-emerald-500" />
                   <span>Verified Agency</span>
                 </div>
               </div>
@@ -641,76 +648,84 @@ export default function CompanyProfilePage() {
           </div>
 
           {/* Form Content */}
-          <form onSubmit={handleSubmit} className="p-5 sm:p-7 space-y-6">
-            {/* Logo Upload Section */}
-            <div className="flex flex-col items-center justify-center pt-1 pb-4 border-b border-slate-100">
-              <LogoUpload
-                defaultUrl={formData.logoUrl}
-                onUploadSuccess={handleLogoUpload}
-                onRemove={() => handleLogoUpload("")}
-                maxSizeMB={2}
-              />
-              <p className="text-[11px] text-slate-400 mt-2 font-medium text-center">
-                লোগো পরিবর্তন করতে ছবিতে ক্লিক করুন / Click image to update logo
-              </p>
-            </div>
-
-            {/* Essential Fields */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between pb-1 border-b border-slate-100">
-                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                  <Building2 className="h-3.5 w-3.5 text-[#005CC1]" />
-                  এজেন্সির মৌলিক তথ্য / Agency Information
+          <form onSubmit={handleSubmit} className="p-6 sm:p-8 lg:p-9 space-y-6 sm:space-y-7">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-6 lg:gap-8">
+              {/* Logo Card Section */}
+              <div className="w-full md:w-64 lg:w-72 shrink-0 flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50/70 border border-slate-100/90 text-center">
+                <LogoUpload
+                  defaultUrl={formData.logoUrl}
+                  onUploadSuccess={handleLogoUpload}
+                  onRemove={() => handleLogoUpload("")}
+                  maxSizeMB={2}
+                />
+                <p className="text-xs font-bold text-slate-700 mt-3">
+                  এজেন্সির লোগো / Agency Logo
+                </p>
+                <p className="text-[11px] text-slate-400 mt-1">
+                  ছবিতে ক্লিক করে পরিবর্তন করুন
+                </p>
+                <span className="mt-3 px-2.5 py-1 rounded-full bg-blue-50 text-[#005CC1] text-[10px] font-semibold border border-blue-100">
+                  JPG, PNG • সর্বোচ্চ 2MB
                 </span>
-                <span className="text-[10px] text-slate-400 font-medium">Click field to edit</span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <FloatingInput
-                  id="name"
-                  label="এজেন্সির নাম / Agency Name *"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  disabled={!canEdit}
-                />
+              {/* Essential Fields */}
+              <div className="flex-1 w-full space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                  <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                    <Building2 className="h-4 w-4 text-[#005CC1]" />
+                    এজেন্সির মৌলিক তথ্য / Agency Information
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-medium">Click field to edit</span>
+                </div>
 
-                <FloatingInput
-                  id="mobileNumber"
-                  label="মোবাইল নম্বর / Phone Number *"
-                  value={formData.mobileNumber}
-                  onChange={handleInputChange}
-                  icon={Phone}
-                  required
-                  disabled={!canEdit}
-                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6">
+                  <FloatingInput
+                    id="name"
+                    label="এজেন্সির নাম / Agency Name *"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    disabled={!canEdit}
+                  />
 
-                <FloatingInput
-                  id="email"
-                  type="email"
-                  label="অফিসিয়াল ইমেইল / Official Email *"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  icon={Mail}
-                  required
-                  disabled={!canEdit}
-                />
+                  <FloatingInput
+                    id="mobileNumber"
+                    label="মোবাইল নম্বর / Phone Number *"
+                    value={formData.mobileNumber}
+                    onChange={handleInputChange}
+                    icon={Phone}
+                    required
+                    disabled={!canEdit}
+                  />
 
-                <FloatingInput
-                  id="address"
-                  label="অফিস ঠিকানা / Office Address *"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  icon={MapPin}
-                  required
-                  disabled={!canEdit}
-                />
+                  <FloatingInput
+                    id="email"
+                    type="email"
+                    label="অফিসিয়াল ইমেইল / Official Email *"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    icon={Mail}
+                    required
+                    disabled={!canEdit}
+                  />
+
+                  <FloatingInput
+                    id="address"
+                    label="অফিস ঠিকানা / Office Address *"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    icon={MapPin}
+                    required
+                    disabled={!canEdit}
+                  />
+                </div>
               </div>
             </div>
 
             {/* Submit Button */}
-            <div className="pt-2 flex items-center justify-between">
-              <p className="text-[11px] text-slate-400 hidden sm:block">
+            <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <p className="text-xs text-slate-400">
                 {!canEdit ? "কেবলমাত্র দেখার অনুমতি রয়েছে" : "সকল পরিবর্তন স্বয়ংক্রিয়ভাবে সংরক্ষিত হবে"}
               </p>
 
