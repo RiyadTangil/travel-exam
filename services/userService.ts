@@ -2,7 +2,6 @@ import connectMongoose from "@/lib/mongoose"
 import { User } from "@/models/user"
 import { isValidObjectId, Types } from "mongoose"
 import { AppError } from "@/errors/AppError"
-import { isBossRole, getSameRoleUserIds } from "@/services/crmService"
 
 export async function listUsers(params: {
   page?: number
@@ -23,18 +22,21 @@ export async function listUsers(params: {
     filter.companyId = isValidObjectId(params.companyId) ? new Types.ObjectId(params.companyId) : params.companyId
   }
 
-  // Non-admin users only see users in their same role group
-  if (!isBossRole(params.userRole) && params.userId && isValidObjectId(params.userId) && params.companyId) {
-    const sameRoleUserIds = await getSameRoleUserIds(String(params.companyId), params.userId)
-    filter._id = { $in: sameRoleUserIds }
+  if (params.userRole) {
+    filter.role = params.userRole
   }
 
   const search = (params.search || "").trim()
   if (search) {
+    const cleanSearch = search.replace(/[\s-]/g, "")
     filter.$or = [
       { name: { $regex: search, $options: "i" } },
       { email: { $regex: search, $options: "i" } },
       { userName: { $regex: search, $options: "i" } },
+      { passportNumber: { $regex: search, $options: "i" } },
+      { passportNumberClean: { $regex: cleanSearch, $options: "i" } },
+      { targetCountry: { $regex: search, $options: "i" } },
+      { trade: { $regex: search, $options: "i" } },
     ]
   }
 
@@ -50,7 +52,6 @@ export async function listUsers(params: {
 
   const total = await User.countDocuments(filter)
   const docs = await User.find(filter)
-    .populate("roleId", "name")
     .sort({ createdAt: -1 })
     .skip((page - 1) * pageSize)
     .limit(pageSize)
@@ -62,9 +63,13 @@ export async function listUsers(params: {
     fullName: i.name,
     userName: i.userName || "—",
     userEmail: i.email,
+    passportNumber: i.passportNumber || "—",
+    targetCountry: i.targetCountry || "—",
+    trade: i.trade || "—",
+    examStatus: i.examStatus || "PENDING",
     mobile: i.mobile || "—",
     roleId: i.roleId?._id ? String(i.roleId._id) : null,
-    roleName: i.roleId?.name || "—",
+    roleName: i.roleId?.name || (i.role === "CANDIDATE" ? "Candidate" : i.role || "—"),
     createdAt: i.createdAt,
     status: i.status,
   }))
@@ -76,19 +81,32 @@ export async function createUser(data: any) {
   await connectMongoose()
 
   // Case-insensitive email check
-  const existingUser = await User.findOne({ 
-    email: { $regex: `^${data.email}$`, $options: "i" } 
-  })
-  if (existingUser) {
-    throw new AppError("Email already exists", 400)
+  if (data.email) {
+    const existingUser = await User.findOne({ 
+      email: { $regex: `^${data.email}$`, $options: "i" } 
+    })
+    if (existingUser) {
+      throw new AppError("Email already registered in system", 400)
+    }
+  }
+
+  // Passport number duplicate check within the same company
+  if (data.passportNumberClean) {
+    const existingPassport = await User.findOne({
+      companyId: data.companyId,
+      passportNumberClean: data.passportNumberClean
+    })
+    if (existingPassport) {
+      throw new AppError("A candidate with this passport number is already registered in your agency", 400)
+    }
   }
 
   const newUser = await User.create({
     ...data,
-    isVerified: true, // Auto-verify users created by admin
+    isVerified: true, // Auto-verify users/candidates created by agency author
   })
 
-  const populated = await User.findById(newUser._id).populate("roleId", "name").lean()
+  const populated = await User.findById(newUser._id).lean()
   return populated
 }
 

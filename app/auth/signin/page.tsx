@@ -19,7 +19,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 
 function SignInContent() {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +56,7 @@ function SignInContent() {
           <div className="relative w-48 h-48 mb-8 animate-pulse">
             <Image
               src="/main_log_bgremoved.png"
-              alt="Travel_Hisab Logo"
+              alt="Travel Exam Logo"
               fill
               className="object-contain"
               priority
@@ -82,8 +82,10 @@ function SignInContent() {
     setError("");
 
     try {
+      const cleanIdentifier = identifier.trim();
       const result = await signIn("credentials", {
-        email,
+        identifier: cleanIdentifier,
+        email: cleanIdentifier,
         password,
         redirect: false,
       });
@@ -112,14 +114,22 @@ function SignInContent() {
       <div className="w-full max-w-md relative z-10">
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-md border border-white">
           <CardHeader className="pb-2 pt-8">
-            <div className="relative w-full h-32 mb-2">
+            <div className="relative w-full h-24 mb-2">
               <Image
                 src="/main_log_bgremoved.png"
-                alt="Travel_Hisab Logo"
+                alt="Travel Exam Logo"
                 fill
                 className="object-contain"
                 priority
               />
+            </div>
+            <div className="text-center space-y-1">
+              <CardTitle className="text-xl font-black text-slate-900 tracking-tight">
+                Overseas Exam Portal Login
+              </CardTitle>
+              <CardDescription className="text-xs text-slate-500 font-medium">
+                Candidates: Enter Passport No, Name, or Email
+              </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-6 px-8 pb-8">
@@ -134,21 +144,22 @@ function SignInContent() {
 
               <div className="space-y-1.5">
                 <Label
-                  htmlFor="email"
+                  htmlFor="identifier"
                   className="text-sm font-semibold text-slate-700"
                 >
-                  Email Address
+                  Email, Passport Number, or Full Name
                 </Label>
                 <div className="relative group">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-[#005CC1] transition-colors" />
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="pl-12 h-12 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-[#005CC1] focus:ring-[#005CC1]/10 transition-all"
+                    id="identifier"
+                    type="text"
+                    placeholder="Enter email, passport no, or full name"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    className="pl-12 h-12 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-[#005CC1] focus:ring-[#005CC1]/10 transition-all font-medium"
                     required
+                    autoFocus
                   />
                 </div>
               </div>

@@ -3,7 +3,6 @@ import { connectMongoose } from "@/lib/mongoose"
 import { hashPassword, generateVerificationToken, normalizeEmail, emailEqualsNormalized } from "@/lib/auth"
 import { User } from "@/models/user"
 import { Company } from "@/models/company"
-import { Role } from "@/models/role"
 import { AppError } from "@/errors/AppError"
 import { sendVerificationEmail } from "@/lib/email"
 import { checkRateLimit, incrementRateLimit } from "./rateLimitService"
@@ -14,73 +13,104 @@ const AUTH_LIMIT_CONFIG = {
   actionName: "login"
 }
 
-export async function authorizeUser(credentials: { email?: string; password?: string }, ip?: string) {
-  if (!credentials?.email || !credentials?.password) {
+export async function authorizeUser(
+  credentials: { identifier?: string; email?: string; password?: string },
+  ip?: string
+) {
+  const rawInput = (credentials?.identifier || credentials?.email || "").trim()
+  const password = credentials?.password
+
+  if (!rawInput || !password) {
     return null
   }
 
   await connectMongoose()
 
-  const emailNorm = normalizeEmail(credentials.email)
+  const { verifyPassword } = await import("@/lib/auth")
+  const passportCandidate = rawInput.replace(/[\s-]/g, "").toUpperCase()
+  const escapedInput = rawInput.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  const exactRegex = new RegExp(`^${escapedInput}$`, "i")
+
   const ipKey = `login:ip:${ip || "unknown"}`
-  const emailKey = `login:email:${emailNorm}`
+  const identifierKey = `login:id:${rawInput.toLowerCase()}`
 
   // Check rate limits
   await checkRateLimit(ipKey, AUTH_LIMIT_CONFIG)
-  await checkRateLimit(emailKey, AUTH_LIMIT_CONFIG)
+  await checkRateLimit(identifierKey, AUTH_LIMIT_CONFIG)
 
-  // Find user (case-insensitive vs stored email)
-  const user = await User.findOne(emailEqualsNormalized(emailNorm))
-  
-  if (!user) {
-    // Increment rate limit on failure
+  // Smart multi-field matcher: Email, Clean Passport, Original Passport, Name, UserName
+  const queryConditions: any[] = [
+    { email: exactRegex },
+    { passportNumberClean: passportCandidate },
+    { passportNumber: exactRegex },
+    { name: exactRegex },
+    { userName: exactRegex },
+  ]
+
+  // Find candidate users matching any of the criteria
+  const matchingUsers = await User.find({
+    $or: queryConditions
+  })
+
+  if (!matchingUsers || matchingUsers.length === 0) {
     await incrementRateLimit(ipKey, AUTH_LIMIT_CONFIG)
-    await incrementRateLimit(emailKey, AUTH_LIMIT_CONFIG)
+    await incrementRateLimit(identifierKey, AUTH_LIMIT_CONFIG)
     return null
   }
 
-  // Check if email is verified
-  if (!user.isVerified) {
-    throw new Error("Please verify your email before signing in")
+  // If single match or multiple matches (e.g. identical names), find the one with matching password
+  let authenticatedUser: any = null
+  for (const u of matchingUsers) {
+    const isValid = await verifyPassword(password, u.password)
+    if (isValid) {
+      authenticatedUser = u
+      break
+    }
   }
 
-  // Check if user is active
-  if (user.status === "inactive") {
+  if (!authenticatedUser) {
+    await incrementRateLimit(ipKey, AUTH_LIMIT_CONFIG)
+    await incrementRateLimit(identifierKey, AUTH_LIMIT_CONFIG)
+    return null
+  }
+
+  // Check if candidate/user is active
+  if (authenticatedUser.status === "inactive") {
     throw new Error("Your account is inactive. Please contact support.")
   }
 
-  // Verify password
-  const { verifyPassword } = await import("@/lib/auth")
-  const isValidPassword = await verifyPassword(credentials.password, user.password)
-
-  if (!isValidPassword) {
-    // Increment rate limit on failure
-    await incrementRateLimit(ipKey, AUTH_LIMIT_CONFIG)
-    await incrementRateLimit(emailKey, AUTH_LIMIT_CONFIG)
-    return null
+  // Non-candidates must be email-verified; candidates are verified by agency author
+  const isCandidate = authenticatedUser.role === "CANDIDATE"
+  if (!isCandidate && !authenticatedUser.isVerified) {
+    throw new Error("Please verify your email before signing in")
   }
 
-  // If user has a companyId, fetch it
+  // Fetch company details if applicable
   let companyData = null
-  if (user.companyId) {
-    companyData = await Company.findOne({ _id: user.companyId })
+  if (authenticatedUser.companyId) {
+    companyData = await Company.findOne({ _id: authenticatedUser.companyId })
   }
 
-  let subscriptionEndDate = undefined;
+  let subscriptionEndDate = undefined
   if (companyData) {
-    subscriptionEndDate = companyData.subscription?.status === 'trial' 
-      ? companyData.subscription?.trialEndDate?.toISOString()
-      : companyData.subscription?.currentPeriodEnd?.toISOString();
+    subscriptionEndDate =
+      companyData.subscription?.status === "trial"
+        ? companyData.subscription?.trialEndDate?.toISOString()
+        : companyData.subscription?.currentPeriodEnd?.toISOString()
   }
 
   return {
-    id: user._id.toString(),
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    userType: user.userType,
-    roleId: user.roleId ? user.roleId.toString() : undefined,
-    companyId: user.companyId ? user.companyId.toString() : undefined,
+    id: authenticatedUser._id.toString(),
+    name: authenticatedUser.name,
+    email: authenticatedUser.email,
+    role: authenticatedUser.role,
+    userType: authenticatedUser.userType,
+    passportNumber: authenticatedUser.passportNumber || undefined,
+    targetCountry: authenticatedUser.targetCountry || undefined,
+    trade: authenticatedUser.trade || undefined,
+    examStatus: authenticatedUser.examStatus || "PENDING",
+    roleId: authenticatedUser.roleId ? authenticatedUser.roleId.toString() : undefined,
+    companyId: authenticatedUser.companyId ? authenticatedUser.companyId.toString() : undefined,
     companyName: companyData?.name || undefined,
     companyLogoUrl: companyData?.logoUrl || undefined,
     companyStatus: companyData?.status || "active",

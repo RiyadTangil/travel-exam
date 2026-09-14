@@ -7,9 +7,13 @@ import { Types } from "mongoose"
 
 const userSchema = z.object({
   fullName: z.string().min(1, "Full Name is required"),
-  userEmail: z.string().email("Invalid email"),
+  userEmail: z.string().email("Invalid email").optional().or(z.literal("")),
+  passportNumber: z.string().optional().or(z.literal("")),
+  targetCountry: z.string().optional().or(z.literal("")),
+  trade: z.string().optional().or(z.literal("")),
+  examStatus: z.enum(["PENDING", "IN_PROGRESS", "PASSED", "FAILED"]).optional(),
   userName: z.string().optional(),
-  password: z.string().min(6, "Password must be at least 6 characters").optional(),
+  password: z.string().min(6, "Password must be at least 6 characters").optional().or(z.literal("")),
   mobile: z.string().optional(),
   userRole: z.string().optional(),
   roleId: z.string().optional().nullable(),
@@ -25,9 +29,12 @@ function mapUserResponse(u: any) {
     fullName: u.name || u.fullName,
     userName: u.userName || "—",
     userEmail: u.email || u.userEmail,
+    passportNumber: u.passportNumber || "—",
+    targetCountry: u.targetCountry || "—",
+    trade: u.trade || "—",
+    examStatus: u.examStatus || "PENDING",
     mobile: u.mobile || "—",
-    roleId: u.roleId?._id || u.roleId || null,
-    roleName: u.roleId?.name || u.roleName || "—",
+    roleName: u.role === "CANDIDATE" ? "Candidate" : "Agency Staff",
     createdAt: u.createdAt,
     status: u.status,
   }
@@ -84,19 +91,58 @@ export async function create(body: any, companyId: string) {
       return fail({ error: "validation_error", message: JSON.stringify(parsed.error.flatten().fieldErrors) }, 400)
     }
 
-    const { fullName, userEmail, userName, password, mobile, userRole, roleId, status } = parsed.data
-    
-    if (!password) return badRequest("Password is required for new users")
-    const hashedPassword = await hashPassword(password)
-
-    const userData = {
-      name: fullName,
-      email: userEmail,
+    const {
+      fullName,
+      userEmail,
+      passportNumber,
+      targetCountry,
+      trade,
+      examStatus,
       userName,
-      password: hashedPassword,
+      password,
       mobile,
-      role: userRole || "C_EMP",
-      userType: "TENANT", // Defaults to tenant for newly created users via controller
+      userRole,
+      roleId,
+      status,
+    } = parsed.data
+
+    const cleanPassport = passportNumber ? passportNumber.replace(/[\s-]/g, "").toUpperCase() : ""
+
+    // Candidate or user email handling
+    let finalEmail = (userEmail || "").trim()
+    if (!finalEmail) {
+      if (cleanPassport) {
+        finalEmail = `${cleanPassport.toLowerCase()}@candidate.travelexam.internal`
+      } else {
+        return badRequest("Email is required when Passport Number is not provided")
+      }
+    }
+
+    // Password handling: default to passport number or require
+    let rawPassword = (password || "").trim()
+    if (!rawPassword) {
+      if (cleanPassport && cleanPassport.length >= 6) {
+        rawPassword = cleanPassport
+      } else {
+        rawPassword = "Exam@" + (cleanPassport || "123456")
+      }
+    }
+
+    const hashedPassword = await hashPassword(rawPassword)
+
+    const userData: any = {
+      name: fullName,
+      email: finalEmail,
+      userName: userName || (cleanPassport ? cleanPassport.toLowerCase() : undefined),
+      password: hashedPassword,
+      passportNumber: passportNumber ? passportNumber.trim() : undefined,
+      passportNumberClean: cleanPassport || undefined,
+      targetCountry: targetCountry ? targetCountry.trim() : undefined,
+      trade: trade ? trade.trim() : undefined,
+      examStatus: examStatus || "PENDING",
+      mobile,
+      role: userRole || "CANDIDATE",
+      userType: "TENANT",
       roleId: roleId ? new Types.ObjectId(roleId) : null,
       status: status || "active",
       companyId: new Types.ObjectId(companyId),
@@ -135,8 +181,15 @@ export async function update(id: string, body: any, companyId: string) {
     if (body.fullName) data.name = body.fullName
     if (body.userName) data.userName = body.userName
     if (body.userEmail) data.email = body.userEmail
-    if (body.mobile) data.mobile = body.mobile
+    if (body.mobile !== undefined) data.mobile = body.mobile
     if (body.userRole) data.role = body.userRole
+    if (body.passportNumber !== undefined) {
+      data.passportNumber = body.passportNumber.trim()
+      data.passportNumberClean = body.passportNumber.replace(/[\s-]/g, "").toUpperCase()
+    }
+    if (body.targetCountry !== undefined) data.targetCountry = body.targetCountry
+    if (body.trade !== undefined) data.trade = body.trade
+    if (body.examStatus !== undefined) data.examStatus = body.examStatus
     if (body.roleId !== undefined) data.roleId = body.roleId ? new Types.ObjectId(body.roleId) : null
     if (body.status) data.status = body.status
     if (body.password) {

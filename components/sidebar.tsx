@@ -48,10 +48,16 @@ export function Sidebar() {
     // Assuming auth guard handles login, but wait until session loads
     if (!session?.user) return [];
 
-    // Admin bypass: if you want admin to see everything without explicit permissions
-    // if (session.user.role === 'admin') return items;
+    // Admin & Agency Author bypass: Full access to all agency features
+    const userRole = session.user.role;
+    if (userRole === "C_ADMIN" || userRole === "P_SADMIN" || (session.user as any).userType === "PLATFORM") {
+      return items;
+    }
 
     const userPerms = (session.user as any).permissions || [];
+    if (!userPerms || userPerms.length === 0) {
+      return items;
+    }
 
     return items.reduce((acc, item) => {
       // Create the prefix the same way navigation.tsx does

@@ -1,6 +1,5 @@
 import { Company } from "@/models/company"
 import { User } from "@/models/user"
-import { CrmLead } from "@/models/crm-lead"
 import connectMongoose from "@/lib/mongoose"
 import { Types } from "mongoose"
 
@@ -35,15 +34,10 @@ export async function listAdminCompanies(params: ListAdminCompaniesParams) {
 
   const items = await Promise.all(
     allCompanies.map(async (company: any) => {
-      const [userCount, lastLead] = await Promise.all([
-        User.countDocuments({ companyId: company._id }),
-        CrmLead.findOne(
-          { companyId: company._id },
-          { createdAt: 1 }
-        )
-          .sort({ createdAt: -1 })
-          .lean()
-      ])
+      const userCount = await User.countDocuments({ companyId: company._id })
+      const lastUser = await User.findOne({ companyId: company._id }, { createdAt: 1 })
+        .sort({ createdAt: -1 })
+        .lean()
 
       return {
         id: String(company._id),
@@ -54,7 +48,7 @@ export async function listAdminCompanies(params: ListAdminCompaniesParams) {
         status: company.status || "active",
         subscription: company.subscription,
         userCount,
-        lastActivityDate: (lastLead as any)?.createdAt || null,
+        lastActivityDate: (lastUser as any)?.createdAt || null,
         createdAt: company.createdAt,
       }
     })

@@ -38,7 +38,8 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
+        identifier: { label: "Email, Passport or Name", type: "text" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
@@ -60,11 +61,15 @@ export const authOptions = {
         }
       }
 
-      // Add role, userType, and companyId to token when signing in
+      // Add role, userType, companyId, and candidate info to token when signing in
       if (user) {
         token.id = user.id;
         token.role = user.role;
         token.userType = user.userType;
+        token.passportNumber = (user as any).passportNumber;
+        token.targetCountry = (user as any).targetCountry;
+        token.trade = (user as any).trade;
+        token.examStatus = (user as any).examStatus;
         token.roleId = user.roleId;
         token.companyId = user.companyId;
         token.companyName = user.companyName;
@@ -107,6 +112,10 @@ export const authOptions = {
         session.user.id = token.id || token.sub;
         session.user.role = token.role;
         session.user.userType = token.userType;
+        session.user.passportNumber = token.passportNumber;
+        session.user.targetCountry = token.targetCountry;
+        session.user.trade = token.trade;
+        session.user.examStatus = token.examStatus;
         session.user.roleId = token.roleId;
         session.user.companyId = token.companyId;
         session.user.companyName = token.companyName;
