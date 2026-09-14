@@ -22,6 +22,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    if (token.role === "CANDIDATE") {
+      return NextResponse.json({ error: "Forbidden. Candidates cannot view company profile" }, { status: 403 });
+    }
+
     const permissions = (token.permissions as string[]) || [];
     const isCompany = token.role === "company";
     const hasAllPerms = permissions.includes("perm-all");
@@ -76,6 +80,10 @@ export async function PATCH(request: NextRequest) {
     // Check if user is authenticated and has permission
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (token.role === "CANDIDATE") {
+      return NextResponse.json({ error: "Forbidden. Candidates cannot update company profile" }, { status: 403 });
     }
 
     const permissions = (token.permissions as string[]) || [];

@@ -10,6 +10,8 @@ import {
   ChevronRight,
   ChevronDown,
   HelpCircle,
+  GraduationCap,
+  User,
 } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
@@ -48,8 +50,25 @@ export function Sidebar() {
     // Assuming auth guard handles login, but wait until session loads
     if (!session?.user) return [];
 
-    // Admin & Agency Author bypass: Full access to all agency features
     const userRole = session.user.role;
+
+    // Candidates / Students see their own tabs (Exam and My Profile)
+    if (userRole === "CANDIDATE") {
+      return [
+        {
+          title: "আমার পরীক্ষা / My Exam",
+          icon: <GraduationCap className="h-5 w-5" />,
+          href: "/dashboard",
+        },
+        {
+          title: "আমার প্রোফাইল / My Profile",
+          icon: <User className="h-5 w-5" />,
+          href: "/dashboard/profile",
+        },
+      ];
+    }
+
+    // Admin & Agency Author bypass: Full access to all agency features
     if (userRole === "C_ADMIN" || userRole === "P_SADMIN" || (session.user as any).userType === "PLATFORM") {
       return items;
     }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import axios from "axios"
 import { message, Popconfirm, Drawer, Form, Input, Checkbox } from "antd"
 import {
@@ -34,7 +35,8 @@ const MODULES = [
 ]
 
 export default function StaffPage() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
+  const router = useRouter()
   const [staffList, setStaffList] = useState<StaffUser[]>([])
   const [loading, setLoading] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -49,8 +51,15 @@ export default function StaffPage() {
     company: { read: true, write: false, delete: false },
   })
 
+  useEffect(() => {
+    if (status === "loading") return
+    if (session?.user?.role === "CANDIDATE") {
+      router.replace("/dashboard")
+    }
+  }, [session, status, router])
+
   const fetchStaff = async () => {
-    if (!session?.user?.companyId) return
+    if (!session?.user?.companyId || session?.user?.role === "CANDIDATE") return
     setLoading(true)
     try {
       const res = await axios.get("/api/staff", {
@@ -69,8 +78,10 @@ export default function StaffPage() {
   }
 
   useEffect(() => {
-    fetchStaff()
-  }, [session?.user?.companyId, search])
+    if (session?.user?.role !== "CANDIDATE") {
+      fetchStaff()
+    }
+  }, [session?.user?.companyId, session?.user?.role, search])
 
   const handleCreateStaff = async () => {
     try {
@@ -123,6 +134,10 @@ export default function StaffPage() {
         [action]: val,
       },
     }))
+  }
+
+  if (session?.user?.role === "CANDIDATE") {
+    return null
   }
 
   return (

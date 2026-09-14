@@ -156,7 +156,6 @@ export async function register(data: {
     // Pre-generate ObjectIDs to satisfy schema validation requirements
     const userId = new mongoose.Types.ObjectId()
     const companyId = new mongoose.Types.ObjectId()
-    const roleId = new mongoose.Types.ObjectId()
 
     // Create user
     const [user] = await User.create([{
@@ -167,7 +166,6 @@ export async function register(data: {
       role: "C_ADMIN", 
       userType: "TENANT",
       companyId: companyId,
-      roleId: roleId,
       isVerified: false,
       verificationToken,
       createdAt: new Date(),
@@ -195,18 +193,6 @@ export async function register(data: {
       },
       createdAt: new Date(),
       updatedAt: new Date(),
-    }], { session })
-
-    // Create default role
-    const [ownerRole] = await Role.create([{
-      _id: roleId,
-      name: "Company Administrator",
-      roleType: "C_ADMIN",
-      companyId: companyId,
-      permissions: ["perm-all"],
-      isDefault: true,
-      developer: false,
-      status: "active",
     }], { session })
 
     await session.commitTransaction()

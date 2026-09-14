@@ -29,7 +29,12 @@ import {
   Facebook,
   Globe,
   FileText,
-  Info
+  Info,
+  GraduationCap,
+  User,
+  Lock,
+  Shield,
+  KeyRound
 } from "lucide-react";
 import { toast } from "sonner";
 import { usePermissions } from "@/hooks/use-permissions";
@@ -43,21 +48,29 @@ interface Company {
   mobileNumber: string;
   address: string;
   businessType?: string;
+  tradeLicenseNo?: string;
+  tinNo?: string;
+  binNo?: string;
+  phone?: string;
+  contactPerson?: string;
+  designation?: string;
+  extraInfo?: string;
+  facebook?: string;
+  website?: string;
   logoUrl?: string;
-  subscription: {
-    status: "trial" | "active" | "expired" | "canceled";
-    trialStartDate: string;
-    trialEndDate: string;
-    currentPeriodStart?: string;
-    currentPeriodEnd?: string;
+  subscription?: {
+    plan: string;
+    status: string;
+    startDate: string;
+    endDate: string;
   };
-  createdAt: string;
-  updatedAt?: string;
   clientsCount?: {
     b2b: number;
     b2c: number;
     total: number;
   };
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export default function CompanyProfilePage() {
@@ -69,6 +82,23 @@ export default function CompanyProfilePage() {
   const [company, setCompany] = useState<Company | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [updateSuccess, setUpdateSuccess] = useState(false);
+
+  const isCandidate = (session?.user as any)?.role === "CANDIDATE";
+
+  // Candidate Profile State
+  const [candidateData, setCandidateData] = useState({
+    fullName: "",
+    passportNumber: "",
+    targetCountry: "",
+    trade: "",
+    email: "",
+    mobile: "",
+    examStatus: "PENDING",
+  });
+  const [candidatePassword, setCandidatePassword] = useState("");
+  const [candidateConfirmPassword, setCandidateConfirmPassword] = useState("");
+  const [savingCandidate, setSavingCandidate] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -93,13 +123,54 @@ export default function CompanyProfilePage() {
   useEffect(() => {
     if (status === "loading") return;
 
-    if (!session || !canView) {
-      console.log("Access denied. canView:", canView);
-      router.push("/dashboard");
+    if (!session) {
+      router.replace("/auth/signin");
       return;
     }
 
-    async function fetchCompanyProfile() {
+    if (isCandidate) {
+      const fetchCandidateProfile = async () => {
+        setLoading(true);
+        try {
+          const res = await fetch(`/api/candidates/${session?.user?.id}`);
+          const json = await res.json();
+          if (json.data) {
+            setCandidateData({
+              fullName: json.data.fullName || session?.user?.name || "",
+              passportNumber: json.data.passportNumber || (session?.user as any).passportNumber || "",
+              targetCountry: json.data.targetCountry || (session?.user as any).targetCountry || "",
+              trade: json.data.trade || (session?.user as any).trade || "",
+              email: json.data.userEmail || session?.user?.email || "",
+              mobile: json.data.mobile || "",
+              examStatus: json.data.examStatus || (session?.user as any).examStatus || "PENDING",
+            });
+          } else {
+            setCandidateData({
+              fullName: session?.user?.name || "",
+              passportNumber: (session?.user as any).passportNumber || "",
+              targetCountry: (session?.user as any).targetCountry || "",
+              trade: (session?.user as any).trade || "",
+              email: session?.user?.email || "",
+              mobile: (session?.user as any).mobile || "",
+              examStatus: (session?.user as any).examStatus || "PENDING",
+            });
+          }
+        } catch (e) {
+          console.error("Error loading candidate profile:", e);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchCandidateProfile();
+      return;
+    }
+
+    if (!canView) {
+      router.replace("/dashboard");
+      return;
+    }
+
+    const fetchCompanyProfile = async () => {
       try {
         const response = await fetch("/api/companies/profile");
         const data = await response.json();
@@ -135,7 +206,48 @@ export default function CompanyProfilePage() {
     }
 
     fetchCompanyProfile();
-  }, [session, status, router, canView]);
+  }, [session, status, router, canView, isCandidate]);
+
+  const handleCandidateSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (candidatePassword && candidatePassword !== candidateConfirmPassword) {
+      toast.error("পাসওয়ার্ড দুটি মিলছে না / Passwords do not match");
+      return;
+    }
+    if (candidatePassword && candidatePassword.length < 6) {
+      toast.error("পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে / Password must be at least 6 characters");
+      return;
+    }
+
+    setSavingCandidate(true);
+    try {
+      const payload: any = {
+        fullName: candidateData.fullName,
+        mobile: candidateData.mobile,
+      };
+      if (candidatePassword) {
+        payload.password = candidatePassword;
+      }
+
+      const res = await fetch(`/api/candidates/${session?.user?.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to update profile");
+      }
+
+      toast.success("প্রোফাইল সফলভাবে আপডেট করা হয়েছে / Profile updated successfully!");
+      setCandidatePassword("");
+      setCandidateConfirmPassword("");
+    } catch (e: any) {
+      toast.error(e.message || "Failed to update profile");
+    } finally {
+      setSavingCandidate(false);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -245,6 +357,230 @@ export default function CompanyProfilePage() {
           </CardContent>
         </Card>
       </div>
+    );
+  }
+
+  if (isCandidate) {
+    return (
+      <PageWrapper
+        breadcrumbs={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "আমার প্রোফাইল / Candidate Profile" },
+        ]}
+      >
+        <div className="mx-auto max-w-4xl px-4 pb-12 space-y-6">
+          {/* Header Card */}
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#005CC1] via-[#0284C7] to-[#0ea5e9] p-6 sm:p-8 text-white shadow-lg shadow-blue-500/10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white text-2xl font-bold">
+                  <GraduationCap className="h-9 w-9 text-white" />
+                </div>
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-semibold uppercase tracking-wider">
+                      পরীক্ষার্থী প্রোফাইল
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/80 backdrop-blur-md text-[11px] font-semibold tracking-wider">
+                      পাসপোর্ট: {candidateData.passportNumber || "অনির্ধারিত"}
+                    </span>
+                  </div>
+                  <h1 className="text-2xl font-bold tracking-tight">
+                    {candidateData.fullName || session?.user?.name || "Candidate"}
+                  </h1>
+                  <p className="text-xs text-blue-100">
+                    সংশ্লিষ্ট এজেন্সি: {session?.user?.companyName || "Registered Agency"}
+                  </p>
+                </div>
+              </div>
+              <div className="sm:self-end">
+                <Badge className="bg-white text-[#005CC1] border-none font-semibold px-3 py-1 text-xs">
+                  স্ট্যাটাস: {candidateData.examStatus}
+                </Badge>
+              </div>
+            </div>
+          </div>
+
+          <form onSubmit={handleCandidateSave} className="space-y-6">
+            {/* Identity & Exam Details Card */}
+            <Card className="shadow-sm border-slate-200 overflow-hidden">
+              <CardHeader className="border-b border-slate-100 bg-slate-50/50 py-4">
+                <CardTitle className="text-base font-bold text-slate-800 flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-[#005CC1]" />
+                  শিক্ষার্থীর পরিচয় ও পরীক্ষার বিবরণ / Candidate Credentials
+                </CardTitle>
+                <CardDescription className="text-xs text-slate-500">
+                  নিবন্ধিত পাসপোর্ট ও পরীক্ষার ট্রেড তথ্য (পরিবর্তনযোগ্য নয়)
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="cand-name" className="text-xs font-semibold text-slate-700">
+                      শিক্ষার্থীর পূর্ণ নাম / Full Name *
+                    </Label>
+                    <Input
+                      id="cand-name"
+                      value={candidateData.fullName}
+                      onChange={(e) => setCandidateData({ ...candidateData, fullName: e.target.value })}
+                      required
+                      placeholder="Enter your full name"
+                      className="rounded-xl"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="cand-passport" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
+                      <span>পাসপোর্ট নম্বর / Passport Number (Verified ID)</span>
+                      <Lock className="h-3.5 w-3.5 text-slate-400" />
+                    </Label>
+                    <Input
+                      id="cand-passport"
+                      value={candidateData.passportNumber}
+                      disabled
+                      className="rounded-xl bg-slate-100 font-mono font-semibold text-slate-700 cursor-not-allowed"
+                    />
+                    <span className="text-[11px] text-slate-400">পাসপোর্ট নম্বর সংশোধনের জন্য এজেন্সির সাথে যোগাযোগ করুন।</span>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="cand-country" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
+                      <span>গন্তব্য দেশ / Target Country</span>
+                      <Lock className="h-3.5 w-3.5 text-slate-400" />
+                    </Label>
+                    <Input
+                      id="cand-country"
+                      value={candidateData.targetCountry || "সকল দেশ / Global"}
+                      disabled
+                      className="rounded-xl bg-slate-100 text-slate-700 cursor-not-allowed"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="cand-trade" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
+                      <span>ট্রেড / দক্ষতা / Trade & Profession</span>
+                      <Lock className="h-3.5 w-3.5 text-slate-400" />
+                    </Label>
+                    <Input
+                      id="cand-trade"
+                      value={candidateData.trade || "সাধারণ দক্ষতা / General Trade"}
+                      disabled
+                      className="rounded-xl bg-slate-100 text-slate-700 cursor-not-allowed"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Contact Information Card */}
+            <Card className="shadow-sm border-slate-200 overflow-hidden">
+              <CardHeader className="border-b border-slate-100 bg-slate-50/50 py-4">
+                <CardTitle className="text-base font-bold text-slate-800 flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-[#005CC1]" />
+                  যোগাযোগের বিবরণ / Contact Information
+                </CardTitle>
+                <CardDescription className="text-xs text-slate-500">
+                  আপনার মোবাইল নম্বর ও ইমেইল ঠিকানা
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="cand-email" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
+                      <span>ইমেইল / Login Email</span>
+                      <Lock className="h-3.5 w-3.5 text-slate-400" />
+                    </Label>
+                    <Input
+                      id="cand-email"
+                      value={candidateData.email}
+                      disabled
+                      className="rounded-xl bg-slate-100 text-slate-700 cursor-not-allowed"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="cand-mobile" className="text-xs font-semibold text-slate-700">
+                      মোবাইল নম্বর / Phone Number
+                    </Label>
+                    <Input
+                      id="cand-mobile"
+                      value={candidateData.mobile}
+                      onChange={(e) => setCandidateData({ ...candidateData, mobile: e.target.value })}
+                      placeholder="e.g. +8801700000000"
+                      className="rounded-xl"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Security & Password Card */}
+            <Card className="shadow-sm border-slate-200 overflow-hidden">
+              <CardHeader className="border-b border-slate-100 bg-slate-50/50 py-4">
+                <CardTitle className="text-base font-bold text-slate-800 flex items-center gap-2">
+                  <KeyRound className="h-4 w-4 text-[#005CC1]" />
+                  পাসওয়ার্ড পরিবর্তন / Change Login Password
+                </CardTitle>
+                <CardDescription className="text-xs text-slate-500">
+                  পাসওয়ার্ড পরিবর্তন না করতে চাইলে নিচের ঘরগুলো ফাঁকা রাখুন
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="cand-pass" className="text-xs font-semibold text-slate-700">
+                      নতুন পাসওয়ার্ড / New Password
+                    </Label>
+                    <Input
+                      id="cand-pass"
+                      type="password"
+                      value={candidatePassword}
+                      onChange={(e) => setCandidatePassword(e.target.value)}
+                      placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড"
+                      className="rounded-xl"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="cand-confirm-pass" className="text-xs font-semibold text-slate-700">
+                      নতুন পাসওয়ার্ড নিশ্চিত করুন / Confirm Password
+                    </Label>
+                    <Input
+                      id="cand-confirm-pass"
+                      type="password"
+                      value={candidateConfirmPassword}
+                      onChange={(e) => setCandidateConfirmPassword(e.target.value)}
+                      placeholder="একই পাসওয়ার্ড পুনরায় লিখুন"
+                      className="rounded-xl"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Submit Action */}
+            <div className="flex justify-end gap-3 pt-2">
+              <Button
+                type="submit"
+                disabled={savingCandidate}
+                className="bg-[#005CC1] hover:bg-[#004ca3] text-white font-semibold px-6 py-2.5 rounded-xl shadow-md flex items-center gap-2"
+              >
+                {savingCandidate ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    সংরক্ষণ হচ্ছে...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4" />
+                    পরিবর্তন সংরক্ষণ করুন / Save Changes
+                  </>
+                )}
+              </Button>
+            </div>
+          </form>
+        </div>
+      </PageWrapper>
     );
   }
 

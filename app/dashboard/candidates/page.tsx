@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import axios from "axios"
 import { message, Popconfirm } from "antd"
 import {
@@ -31,7 +32,8 @@ type Candidate = {
 }
 
 export default function CandidatesPage() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
+  const router = useRouter()
   const [candidates, setCandidates] = useState<Candidate[]>([])
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -44,8 +46,15 @@ export default function CandidatesPage() {
   const [password, setPassword] = useState("")
   const [targetCountry, setTargetCountry] = useState("")
 
+  useEffect(() => {
+    if (status === "loading") return
+    if (session?.user?.role === "CANDIDATE") {
+      router.replace("/dashboard")
+    }
+  }, [session, status, router])
+
   const fetchCandidates = async () => {
-    if (!session?.user?.companyId) return
+    if (!session?.user?.companyId || session?.user?.role === "CANDIDATE") return
     setLoading(true)
     try {
       const res = await axios.get("/api/candidates", {
@@ -65,8 +74,10 @@ export default function CandidatesPage() {
   }
 
   useEffect(() => {
-    fetchCandidates()
-  }, [session?.user?.companyId, search])
+    if (session?.user?.role !== "CANDIDATE") {
+      fetchCandidates()
+    }
+  }, [session?.user?.companyId, session?.user?.role, search])
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -140,6 +151,10 @@ export default function CandidatesPage() {
     if (!fullName) return "S"
     const parts = fullName.trim().split(" ")
     return (parts[0]?.[0] || "S").toUpperCase()
+  }
+
+  if (session?.user?.role === "CANDIDATE") {
+    return null
   }
 
   return (

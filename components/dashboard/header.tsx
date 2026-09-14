@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { Settings, KeyRound, LogOut, Building2 } from "lucide-react";
+import { Settings, KeyRound, LogOut, Building2, GraduationCap, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -22,7 +22,9 @@ export function DashboardHeader() {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
 
-  const userName = session?.user?.name || "User";
+  const isCandidate = session?.user?.role === "CANDIDATE";
+  const userName = session?.user?.name || (isCandidate ? "Candidate Student" : "User");
+  const passportNumber = (session?.user as any)?.passportNumber;
   const companyName = session?.user?.companyName || "My Company";
   const companyLogoUrl = session?.user?.companyLogoUrl || "";
 
@@ -51,7 +53,7 @@ export function DashboardHeader() {
                 id="header-profile-trigger"
               >
                 <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
-                  {companyLogoUrl && (
+                  {!isCandidate && companyLogoUrl && (
                     <AvatarImage
                       src={companyLogoUrl}
                       alt={companyName}
@@ -70,10 +72,12 @@ export function DashboardHeader() {
               sideOffset={8}
               className="w-64 rounded-xl border border-gray-200 bg-white p-0 shadow-xl"
             >
-              {/* Company Header */}
+              {/* Header inside dropdown */}
               <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-sky-50 to-blue-50 rounded-t-xl">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-100 border border-sky-200 overflow-hidden">
-                  {companyLogoUrl ? (
+                  {isCandidate ? (
+                    <GraduationCap className="h-5 w-5 text-[#005CC1]" />
+                  ) : companyLogoUrl ? (
                     <img
                       src={companyLogoUrl}
                       alt={companyName}
@@ -84,8 +88,19 @@ export function DashboardHeader() {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-gray-900 truncate">{companyName}</p>
-                  <p className="text-xs text-gray-500 truncate">{userName}</p>
+                  {isCandidate ? (
+                    <>
+                      <p className="text-sm font-semibold text-gray-900 truncate">{userName}</p>
+                      <p className="text-xs text-[#005CC1] font-medium truncate">
+                        {passportNumber ? `পাসপোর্ট: ${passportNumber}` : "পরীক্ষার্থী / Candidate"}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-sm font-semibold text-gray-900 truncate">{companyName}</p>
+                      <p className="text-xs text-gray-500 truncate">{userName}</p>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -93,14 +108,25 @@ export function DashboardHeader() {
 
               {/* Menu Items */}
               <div className="p-1.5">
-                <DropdownMenuItem
-                  onClick={() => router.push("/dashboard/profile")}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors"
-                  id="header-profile-settings"
-                >
-                  <Settings className="h-4 w-4" />
-                  <span className="text-sm font-medium">Profile Settings</span>
-                </DropdownMenuItem>
+                {isCandidate ? (
+                  <DropdownMenuItem
+                    onClick={() => router.push("/dashboard/profile")}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors"
+                    id="header-profile-settings"
+                  >
+                    <User className="h-4 w-4 text-[#005CC1]" />
+                    <span className="text-sm font-medium">আমার প্রোফাইল / My Profile</span>
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem
+                    onClick={() => router.push("/dashboard/profile")}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors"
+                    id="header-profile-settings"
+                  >
+                    <Settings className="h-4 w-4" />
+                    <span className="text-sm font-medium">Profile Settings</span>
+                  </DropdownMenuItem>
+                )}
 
                 <DropdownMenuItem
                   onClick={() => setShowChangePassword(true)}
