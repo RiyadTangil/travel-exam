@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import { message, Popconfirm, Drawer, Form, Input, Checkbox } from "antd"
+import { message, Popconfirm, Drawer, Checkbox } from "antd"
 import {
   UserPlus,
   Trash2,
@@ -14,9 +14,95 @@ import {
   RefreshCw,
   Mail,
   Lock,
+  User,
+  Phone,
+  Eye,
+  EyeOff,
 } from "lucide-react"
 import { PageWrapper } from "@/components/shared/page-wrapper"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+
+interface FloatingInputProps {
+  id: string;
+  label: string;
+  value: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
+  disabled?: boolean;
+  required?: boolean;
+  icon?: any;
+}
+
+function FloatingInput({
+  id,
+  label,
+  value,
+  onChange,
+  type = "text",
+  disabled = false,
+  required = false,
+  icon: Icon,
+}: FloatingInputProps) {
+  const [focused, setFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const hasValue = value !== undefined && value !== null && value.toString().length > 0;
+  const isFloated = focused || hasValue;
+  const isPassword = type === "password";
+  const inputType = isPassword ? (showPassword ? "text" : "password") : type;
+
+  return (
+    <div className="relative group w-full h-12">
+      <input
+        id={id}
+        type={inputType}
+        value={value || ""}
+        onChange={onChange}
+        disabled={disabled}
+        required={required}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className={cn(
+          "w-full h-full rounded-xl border px-4 pt-3.5 pb-1 text-sm font-medium transition-all duration-200 outline-none",
+          disabled
+            ? "bg-slate-50/80 text-slate-700 border-slate-200 cursor-not-allowed"
+            : focused
+            ? "border-[#005CC1] ring-4 ring-blue-500/10 bg-white text-slate-900 shadow-xs"
+            : "border-slate-200 hover:border-slate-300 bg-white text-slate-800",
+          (Icon || isPassword) && "pr-11"
+        )}
+      />
+      <label
+        htmlFor={id}
+        className={cn(
+          "absolute left-3 px-1.5 transition-all duration-200 pointer-events-none rounded select-none z-10 whitespace-nowrap text-ellipsis max-w-[calc(100%-2.2rem)] overflow-hidden",
+          disabled ? "bg-slate-50 text-slate-400" : "bg-white",
+          isFloated
+            ? "-top-2.5 text-[11px] font-bold tracking-tight text-[#005CC1]"
+            : "top-3.5 text-sm font-normal text-slate-400 group-hover:text-slate-500"
+        )}
+      >
+        {label}
+      </label>
+
+      {isPassword && !disabled && (
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-1"
+        >
+          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+        </button>
+      )}
+
+      {Icon && !isPassword && (
+        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+          <Icon className="h-4 w-4" />
+        </div>
+      )}
+    </div>
+  );
+}
 
 type StaffUser = {
   id: string
@@ -43,7 +129,12 @@ export default function StaffPage() {
   const [saving, setSaving] = useState(false)
   const [search, setSearch] = useState("")
 
-  const [form] = Form.useForm()
+  const [formData, setFormData] = useState({
+    fullName: "",
+    userEmail: "",
+    password: "",
+    mobile: "",
+  })
 
   const [perms, setPerms] = useState<Record<string, { read: boolean; write: boolean; delete: boolean }>>({
     candidates: { read: true, write: true, delete: true },
@@ -84,17 +175,32 @@ export default function StaffPage() {
   }, [session?.user?.companyId, session?.user?.role, search])
 
   const handleCreateStaff = async () => {
-    try {
-      const values = await form.validateFields()
-      setSaving(true)
+    if (!formData.fullName.trim()) {
+      message.error("স্টাফের পুরো নাম দিন / Enter staff full name")
+      return
+    }
+    if (!formData.userEmail.trim()) {
+      message.error("ইমেইল ঠিকানা দিন / Enter email address")
+      return
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.userEmail.trim())) {
+      message.error("সঠিক ইমেইল দিন / Enter a valid email address")
+      return
+    }
+    if (!formData.password || formData.password.length < 6) {
+      message.error("পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে / Min 6 characters password")
+      return
+    }
 
+    setSaving(true)
+    try {
       await axios.post(
         "/api/staff",
         {
-          fullName: values.fullName.trim(),
-          userEmail: values.userEmail.trim(),
-          password: values.password,
-          mobile: values.mobile?.trim() || undefined,
+          fullName: formData.fullName.trim(),
+          userEmail: formData.userEmail.trim(),
+          password: formData.password,
+          mobile: formData.mobile.trim() || undefined,
           userRole: "C_ADMIN",
           permissions: perms,
         },
@@ -104,7 +210,7 @@ export default function StaffPage() {
       )
 
       message.success("নতুন স্টাফ সফলভাবে যুক্ত হয়েছে! / Staff added successfully!")
-      form.resetFields()
+      setFormData({ fullName: "", userEmail: "", password: "", mobile: "" })
       setDrawerOpen(false)
       fetchStaff()
     } catch (error: any) {
@@ -161,7 +267,7 @@ export default function StaffPage() {
 
           <Button
             onClick={() => {
-              form.resetFields()
+              setFormData({ fullName: "", userEmail: "", password: "", mobile: "" })
               setDrawerOpen(true)
             }}
             className="bg-[#1B64F2] hover:bg-[#1554d1] text-white shadow-sm"
@@ -293,74 +399,88 @@ export default function StaffPage() {
             </div>
           }
         >
-          <Form form={form} layout="vertical" className="space-y-4 pt-2" requiredMark={false}>
-            <Form.Item
-              name="fullName"
-              label={<span className="text-xs font-semibold text-slate-700">স্টাফের পুরো নাম / Full Name</span>}
-              rules={[{ required: true, message: "Enter staff full name" }]}
-            >
-              <Input placeholder="e.g. Kamal Hossain" size="large" className="rounded-xl" />
-            </Form.Item>
+          <div className="space-y-5 pt-3">
+            <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <User className="h-3.5 w-3.5 text-[#005CC1]" />
+                স্টাফের তথ্য / Staff Information
+              </span>
+              <span className="text-[10px] text-slate-400 font-medium">Click field to edit</span>
+            </div>
 
-            <Form.Item
-              name="userEmail"
-              label={<span className="text-xs font-semibold text-slate-700">ইমেইল ঠিকানা / Email Address</span>}
-              rules={[{ required: true, type: "email", message: "Enter valid email" }]}
-            >
-              <Input placeholder="kamal@agency.com" size="large" className="rounded-xl" />
-            </Form.Item>
+            <FloatingInput
+              id="staff-fullName"
+              label="স্টাফের পুরো নাম / Full Name *"
+              value={formData.fullName}
+              onChange={(e) => setFormData((prev) => ({ ...prev, fullName: e.target.value }))}
+              icon={User}
+              required
+            />
 
-            <Form.Item
-              name="password"
-              label={<span className="text-xs font-semibold text-slate-700">লগইন পাসওয়ার্ড / Password</span>}
-              rules={[{ required: true, min: 6, message: "Min 6 characters" }]}
-            >
-              <Input.Password placeholder="Enter password (min 6 characters)" size="large" className="rounded-xl" />
-            </Form.Item>
+            <FloatingInput
+              id="staff-userEmail"
+              type="email"
+              label="ইমেইল ঠিকানা / Email Address *"
+              value={formData.userEmail}
+              onChange={(e) => setFormData((prev) => ({ ...prev, userEmail: e.target.value }))}
+              icon={Mail}
+              required
+            />
 
-            <Form.Item
-              name="mobile"
-              label={<span className="text-xs font-semibold text-slate-700">মোবাইল নম্বর / Mobile (Optional)</span>}
-            >
-              <Input placeholder="+880 1712345678" size="large" className="rounded-xl" />
-            </Form.Item>
+            <FloatingInput
+              id="staff-password"
+              type="password"
+              label="লগইন পাসওয়ার্ড / Login Password *"
+              value={formData.password}
+              onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
+              icon={Lock}
+              required
+            />
+
+            <FloatingInput
+              id="staff-mobile"
+              label="মোবাইল নম্বর / Phone Number (Optional)"
+              value={formData.mobile}
+              onChange={(e) => setFormData((prev) => ({ ...prev, mobile: e.target.value }))}
+              icon={Phone}
+            />
 
             {/* Direct Module Permissions */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3 mt-4">
+            <div className="bg-slate-50/80 border border-slate-200/90 rounded-2xl p-4 space-y-3 mt-5">
               <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-blue-600" />
+                <Shield className="h-4 w-4 text-[#005CC1]" />
                 <span className="text-xs font-bold uppercase text-slate-700">
                   মডিউল অনুমতি / Module Permissions
                 </span>
               </div>
 
-              <div className="divide-y divide-slate-200 bg-white rounded-lg border border-slate-200 overflow-hidden">
+              <div className="divide-y divide-slate-200/80 bg-white rounded-xl border border-slate-200/90 overflow-hidden shadow-xs">
                 {MODULES.map((m) => {
                   const p = perms[m.key] || { read: false, write: false, delete: false }
                   return (
-                    <div key={m.key} className="p-3 flex items-center justify-between text-xs">
+                    <div key={m.key} className="p-3 sm:p-3.5 flex items-center justify-between text-xs">
                       <span className="font-semibold text-slate-800">{m.label}</span>
-                      <div className="flex items-center gap-3">
-                        <label className="flex items-center gap-1 cursor-pointer">
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        <label className="flex items-center gap-1.5 cursor-pointer">
                           <Checkbox
                             checked={p.read}
                             onChange={(e) => handleTogglePerm(m.key, "read", e.target.checked)}
                           />
-                          <span className="text-slate-600">View</span>
+                          <span className="text-slate-600 font-medium text-[11px]">View</span>
                         </label>
-                        <label className="flex items-center gap-1 cursor-pointer">
+                        <label className="flex items-center gap-1.5 cursor-pointer">
                           <Checkbox
                             checked={p.write}
                             onChange={(e) => handleTogglePerm(m.key, "write", e.target.checked)}
                           />
-                          <span className="text-slate-600">Create/Edit</span>
+                          <span className="text-slate-600 font-medium text-[11px]">Create/Edit</span>
                         </label>
-                        <label className="flex items-center gap-1 cursor-pointer">
+                        <label className="flex items-center gap-1.5 cursor-pointer">
                           <Checkbox
                             checked={p.delete}
                             onChange={(e) => handleTogglePerm(m.key, "delete", e.target.checked)}
                           />
-                          <span className="text-slate-600">Delete</span>
+                          <span className="text-slate-600 font-medium text-[11px]">Delete</span>
                         </label>
                       </div>
                     </div>
@@ -368,7 +488,7 @@ export default function StaffPage() {
                 })}
               </div>
             </div>
-          </Form>
+          </div>
         </Drawer>
       </div>
     </PageWrapper>
