@@ -34,12 +34,103 @@ import {
   User,
   Lock,
   Shield,
-  KeyRound
+  KeyRound,
+  Eye,
+  EyeOff
 } from "lucide-react";
 import { toast } from "sonner";
 import { usePermissions } from "@/hooks/use-permissions";
 import { PageWrapper } from "@/components/shared/page-wrapper";
 import { LogoUpload } from "@/components/shared/logo-upload";
+import { cn } from "@/lib/utils";
+
+interface FloatingInputProps {
+  id: string;
+  label: string;
+  value: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
+  disabled?: boolean;
+  required?: boolean;
+  icon?: any;
+  helperText?: string;
+}
+
+function FloatingInput({
+  id,
+  label,
+  value,
+  onChange,
+  type = "text",
+  disabled = false,
+  required = false,
+  icon: Icon,
+  helperText,
+}: FloatingInputProps) {
+  const [focused, setFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const hasValue = value !== undefined && value !== null && value.toString().length > 0;
+  const isFloated = focused || hasValue;
+  const isPassword = type === "password";
+  const inputType = isPassword ? (showPassword ? "text" : "password") : type;
+
+  return (
+    <div className="space-y-1 w-full">
+      <div className="relative group">
+        <input
+          id={id}
+          type={inputType}
+          value={value || ""}
+          onChange={onChange}
+          disabled={disabled}
+          required={required}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          className={cn(
+            "w-full h-12 rounded-xl border px-4 pt-3.5 pb-1 text-sm font-medium transition-all duration-200 outline-none",
+            disabled
+              ? "bg-slate-50 text-slate-700 border-slate-200 cursor-not-allowed"
+              : focused
+              ? "border-[#005CC1] ring-4 ring-blue-500/10 bg-white text-slate-900 shadow-xs"
+              : "border-slate-200 hover:border-slate-300 bg-white text-slate-800",
+            (Icon || isPassword) && "pr-11"
+          )}
+        />
+        <label
+          htmlFor={id}
+          className={cn(
+            "absolute left-3.5 px-1.5 transition-all duration-200 pointer-events-none rounded select-none z-10",
+            disabled ? "bg-slate-50 text-slate-400" : "bg-white",
+            isFloated
+              ? "-top-2.5 text-[11px] font-bold tracking-tight text-[#005CC1]"
+              : "top-3.5 text-sm font-normal text-slate-400 group-hover:text-slate-500"
+          )}
+        >
+          {label}
+        </label>
+
+        {isPassword && !disabled && (
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-1"
+          >
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </button>
+        )}
+
+        {Icon && !isPassword && (
+          <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+            <Icon className="h-4 w-4" />
+          </div>
+        )}
+      </div>
+      {helperText && (
+        <p className="text-[11px] text-slate-400 mt-1 pl-1">{helperText}</p>
+      )}
+    </div>
+  );
+}
 
 interface Company {
   _id: string;
@@ -361,6 +452,9 @@ export default function CompanyProfilePage() {
   }
 
   if (isCandidate) {
+    const getInitials = (name: string) =>
+      name ? name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2) : "ST";
+
     return (
       <PageWrapper
         breadcrumbs={[
@@ -368,217 +462,166 @@ export default function CompanyProfilePage() {
           { label: "আমার প্রোফাইল / Candidate Profile" },
         ]}
       >
-        <div className="mx-auto max-w-4xl px-4 pb-12 space-y-6">
-          {/* Header Card */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#005CC1] via-[#0284C7] to-[#0ea5e9] p-6 sm:p-8 text-white shadow-lg shadow-blue-500/10">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="h-16 w-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white text-2xl font-bold">
-                  <GraduationCap className="h-9 w-9 text-white" />
-                </div>
-                <div className="space-y-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-semibold uppercase tracking-wider">
-                      পরীক্ষার্থী প্রোফাইল
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/80 backdrop-blur-md text-[11px] font-semibold tracking-wider">
-                      পাসপোর্ট: {candidateData.passportNumber || "অনির্ধারিত"}
-                    </span>
+        <div className="mx-auto max-w-2xl px-3 sm:px-4 py-4">
+          {/* Unified Compact Profile Card */}
+          <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-200/40 overflow-hidden">
+            
+            {/* Sleek Top Banner */}
+            <div className="relative overflow-hidden bg-gradient-to-r from-[#005CC1] via-[#0284C7] to-[#0ea5e9] p-5 sm:p-6 text-white">
+              {/* Background Glows */}
+              <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+              <div className="absolute -left-8 -bottom-8 w-36 h-36 rounded-full bg-blue-400/20 blur-xl pointer-events-none" />
+
+              <div className="relative z-10 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="h-13 w-13 sm:h-14 sm:w-14 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-black text-lg sm:text-xl shrink-0 shadow-inner">
+                    {getInitials(candidateData.fullName || session?.user?.name || "")}
                   </div>
-                  <h1 className="text-2xl font-bold tracking-tight">
-                    {candidateData.fullName || session?.user?.name || "Candidate"}
-                  </h1>
-                  <p className="text-xs text-blue-100">
-                    সংশ্লিষ্ট এজেন্সি: {session?.user?.companyName || "Registered Agency"}
-                  </p>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                      <span className="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider">
+                        পরীক্ষার্থী / Candidate
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/90 backdrop-blur-md text-[10px] font-mono font-bold tracking-wider">
+                        পাসপোর্ট: {candidateData.passportNumber || "—"}
+                      </span>
+                    </div>
+                    <h1 className="text-lg sm:text-xl font-black tracking-tight truncate text-white">
+                      {candidateData.fullName || session?.user?.name || "Student Candidate"}
+                    </h1>
+                    <p className="text-[11px] text-blue-100 flex items-center gap-1 mt-0.5 truncate">
+                      <Building2 className="h-3 w-3 shrink-0 text-blue-200" />
+                      <span>{session?.user?.companyName || "Registered Agency"}</span>
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="sm:self-end">
-                <Badge className="bg-white text-[#005CC1] border-none font-semibold px-3 py-1 text-xs">
-                  স্ট্যাটাস: {candidateData.examStatus}
-                </Badge>
+
+                {/* Status Badge */}
+                <div className="shrink-0 text-right">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 text-[#005CC1] font-bold text-xs shadow-sm">
+                    <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+                    <span>{candidateData.examStatus || "PENDING"}</span>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Profile Form with Floating Labels */}
+            <form onSubmit={handleCandidateSave} className="p-5 sm:p-7 space-y-6">
+              
+              {/* Personal & Exam Information */}
+              <div className="space-y-3.5">
+                <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+                  <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <User className="h-3.5 w-3.5 text-[#005CC1]" />
+                    শিক্ষার্থীর তথ্য / Profile Information
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-medium">Click field to edit</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FloatingInput
+                    id="cand-name"
+                    label="শিক্ষার্থীর পূর্ণ নাম / Full Name"
+                    value={candidateData.fullName}
+                    onChange={(e) => setCandidateData({ ...candidateData, fullName: e.target.value })}
+                    required
+                  />
+
+                  <FloatingInput
+                    id="cand-mobile"
+                    label="মোবাইল নম্বর / Phone Number"
+                    value={candidateData.mobile}
+                    onChange={(e) => setCandidateData({ ...candidateData, mobile: e.target.value })}
+                    icon={Phone}
+                  />
+
+                  <FloatingInput
+                    id="cand-passport"
+                    label="পাসপোর্ট নম্বর / Passport (Verified ID)"
+                    value={candidateData.passportNumber}
+                    disabled
+                    icon={Lock}
+                 
+                  />
+
+                  <FloatingInput
+                    id="cand-email"
+                    label="ইমেইল / Login Email"
+                    value={candidateData.email}
+                    disabled
+                    icon={Mail}
+                  />
+
+                  <FloatingInput
+                    id="cand-country"
+                    label="গন্তব্য দেশ / Target Country"
+                    value={candidateData.targetCountry || "সকল দেশ / Global"}
+                    disabled
+                    icon={Globe}
+                  />
+
+                  <FloatingInput
+                    id="cand-trade"
+                    label="ট্রেড ও পেশা / Trade & Profession"
+                    value={candidateData.trade || "সাধারণ ট্রেড / General Trade"}
+                    disabled
+                    icon={Shield}
+                  />
+                </div>
+              </div>
+
+              {/* Password Change Section */}
+              <div className="space-y-3.5 pt-1">
+                <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+                  <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <KeyRound className="h-3.5 w-3.5 text-[#005CC1]" />
+                    পাসওয়ার্ড পরিবর্তন / Change Password
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-medium">ঐচ্ছিক / Optional</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FloatingInput
+                    id="cand-pass"
+                    type="password"
+                    label="নতুন পাসওয়ার্ড / New Password"
+                    value={candidatePassword}
+                    onChange={(e) => setCandidatePassword(e.target.value)}
+                  />
+
+                  <FloatingInput
+                    id="cand-confirm-pass"
+                    type="password"
+                    label="পাসওয়ার্ড নিশ্চিত করুন / Confirm Password"
+                    value={candidateConfirmPassword}
+                    onChange={(e) => setCandidateConfirmPassword(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Submit Action */}
+              <div className="pt-2 flex justify-end">
+                <Button
+                  type="submit"
+                  disabled={savingCandidate}
+                  className="w-full sm:w-auto bg-[#005CC1] hover:bg-[#004ca3] text-white font-semibold px-8 py-2.5 rounded-xl shadow-lg shadow-blue-500/15 flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 text-sm"
+                >
+                  {savingCandidate ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      সংরক্ষণ হচ্ছে...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-4 w-4" />
+                      পরিবর্তন সংরক্ষণ করুন / Save Changes
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
           </div>
-
-          <form onSubmit={handleCandidateSave} className="space-y-6">
-            {/* Identity & Exam Details Card */}
-            <Card className="shadow-sm border-slate-200 overflow-hidden">
-              <CardHeader className="border-b border-slate-100 bg-slate-50/50 py-4">
-                <CardTitle className="text-base font-bold text-slate-800 flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-[#005CC1]" />
-                  শিক্ষার্থীর পরিচয় ও পরীক্ষার বিবরণ / Candidate Credentials
-                </CardTitle>
-                <CardDescription className="text-xs text-slate-500">
-                  নিবন্ধিত পাসপোর্ট ও পরীক্ষার ট্রেড তথ্য (পরিবর্তনযোগ্য নয়)
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="cand-name" className="text-xs font-semibold text-slate-700">
-                      শিক্ষার্থীর পূর্ণ নাম / Full Name *
-                    </Label>
-                    <Input
-                      id="cand-name"
-                      value={candidateData.fullName}
-                      onChange={(e) => setCandidateData({ ...candidateData, fullName: e.target.value })}
-                      required
-                      placeholder="Enter your full name"
-                      className="rounded-xl"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <Label htmlFor="cand-passport" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                      <span>পাসপোর্ট নম্বর / Passport Number (Verified ID)</span>
-                      <Lock className="h-3.5 w-3.5 text-slate-400" />
-                    </Label>
-                    <Input
-                      id="cand-passport"
-                      value={candidateData.passportNumber}
-                      disabled
-                      className="rounded-xl bg-slate-100 font-mono font-semibold text-slate-700 cursor-not-allowed"
-                    />
-                    <span className="text-[11px] text-slate-400">পাসপোর্ট নম্বর সংশোধনের জন্য এজেন্সির সাথে যোগাযোগ করুন।</span>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <Label htmlFor="cand-country" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                      <span>গন্তব্য দেশ / Target Country</span>
-                      <Lock className="h-3.5 w-3.5 text-slate-400" />
-                    </Label>
-                    <Input
-                      id="cand-country"
-                      value={candidateData.targetCountry || "সকল দেশ / Global"}
-                      disabled
-                      className="rounded-xl bg-slate-100 text-slate-700 cursor-not-allowed"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <Label htmlFor="cand-trade" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                      <span>ট্রেড / দক্ষতা / Trade & Profession</span>
-                      <Lock className="h-3.5 w-3.5 text-slate-400" />
-                    </Label>
-                    <Input
-                      id="cand-trade"
-                      value={candidateData.trade || "সাধারণ দক্ষতা / General Trade"}
-                      disabled
-                      className="rounded-xl bg-slate-100 text-slate-700 cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Contact Information Card */}
-            <Card className="shadow-sm border-slate-200 overflow-hidden">
-              <CardHeader className="border-b border-slate-100 bg-slate-50/50 py-4">
-                <CardTitle className="text-base font-bold text-slate-800 flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-[#005CC1]" />
-                  যোগাযোগের বিবরণ / Contact Information
-                </CardTitle>
-                <CardDescription className="text-xs text-slate-500">
-                  আপনার মোবাইল নম্বর ও ইমেইল ঠিকানা
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="cand-email" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                      <span>ইমেইল / Login Email</span>
-                      <Lock className="h-3.5 w-3.5 text-slate-400" />
-                    </Label>
-                    <Input
-                      id="cand-email"
-                      value={candidateData.email}
-                      disabled
-                      className="rounded-xl bg-slate-100 text-slate-700 cursor-not-allowed"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <Label htmlFor="cand-mobile" className="text-xs font-semibold text-slate-700">
-                      মোবাইল নম্বর / Phone Number
-                    </Label>
-                    <Input
-                      id="cand-mobile"
-                      value={candidateData.mobile}
-                      onChange={(e) => setCandidateData({ ...candidateData, mobile: e.target.value })}
-                      placeholder="e.g. +8801700000000"
-                      className="rounded-xl"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Security & Password Card */}
-            <Card className="shadow-sm border-slate-200 overflow-hidden">
-              <CardHeader className="border-b border-slate-100 bg-slate-50/50 py-4">
-                <CardTitle className="text-base font-bold text-slate-800 flex items-center gap-2">
-                  <KeyRound className="h-4 w-4 text-[#005CC1]" />
-                  পাসওয়ার্ড পরিবর্তন / Change Login Password
-                </CardTitle>
-                <CardDescription className="text-xs text-slate-500">
-                  পাসওয়ার্ড পরিবর্তন না করতে চাইলে নিচের ঘরগুলো ফাঁকা রাখুন
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="cand-pass" className="text-xs font-semibold text-slate-700">
-                      নতুন পাসওয়ার্ড / New Password
-                    </Label>
-                    <Input
-                      id="cand-pass"
-                      type="password"
-                      value={candidatePassword}
-                      onChange={(e) => setCandidatePassword(e.target.value)}
-                      placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড"
-                      className="rounded-xl"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <Label htmlFor="cand-confirm-pass" className="text-xs font-semibold text-slate-700">
-                      নতুন পাসওয়ার্ড নিশ্চিত করুন / Confirm Password
-                    </Label>
-                    <Input
-                      id="cand-confirm-pass"
-                      type="password"
-                      value={candidateConfirmPassword}
-                      onChange={(e) => setCandidateConfirmPassword(e.target.value)}
-                      placeholder="একই পাসওয়ার্ড পুনরায় লিখুন"
-                      className="rounded-xl"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Submit Action */}
-            <div className="flex justify-end gap-3 pt-2">
-              <Button
-                type="submit"
-                disabled={savingCandidate}
-                className="bg-[#005CC1] hover:bg-[#004ca3] text-white font-semibold px-6 py-2.5 rounded-xl shadow-md flex items-center gap-2"
-              >
-                {savingCandidate ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    সংরক্ষণ হচ্ছে...
-                  </>
-                ) : (
-                  <>
-                    <Save className="h-4 w-4" />
-                    পরিবর্তন সংরক্ষণ করুন / Save Changes
-                  </>
-                )}
-              </Button>
-            </div>
-          </form>
         </div>
       </PageWrapper>
     );
