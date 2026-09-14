@@ -53,7 +53,6 @@ interface FloatingInputProps {
   disabled?: boolean;
   required?: boolean;
   icon?: any;
-  helperText?: string;
 }
 
 function FloatingInput({
@@ -65,7 +64,6 @@ function FloatingInput({
   disabled = false,
   required = false,
   icon: Icon,
-  helperText,
 }: FloatingInputProps) {
   const [focused, setFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -75,58 +73,53 @@ function FloatingInput({
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
   return (
-    <div className="space-y-1 w-full">
-      <div className="relative group">
-        <input
-          id={id}
-          type={inputType}
-          value={value || ""}
-          onChange={onChange}
-          disabled={disabled}
-          required={required}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          className={cn(
-            "w-full h-12 rounded-xl border px-4 pt-3.5 pb-1 text-sm font-medium transition-all duration-200 outline-none",
-            disabled
-              ? "bg-slate-50 text-slate-700 border-slate-200 cursor-not-allowed"
-              : focused
-              ? "border-[#005CC1] ring-4 ring-blue-500/10 bg-white text-slate-900 shadow-xs"
-              : "border-slate-200 hover:border-slate-300 bg-white text-slate-800",
-            (Icon || isPassword) && "pr-11"
-          )}
-        />
-        <label
-          htmlFor={id}
-          className={cn(
-            "absolute left-3.5 px-1.5 transition-all duration-200 pointer-events-none rounded select-none z-10",
-            disabled ? "bg-slate-50 text-slate-400" : "bg-white",
-            isFloated
-              ? "-top-2.5 text-[11px] font-bold tracking-tight text-[#005CC1]"
-              : "top-3.5 text-sm font-normal text-slate-400 group-hover:text-slate-500"
-          )}
+    <div className="relative group w-full h-12">
+      <input
+        id={id}
+        type={inputType}
+        value={value || ""}
+        onChange={onChange}
+        disabled={disabled}
+        required={required}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className={cn(
+          "w-full h-full rounded-xl border px-4 pt-3.5 pb-1 text-sm font-medium transition-all duration-200 outline-none",
+          disabled
+            ? "bg-slate-50/80 text-slate-700 border-slate-200 cursor-not-allowed"
+            : focused
+            ? "border-[#005CC1] ring-4 ring-blue-500/10 bg-white text-slate-900 shadow-xs"
+            : "border-slate-200 hover:border-slate-300 bg-white text-slate-800",
+          (Icon || isPassword) && "pr-11"
+        )}
+      />
+      <label
+        htmlFor={id}
+        className={cn(
+          "absolute left-3 px-1.5 transition-all duration-200 pointer-events-none rounded select-none z-10 whitespace-nowrap text-ellipsis max-w-[calc(100%-2.2rem)] overflow-hidden",
+          disabled ? "bg-slate-50 text-slate-400" : "bg-white",
+          isFloated
+            ? "-top-2.5 text-[11px] font-bold tracking-tight text-[#005CC1]"
+            : "top-3.5 text-sm font-normal text-slate-400 group-hover:text-slate-500"
+        )}
+      >
+        {label}
+      </label>
+
+      {isPassword && !disabled && (
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-1"
         >
-          {label}
-        </label>
+          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+        </button>
+      )}
 
-        {isPassword && !disabled && (
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-1"
-          >
-            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          </button>
-        )}
-
-        {Icon && !isPassword && (
-          <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-            <Icon className="h-4 w-4" />
-          </div>
-        )}
-      </div>
-      {helperText && (
-        <p className="text-[11px] text-slate-400 mt-1 pl-1">{helperText}</p>
+      {Icon && !isPassword && (
+        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+          <Icon className="h-4 w-4" />
+        </div>
       )}
     </div>
   );
@@ -507,73 +500,69 @@ export default function CompanyProfilePage() {
             </div>
 
             {/* Profile Form with Floating Labels */}
-            <form onSubmit={handleCandidateSave} className="p-5 sm:p-7 space-y-6">
+            <form onSubmit={handleCandidateSave} className="p-5 sm:p-7 space-y-5">
               
-              {/* Personal & Exam Information */}
-              <div className="space-y-3.5">
-                <div className="flex items-center justify-between pb-1 border-b border-slate-100">
-                  <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                    <User className="h-3.5 w-3.5 text-[#005CC1]" />
-                    শিক্ষার্থীর তথ্য / Profile Information
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-medium">Click field to edit</span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FloatingInput
-                    id="cand-name"
-                    label="শিক্ষার্থীর পূর্ণ নাম / Full Name"
-                    value={candidateData.fullName}
-                    onChange={(e) => setCandidateData({ ...candidateData, fullName: e.target.value })}
-                    required
-                  />
-
-                  <FloatingInput
-                    id="cand-mobile"
-                    label="মোবাইল নম্বর / Phone Number"
-                    value={candidateData.mobile}
-                    onChange={(e) => setCandidateData({ ...candidateData, mobile: e.target.value })}
-                    icon={Phone}
-                  />
-
-                  <FloatingInput
-                    id="cand-passport"
-                    label="পাসপোর্ট নম্বর / Passport (Verified ID)"
-                    value={candidateData.passportNumber}
-                    disabled
-                    icon={Lock}
-                 
-                  />
-
-                  <FloatingInput
-                    id="cand-email"
-                    label="ইমেইল / Login Email"
-                    value={candidateData.email}
-                    disabled
-                    icon={Mail}
-                  />
-
-                  <FloatingInput
-                    id="cand-country"
-                    label="গন্তব্য দেশ / Target Country"
-                    value={candidateData.targetCountry || "সকল দেশ / Global"}
-                    disabled
-                    icon={Globe}
-                  />
-
-                  <FloatingInput
-                    id="cand-trade"
-                    label="ট্রেড ও পেশা / Trade & Profession"
-                    value={candidateData.trade || "সাধারণ ট্রেড / General Trade"}
-                    disabled
-                    icon={Shield}
-                  />
-                </div>
+              {/* Profile Header */}
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <User className="h-3.5 w-3.5 text-[#005CC1]" />
+                  শিক্ষার্থীর তথ্য / Profile Information
+                </span>
+                <span className="text-[10px] text-slate-400 font-medium">Click field to edit</span>
               </div>
 
-              {/* Password Change Section */}
-              <div className="space-y-3.5 pt-1">
-                <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+              {/* Single Unified Grid with Equal Spacing */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <FloatingInput
+                  id="cand-name"
+                  label="শিক্ষার্থীর নাম / Full Name"
+                  value={candidateData.fullName}
+                  onChange={(e) => setCandidateData({ ...candidateData, fullName: e.target.value })}
+                  required
+                />
+
+                <FloatingInput
+                  id="cand-mobile"
+                  label="মোবাইল নম্বর / Phone Number"
+                  value={candidateData.mobile}
+                  onChange={(e) => setCandidateData({ ...candidateData, mobile: e.target.value })}
+                  icon={Phone}
+                />
+
+                <FloatingInput
+                  id="cand-passport"
+                  label="পাসপোর্ট নম্বর / Passport (Verified ID)"
+                  value={candidateData.passportNumber}
+                  disabled
+                  icon={Lock}
+                />
+
+                <FloatingInput
+                  id="cand-email"
+                  label="ইমেইল / Login Email"
+                  value={candidateData.email}
+                  disabled
+                  icon={Mail}
+                />
+
+                <FloatingInput
+                  id="cand-country"
+                  label="গন্তব্য দেশ / Target Country"
+                  value={candidateData.targetCountry || "সকল দেশ / Global"}
+                  disabled
+                  icon={Globe}
+                />
+
+                <FloatingInput
+                  id="cand-trade"
+                  label="ট্রেড ও পেশা / Trade & Profession"
+                  value={candidateData.trade || "সাধারণ ট্রেড / General Trade"}
+                  disabled
+                  icon={Shield}
+                />
+
+                {/* Password Section Divider */}
+                <div className="sm:col-span-2 pt-2 border-t border-slate-100 flex items-center justify-between">
                   <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
                     <KeyRound className="h-3.5 w-3.5 text-[#005CC1]" />
                     পাসওয়ার্ড পরিবর্তন / Change Password
@@ -581,23 +570,21 @@ export default function CompanyProfilePage() {
                   <span className="text-[10px] text-slate-400 font-medium">ঐচ্ছিক / Optional</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FloatingInput
-                    id="cand-pass"
-                    type="password"
-                    label="নতুন পাসওয়ার্ড / New Password"
-                    value={candidatePassword}
-                    onChange={(e) => setCandidatePassword(e.target.value)}
-                  />
+                <FloatingInput
+                  id="cand-pass"
+                  type="password"
+                  label="নতুন পাসওয়ার্ড / New Password"
+                  value={candidatePassword}
+                  onChange={(e) => setCandidatePassword(e.target.value)}
+                />
 
-                  <FloatingInput
-                    id="cand-confirm-pass"
-                    type="password"
-                    label="পাসওয়ার্ড নিশ্চিত করুন / Confirm Password"
-                    value={candidateConfirmPassword}
-                    onChange={(e) => setCandidateConfirmPassword(e.target.value)}
-                  />
-                </div>
+                <FloatingInput
+                  id="cand-confirm-pass"
+                  type="password"
+                  label="কনফার্ম পাসওয়ার্ড / Confirm Password"
+                  value={candidateConfirmPassword}
+                  onChange={(e) => setCandidateConfirmPassword(e.target.value)}
+                />
               </div>
 
               {/* Submit Action */}
