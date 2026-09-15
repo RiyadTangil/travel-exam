@@ -1783,28 +1783,28 @@ export function CandidateExamView({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 15 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="bg-white rounded-3xl shadow-2xl border border-slate-100 max-w-lg w-full p-8 sm:p-12 text-center relative overflow-hidden"
+              className="bg-white rounded-3xl shadow-2xl border border-slate-100 max-w-2xl w-full p-10 sm:p-16 text-center relative overflow-hidden"
             >
               {/* Decorative background glows */}
-              <div className="absolute -top-24 -right-24 w-52 h-52 bg-emerald-100 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-24 -left-24 w-52 h-52 bg-blue-100 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-28 -right-28 w-64 h-64 bg-emerald-100 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-28 -left-28 w-64 h-64 bg-blue-100 rounded-full blur-3xl pointer-events-none" />
 
               {/* Success Badge */}
-              <div className="mx-auto w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mb-6 shadow-xs relative z-10">
-                <CheckCircle2 className="h-9 w-9 stroke-[2.5]" />
+              <div className="mx-auto w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mb-8 shadow-xs relative z-10">
+                <CheckCircle2 className="h-11 w-11 stroke-[2.5]" />
               </div>
 
               {/* Title: ধন্যবাদ */}
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-4 relative z-10">
+              <h2 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-6 relative z-10">
                 ধন্যবাদ
               </h2>
 
               {/* Exact note text from image */}
-              <div className="space-y-3 mb-8 relative z-10">
-                <p className="text-base sm:text-lg font-bold text-slate-800 leading-relaxed">
+              <div className="space-y-4 mb-10 relative z-10">
+                <p className="text-xl sm:text-2xl font-bold text-slate-800 leading-relaxed">
                   আপনার পরীক্ষা সফলভাবে সম্পন্ন হয়েছে।
                 </p>
-                <p className="text-sm sm:text-base font-bold text-[#005CC1] bg-blue-50/90 py-2.5 px-4 rounded-xl border border-blue-100/80 leading-relaxed">
+                <p className="text-base sm:text-lg font-bold text-[#005CC1] bg-blue-50/90 py-3.5 px-6 rounded-2xl border border-blue-100/80 leading-relaxed">
                   (আপনি ব্যবহারিক পরীক্ষার জন্য চলে যান)
                 </p>
               </div>
@@ -1819,9 +1819,9 @@ export function CandidateExamView({
                   setAnswers({})
                   setCurrentIndex(0)
                 }}
-                className="w-full inline-flex items-center justify-center gap-2.5 bg-[#005CC1] hover:bg-[#004ca3] active:scale-98 text-white font-extrabold text-base py-3.5 px-6 rounded-2xl shadow-lg shadow-blue-500/25 transition-all cursor-pointer group relative z-10"
+                className="w-full inline-flex items-center justify-center gap-3 bg-[#005CC1] hover:bg-[#004ca3] active:scale-98 text-white font-extrabold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-500/25 transition-all cursor-pointer group relative z-10"
               >
-                <Home className="h-5 w-5" />
+                <Home className="h-6 w-6" />
                 <span>হোম পেজে যান (Home)</span>
               </button>
             </motion.div>
