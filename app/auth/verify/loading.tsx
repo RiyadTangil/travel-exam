@@ -1,4 +1,4 @@
-import Image from "next/image"
+import { Loader2 } from "lucide-react"
 
 export default function Loading() {
   return (
@@ -9,20 +9,12 @@ export default function Loading() {
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#4099D9]/10 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-2000"></div>
       </div>
 
-      <div className="w-full max-w-md relative z-10 flex flex-col items-center">
-        <div className="relative w-48 h-48 mb-8 animate-pulse">
-          <Image
-            src="/main_log_bgremoved.png"
-            alt="Travel_Hisab Logo"
-            fill
-            className="object-contain"
-            priority
-          />
+      <div className="relative z-10 flex flex-col items-center justify-center gap-4 p-8 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white">
+        <div className="relative flex items-center justify-center w-14 h-14">
+          <div className="w-14 h-14 rounded-full border-4 border-[#005CC1]/20 border-t-[#005CC1] animate-spin" />
+          <Loader2 className="w-6 h-6 text-[#005CC1] animate-spin absolute" />
         </div>
-        <div className="flex flex-col items-center space-y-4">
-          <div className="w-12 h-12 border-4 border-[#005CC1] border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-[#005CC1] font-bold text-xl tracking-wider">Loading...</p>
-        </div>
+        <p className="text-slate-600 font-semibold text-sm tracking-wider animate-pulse">Loading...</p>
       </div>
     </div>
   )

@@ -2,7 +2,6 @@
 
 import type React from "react"
 
-import Image from "next/image"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -11,7 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Mail, User, ArrowRight, CheckCircle, Sparkles, MapPin, Lock, Building, Eye, EyeOff } from "lucide-react"
+import { Mail, User, ArrowRight, CheckCircle, Sparkles, MapPin, Lock, Building, Eye, EyeOff, GraduationCap } from "lucide-react"
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -97,7 +96,7 @@ export default function SignUpPage() {
                 </div>
                 <h1 className="text-3xl font-bold text-slate-900 mb-4">Check Your Email</h1>
                 <p className="text-slate-600 mb-6 text-base leading-relaxed">
-                  Welcome to <strong className="text-[#005CC1] font-extrabold">Travel_Hisab</strong>. 
+                  Welcome to <strong className="text-[#005CC1] font-extrabold">Travel Exam</strong>. 
                   Your account has been created successfully. We've sent a verification link to:
                 </p>
                 <div className="bg-slate-100/80 border border-slate-200/50 rounded-lg p-3 mb-6 inline-block w-full">
@@ -134,17 +133,16 @@ export default function SignUpPage() {
       <div className="w-full max-w-md relative z-10 my-8">
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-md border border-white">
           <CardHeader className="pb-2 pt-8">
-            <div 
-              className="relative w-full h-32 mb-2 cursor-pointer"
-              onClick={() => setLogoClickCount(prev => prev + 1)}
-            >
-              <Image
-                src="/main_log_bgremoved.png"
-                alt="Travel_Hisab Logo"
-                fill
-                className="object-contain"
-                priority
-              />
+            <div className="flex flex-col items-center text-center space-y-2 mb-2">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#005CC1] to-[#4099D9] shadow-lg shadow-[#005CC1]/25 text-white mb-2 transform transition-transform duration-300 hover:scale-105">
+                <GraduationCap className="h-8 w-8" />
+              </div>
+              <CardTitle className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                Travel Exam
+              </CardTitle>
+              <CardDescription className="text-slate-500 font-medium text-sm">
+                Create a new account
+              </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-6 px-8 pb-8">
