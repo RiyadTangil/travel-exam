@@ -4,6 +4,7 @@ import {
   GraduationCap,
   Building2,
   HelpCircle,
+  Award,
 } from "lucide-react";
 
 export type NavItem = {
@@ -20,24 +21,25 @@ export const getNavItems = (): NavItem[] => [
     href: "/dashboard",
   },
   {
-    title: "শিক্ষার্থীর প্রোফাইল",
-    icon: <GraduationCap className="h-5 w-5" />,
-    href: "/dashboard/candidates",
-  },
-  {
     title: "প্রশ্ন ব্যাংক",
     icon: <HelpCircle className="h-5 w-5" />,
     href: "/dashboard/questions",
+  },
+  {
+    title: "পরীক্ষার ফলাফল",
+    icon: <Award className="h-5 w-5" />,
+    href: "/dashboard/results",
+  },
+  {
+    title: "শিক্ষার্থীর প্রোফাইল",
+    icon: <GraduationCap className="h-5 w-5" />,
+    href: "/dashboard/candidates",
   },
   {
     title: "স্টাফ ও টিম",
     icon: <UserPlus className="h-5 w-5" />,
     href: "/dashboard/staff",
   },
-  {
-    title: "আমার এজেন্সি",
-    icon: <Building2 className="h-5 w-5" />,
-    href: "/dashboard/profile",
-  },
+  
 ];
 

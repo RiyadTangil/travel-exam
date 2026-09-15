@@ -22,6 +22,7 @@ import {
   ChevronUp,
   Layers,
   Sparkles,
+  Shuffle,
   UploadCloud,
   ImageIcon,
   X,
@@ -796,29 +797,49 @@ export default function QuestionsPage() {
     }
   }
 
-  const [seeding, setSeeding] = useState(false)
 
-  const handleSeedRealData = async () => {
-    if (!companyId) return
-    setSeeding(true)
-    try {
-      const res = await axios.post("/api/questions/seed", {}, {
-        headers: { "x-company-id": companyId },
-      })
-      message.success(res.data?.message || "রিয়েল ক্যাটাগরি এবং প্রশ্ন সফলভাবে যুক্ত হয়েছে!")
-      await fetchCategories()
-      await fetchQuestions()
-      if (res.data?.data?.loadUnloadCategoryId) {
-        setSelectedCategory(res.data.data.loadUnloadCategoryId)
-      }
-    } catch (err: any) {
-      message.error(err.response?.data?.message || "রিয়েল ডেটা লোড করতে ব্যর্থ হয়েছে")
-    } finally {
-      setSeeding(false)
-    }
-  }
 
   const [reordering, setReordering] = useState(false)
+  const [shuffling, setShuffling] = useState(false)
+
+  // Smart Shuffle / Jumble function using Fisher-Yates algorithm
+  const handleShuffleQuestions = async () => {
+    if (questions.length <= 1) {
+      message.info("শাফল করার জন্য কমপক্ষে ২টি প্রশ্ন থাকতে হবে")
+      return
+    }
+
+    // Fisher-Yates Shuffle
+    const shuffled = [...questions]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    }
+
+    // Immediate optimistic update for smooth Framer Motion layout animation
+    setQuestions(shuffled)
+
+    const items = shuffled.map((item, idx) => ({
+      id: item.id,
+      order: idx + 1,
+    }))
+
+    setShuffling(true)
+    try {
+      await axios.put(
+        "/api/questions/reorder",
+        { items },
+        { headers: { "x-company-id": companyId } }
+      )
+      message.success("প্রশ্নগুলোর ক্রম সফলভাবে এলোমেলো (Shuffled) করা হয়েছে!")
+    } catch (err: any) {
+      console.error("Failed to persist shuffled order:", err)
+      message.error("শাফল সংরক্ষণ করতে ব্যর্থ হয়েছে")
+      fetchQuestions()
+    } finally {
+      setShuffling(false)
+    }
+  }
 
   const handleMoveQuestion = async (currentIndex: number, targetIndex: number) => {
     if (targetIndex < 0 || targetIndex >= questions.length || currentIndex === targetIndex) {
@@ -872,10 +893,10 @@ export default function QuestionsPage() {
         { label: "প্রশ্ন ব্যাংক" },
       ]}
     >
-      <div className="max-w-7xl mx-auto space-y-5 px-3 sm:px-6 py-2">
+      <div className=" mx-auto space-y-5 px-3 sm:px-6 py-2">
         
-        {/* Top Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+        {/* Top Header Bar (Sticky) */}
+        <div className="sticky top-0 z-20 bg-gray-50/95 backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-3 border-b border-slate-200">
           <div>
             <div className="flex items-center gap-2.5">
               <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
@@ -891,16 +912,26 @@ export default function QuestionsPage() {
           </div>
 
           <div className="flex items-center gap-2.5 shrink-0">
-            <Button
-              onClick={handleSeedRealData}
-              disabled={seeding}
-              variant="outline"
-              className="border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 font-bold text-xs h-10 px-3.5 rounded-xl shadow-2xs flex items-center gap-1.5 transition-all"
-              title="রেফারেন্স ইমেজ অনুযায়ী ৯টি রিয়েল ক্যাটাগরি ও ১৬টি প্রশ্ন যোগ করুন"
+            <Popconfirm
+              title="প্রশ্নের ক্রম এলোমেলো করুন (Shuffle / Jumble)"
+              description="আপনি কি বর্তমান তালিকার সকল প্রশ্নের ক্রম এলোমেলো করতে চান?"
+              onConfirm={handleShuffleQuestions}
+              okText="হ্যাঁ, শাফল করুন"
+              cancelText="বাতিল"
+              okButtonProps={{ loading: shuffling, className: "bg-[#005CC1]" }}
             >
-              <Sparkles className="h-4 w-4 text-emerald-600" />
-              {seeding ? "লোড হচ্ছে..." : "রিয়েল প্রশ্ন সিড করুন"}
-            </Button>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={shuffling || questions.length <= 1}
+                className="border-slate-200 text-slate-700 hover:text-[#005CC1] hover:border-blue-300 font-semibold text-xs h-10 px-3.5 rounded-xl shadow-2xs flex items-center gap-1.5 transition-all bg-white"
+                title="প্রশ্নের ক্রম এলোমেলো বা জাম্বল করুন"
+              >
+                <Shuffle className={`h-4 w-4 ${shuffling ? "animate-spin text-[#005CC1]" : "text-slate-500"}`} />
+                <span>{shuffling ? "শাফল হচ্ছে..." : "শাফল করুন"}</span>
+              </Button>
+            </Popconfirm>
+
             <Button
               onClick={handleOpenAddQuestion}
               className="bg-[#005CC1] hover:bg-[#004ca3] text-white font-semibold text-xs h-10 px-4 rounded-xl shadow-sm flex items-center gap-1.5 transition-all hover:-translate-y-0.5"
@@ -912,14 +943,14 @@ export default function QuestionsPage() {
         </div>
 
         {/* 2-Column Main Layout: Left Category Nav + Right Questions Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           
           {/* Left Side: Category Navigation Sidebar */}
-          <div className="lg:col-span-4 xl:col-span-3">
-            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-3 space-y-3 sticky top-4">
+          <div className="lg:col-span-4 xl:col-span-3 lg:sticky lg:top-24 h-fit z-10">
+            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-3.5 flex flex-col max-h-[calc(100vh-7rem)]">
               
               {/* Category Nav Header */}
-              <div className="flex items-center justify-between px-2 pt-1 pb-2 border-b border-slate-100">
+              <div className="flex items-center justify-between px-2 pt-1 pb-2.5 border-b border-slate-100 shrink-0">
                 <div className="flex items-center gap-2">
                   <Folder className="h-4 w-4 text-[#005CC1]" />
                   <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
@@ -940,12 +971,12 @@ export default function QuestionsPage() {
                   title="ক্যাটাগরি সম্পাদনা বা পরিচালনা"
                 >
                   <FolderPlus className="h-3.5 w-3.5" />
-                  <span>পরিচালনা</span>
+                  <span>নতুন ক্যাটাগরি</span>
                 </button>
               </div>
 
               {/* Category Nav List */}
-              <div className="space-y-1">
+              <div className="space-y-1 overflow-y-auto flex-1 py-2 pr-1">
                 {/* All Questions Item */}
                 <button
                   type="button"
@@ -1016,7 +1047,7 @@ export default function QuestionsPage() {
               </div>
 
               {/* Add Category Shortcut at bottom of nav */}
-              <div className="pt-2 border-t border-slate-100 space-y-2">
+              <div className="pt-2 border-t border-slate-100 shrink-0">
                 <button
                   type="button"
                   onClick={() => {
@@ -1028,17 +1059,6 @@ export default function QuestionsPage() {
                 >
                   <Plus className="h-3.5 w-3.5" />
                   <span>নতুন ক্যাটাগরি যোগ করুন</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleSeedRealData}
-                  disabled={seeding}
-                  className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-emerald-50/90 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 text-xs font-bold transition-all shadow-2xs"
-                  title="৯টি রিয়েল ট্রেড ক্যাটাগরি ও ১৬টি প্রশ্ন সিড করুন"
-                >
-                  <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
-                  <span>{seeding ? "লোড হচ্ছে..." : "রিয়েল ক্যাটাগরি ও প্রশ্ন সিড"}</span>
                 </button>
               </div>
             </div>

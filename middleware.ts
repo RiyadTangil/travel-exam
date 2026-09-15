@@ -16,6 +16,7 @@ const publicPaths = [
   '/status-check',
   '/api/status-check',
   '/api/admin/marketing-campaigns/pending',
+  '/api/exam-results',
 ];
 
 // Function to check if the path is public

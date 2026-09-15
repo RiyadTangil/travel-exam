@@ -143,7 +143,7 @@ export function Sidebar() {
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center h-20 px-6 border-b border-slate-100 bg-slate-50/50">
+          {/* <div className="flex items-center h-20 px-6 border-b border-slate-100 bg-slate-50/50">
             <Link href="/" className="flex items-center gap-3 group font-semibold w-full">
               <div className="relative w-8 h-8 shrink-0 transition-transform duration-500 group-hover:rotate-[360deg]">
                 <Image
@@ -160,7 +160,7 @@ export function Sidebar() {
                 </span>
               )}
             </Link>
-          </div>
+          </div> */}
 
           {/* Toggle Button (Desktop) */}
           <button

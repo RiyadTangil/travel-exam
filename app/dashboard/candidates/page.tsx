@@ -164,7 +164,7 @@ export default function CandidatesPage() {
         { label: "শিক্ষার্থীর প্রোফাইল / Candidate Profiles" },
       ]}
     >
-      <div className="max-w-4xl mx-auto space-y-6 px-4 py-2">
+      <div className="w-full mx-auto space-y-6 px-3 sm:px-6 py-2">
         {/* Top Card: Create New Student Profile (+ নতুন শিক্ষার্থীর প্রোফাইল তৈরি করুন) */}
         <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
           <div className="p-6 sm:p-8 space-y-6">

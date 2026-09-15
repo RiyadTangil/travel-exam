@@ -423,7 +423,7 @@ export default function CompanyProfilePage() {
           { label: "আমার প্রোফাইল / Candidate Profile" },
         ]}
       >
-        <div className="mx-auto max-w-4xl lg:max-w-5xl px-3 sm:px-6 py-4 sm:py-6">
+        <div className="mx-auto w-full px-3 sm:px-6 py-4 sm:py-6">
           {/* Unified Compact Profile Card */}
           <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-200/40 overflow-hidden">
             
@@ -599,7 +599,7 @@ export default function CompanyProfilePage() {
         { label: "আমার এজেন্সি / Agency Profile" },
       ]}
     >
-      <div className="mx-auto max-w-4xl lg:max-w-5xl px-3 sm:px-6 py-4 sm:py-6">
+      <div className="mx-auto w-full px-3 sm:px-6 py-4 sm:py-6">
         {/* Unified Compact Company Profile Card */}
         <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-200/40 overflow-hidden">
           

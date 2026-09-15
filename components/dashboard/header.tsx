@@ -49,19 +49,12 @@ export function DashboardHeader() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-9 w-9 shrink-0 rounded-full p-0 sm:h-10 sm:w-10 ring-2 ring-sky-200 hover:ring-sky-300 transition-all"
+                className="h-9 w-9 shrink-0 rounded-full p-0 sm:h-10 sm:w-10 ring-2 ring-blue-100 hover:ring-blue-300 transition-all shadow-xs"
                 id="header-profile-trigger"
               >
                 <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
-                  {!isCandidate && companyLogoUrl && (
-                    <AvatarImage
-                      src={companyLogoUrl}
-                      alt={companyName}
-                      className="object-contain"
-                    />
-                  )}
-                  <AvatarFallback className="bg-sky-100 text-sky-700 text-xs sm:text-sm font-semibold">
-                    {getInitials(userName)}
+                  <AvatarFallback className="bg-gradient-to-tr from-[#005CC1] to-sky-500 text-white text-xs sm:text-sm font-bold">
+                    {getInitials(userName) || "U"}
                   </AvatarFallback>
                 </Avatar>
               </Button>
@@ -74,17 +67,11 @@ export function DashboardHeader() {
             >
               {/* Header inside dropdown */}
               <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-sky-50 to-blue-50 rounded-t-xl">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-100 border border-sky-200 overflow-hidden">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#005CC1] to-sky-500 text-white font-bold text-sm shadow-xs">
                   {isCandidate ? (
-                    <GraduationCap className="h-5 w-5 text-[#005CC1]" />
-                  ) : companyLogoUrl ? (
-                    <img
-                      src={companyLogoUrl}
-                      alt={companyName}
-                      className="h-full w-full object-contain"
-                    />
+                    <GraduationCap className="h-5 w-5 text-white" />
                   ) : (
-                    <Building2 className="h-5 w-5 text-sky-600" />
+                    <span>{getInitials(userName) || "A"}</span>
                   )}
                 </div>
                 <div className="min-w-0 flex-1">

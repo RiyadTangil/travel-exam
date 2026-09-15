@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, GraduationCap } from "lucide-react";
 
 function SignInContent() {
   const [identifier, setIdentifier] = useState("");
@@ -113,18 +113,16 @@ function SignInContent() {
 
       <div className="w-full max-w-md relative z-10">
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-md border border-white">
-          <CardHeader className="pb-2 pt-8">
-            <div className="relative w-full h-24 mb-2">
-              <Image
-                src="/main_log_bgremoved.png"
-                alt="Travel Exam Logo"
-                fill
-                className="object-contain"
-                priority
-              />
+          <CardHeader className="text-center pb-2 pt-8">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#005CC1] to-sky-500 text-white shadow-lg shadow-blue-500/20">
+              <GraduationCap className="h-7 w-7" />
             </div>
-         
-           
+            <CardTitle className="text-2xl font-black tracking-tight text-slate-900">
+              Travel Exam
+            </CardTitle>
+            <CardDescription className="text-xs text-slate-500 mt-1 font-medium">
+              Candidate Examination & Agency Assessment Portal
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 px-8 pb-8">
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -190,14 +188,14 @@ function SignInContent() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end">
+              {/* <div className="flex items-center justify-end">
                 <Link
                   href="/auth/forgot-password"
                   className="text-xs font-medium text-slate-500 hover:text-[#005CC1] hover:underline transition-colors"
                 >
                   Forgot password?
                 </Link>
-              </div>
+              </div> */}
 
               <Button
                 type="submit"

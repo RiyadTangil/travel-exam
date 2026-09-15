@@ -20,7 +20,7 @@ export function PageWrapper({ children, breadcrumbs, showHeader = true }: PageWr
   return (
     !showHeader ? <>{children}</> :
       (
-        <div className="flex min-h-screen min-w-0 flex-col overflow-x-hidden bg-gray-50">
+        <div className="flex min-h-screen min-w-0 flex-col overflow-x-clip bg-gray-50">
           <header className="w-full min-w-0 max-w-full bg-white shadow-sm">
             <DashboardHeader />
           </header>
