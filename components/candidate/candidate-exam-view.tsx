@@ -696,7 +696,7 @@ export function CandidateExamView({
             </Button>
 
             {/* Exit Exam */}
-            <Button
+            {/* <Button
               variant="outline"
               size="sm"
               onClick={() => setShowExitConfirm(true)}
@@ -704,7 +704,7 @@ export function CandidateExamView({
             >
               <LogOut className="h-3.5 w-3.5 sm:mr-1" />
               <span className="hidden sm:inline">প্রস্থান</span>
-            </Button>
+            </Button> */}
 
             {/* Final Submit Button */}
             <Button
