@@ -109,7 +109,7 @@ function SignInContent() {
               <GraduationCap className="h-7 w-7" />
             </div>
             <CardTitle className="text-2xl font-black tracking-tight text-slate-900">
-              Travel Exam
+              SVPI Exam
             </CardTitle>
             <CardDescription className="text-xs text-slate-500 mt-1 font-medium">
               Candidate Examination & Agency Assessment Portal

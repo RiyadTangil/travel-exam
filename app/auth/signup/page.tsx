@@ -96,7 +96,7 @@ export default function SignUpPage() {
                 </div>
                 <h1 className="text-3xl font-bold text-slate-900 mb-4">Check Your Email</h1>
                 <p className="text-slate-600 mb-6 text-base leading-relaxed">
-                  Welcome to <strong className="text-[#005CC1] font-extrabold">Travel Exam</strong>. 
+                  Welcome to <strong className="text-[#005CC1] font-extrabold">SVPI Exam</strong>. 
                   Your account has been created successfully. We've sent a verification link to:
                 </p>
                 <div className="bg-slate-100/80 border border-slate-200/50 rounded-lg p-3 mb-6 inline-block w-full">
@@ -138,7 +138,7 @@ export default function SignUpPage() {
                 <GraduationCap className="h-8 w-8" />
               </div>
               <CardTitle className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-                Travel Exam
+                SVPI Exam
               </CardTitle>
               <CardDescription className="text-slate-500 font-medium text-sm">
                 Create a new account

@@ -28,7 +28,8 @@ import {
   Image as ImageIcon,
   ZoomIn,
   ZoomOut,
-  RotateCw
+  RotateCw,
+  Home
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -385,6 +386,7 @@ export function CandidateExamView({
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false)
   const [showFinalSubmitConfirm, setShowFinalSubmitConfirm] = useState(false)
   const [showCancelConfirm, setShowCancelConfirm] = useState(false)
+  const [showCompletionModal, setShowCompletionModal] = useState(false)
   const [showStartConfirm, setShowStartConfirm] = useState(false)
   const [showExitConfirm, setShowExitConfirm] = useState(false)
   const [isBrowserFullscreen, setIsBrowserFullscreen] = useState(false)
@@ -410,7 +412,7 @@ export function CandidateExamView({
     const prefetch = async () => {
       const dbCatId = dbCategoryMap[selectedCategory.name] || selectedCategory.id
       try {
-        await axios.get(`/api/questions?categoryId=${dbCatId}&pageSize=50`, {
+        await axios.get(`/api/questions?categoryId=${dbCatId}&pageSize=100`, {
           headers: companyId ? { "x-company-id": companyId } : {},
         })
       } catch {}
@@ -484,7 +486,7 @@ export function CandidateExamView({
       const dbCatId = dbCategoryMap[selectedCategory.name] || selectedCategory.id
 
       try {
-        let res = await axios.get(`/api/questions?categoryId=${dbCatId}&pageSize=50`, {
+        let res = await axios.get(`/api/questions?categoryId=${dbCatId}&pageSize=100`, {
           headers: companyId ? { "x-company-id": companyId } : {},
         })
         let rawData = res.data?.data
@@ -492,7 +494,7 @@ export function CandidateExamView({
 
         // If no questions found by category ID, query without category filter and match by category
         if (items.length === 0) {
-          res = await axios.get(`/api/questions?pageSize=50`, {
+          res = await axios.get(`/api/questions?pageSize=100`, {
             headers: companyId ? { "x-company-id": companyId } : {},
           })
           rawData = res.data?.data
@@ -559,7 +561,10 @@ export function CandidateExamView({
         ;[shuffledLoaded[i], shuffledLoaded[j]] = [shuffledLoaded[j], shuffledLoaded[i]]
       }
 
-      setExamQuestions(shuffledLoaded)
+      // Pick exactly 15 random questions from the category pool
+      const selected15Questions = shuffledLoaded.slice(0, 15)
+
+      setExamQuestions(selected15Questions)
       setCurrentIndex(0)
       setAnswers({})
       setTimeLeft(1800) // 30 mins
@@ -676,7 +681,9 @@ export function CandidateExamView({
   // Submit and calculate score + save to MongoDB
   const handleFinishExam = async () => {
     setShowSubmitConfirm(false)
-    setScreen("SELECT")
+    setShowFinalSubmitConfirm(false)
+    setShowCancelConfirm(false)
+    setShowCompletionModal(true)
 
     // Exit browser fullscreen on exam complete
     if (typeof document !== "undefined" && document.fullscreenElement && document.exitFullscreen) {
@@ -1209,7 +1216,7 @@ export function CandidateExamView({
           </div>
         </header>
 
-        {/* Full-width Exam Body: Left Palette (01 to 15) + Right Canvas */}
+        {/* Full-width Exam Body: Left Palette (01 to 15) + Center Canvas + Right Student Info */}
         <div className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6 lg:gap-8 items-start">
           
           {/* LEFT: Question Palette (Single-column vertical chevron tabs matching reference shape) */}
@@ -1259,7 +1266,7 @@ export function CandidateExamView({
             })}
           </div>
 
-          {/* RIGHT: Question Content Area (Modern Elevated Canvas) */}
+          {/* CENTER: Question Content Area (Modern Elevated Canvas) */}
           <div className="flex-1 w-full bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10 space-y-7">
             
             {/* Top Meta Badges */}
@@ -1352,16 +1359,6 @@ export function CandidateExamView({
             {/* Card Action Controls & Navigation */}
             <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-slate-100">
               <div className="flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  disabled={currentIndex === 0}
-                  onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-                  className="text-xs sm:text-sm font-bold rounded-xl px-4 sm:px-5 py-2.5 border-slate-200 bg-white hover:bg-slate-50 shadow-2xs"
-                >
-                  <ChevronLeft className="h-4 w-4 mr-1" />
-                  ফেরত যান
-                </Button>
-
                 {isAnswered && (
                   <button
                     type="button"
@@ -1374,6 +1371,16 @@ export function CandidateExamView({
               </div>
 
               <div className="flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  disabled={currentIndex === 0}
+                  onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
+                  className="text-xs sm:text-sm font-bold rounded-xl px-4 sm:px-5 py-2.5 border-slate-200 bg-white hover:bg-slate-50 shadow-2xs"
+                >
+                  <ChevronLeft className="h-4 w-4 mr-1" />
+                  ফেরত যান
+                </Button>
+
                 {currentIndex < examQuestions.length - 1 && (
                   <Button
                     onClick={() => setCurrentIndex((prev) => Math.min(examQuestions.length - 1, prev + 1))}
@@ -1391,6 +1398,20 @@ export function CandidateExamView({
               <div className="flex items-center gap-2">
                 <Sparkles className="h-3.5 w-3.5 text-[#005CC1] shrink-0" />
                 <span>কিবোর্ড শর্টকাট: <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 font-mono text-[10px] text-slate-800 font-bold">A</kbd> <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 font-mono text-[10px] text-slate-800 font-bold">B</kbd> <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 font-mono text-[10px] text-slate-800 font-bold">C</kbd> <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 font-mono text-[10px] text-slate-800 font-bold">D</kbd> চেপে উত্তর দিন | <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 font-mono text-[10px] text-slate-800 font-bold">→</kbd> এগিয়ে যান / <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 font-mono text-[10px] text-slate-800 font-bold">←</kbd> ফেরত যান</span>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: Candidate / Student Profile in Right Space (Compact & Clean) */}
+          <div className="hidden md:flex flex-col shrink-0 pt-2 select-none md:sticky md:top-20">
+            <div className="space-y-1 text-slate-900 font-serif text-left whitespace-nowrap">
+              <div className="text-sm sm:text-base leading-tight">
+                <span className="font-bold text-slate-900">Name: </span>
+                <span className="font-medium text-slate-800">{candidateName || "Mamun"}</span>
+              </div>
+              <div className="text-sm sm:text-base leading-tight">
+                <span className="font-bold text-slate-900">Passport No: </span>
+                <span className="font-medium text-slate-800">{passportNo || "A12345678"}</span>
               </div>
             </div>
           </div>
@@ -1515,9 +1536,37 @@ export function CandidateExamView({
                 </p>
               </div>
 
-              {/* Grid with 2 Options: Cancel on Left (First), Confirm on Right (Second) */}
+              {/* Grid with 2 Options: Confirm on Left (First), Cancel on Right (Second) */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 relative z-10">
-                {/* Left Column (First): Cancel Submission / Return to Exam */}
+                {/* Left Column (First): Proceed to 2nd Confirmation */}
+                <div className="flex flex-col items-center justify-between p-6 sm:p-8 rounded-2xl bg-slate-50/70 border-2 border-slate-200/80 hover:border-slate-300 transition-all text-center group">
+                  <div className="space-y-2 mb-6">
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest block">
+                      পরবর্তী ধাপ
+                    </span>
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 leading-snug">
+                      সব উত্তর জমা দিতে প্রস্তুত হলে,
+                      <br />
+                      নিশ্চিত করুন
+                    </h3>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowSubmitConfirm(false)
+                      setShowFinalSubmitConfirm(true)
+                    }}
+                    className="inline-flex items-center justify-center gap-3 bg-white hover:bg-slate-100 active:scale-95 text-slate-800 font-bold text-base pl-6 sm:pl-7 pr-2.5 sm:pr-3 py-2.5 rounded-2xl border-2 border-slate-300 hover:border-slate-500 shadow-xs transition-all cursor-pointer group"
+                  >
+                    <span>নিশ্চিত করুন</span>
+                    <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-slate-400 group-hover:border-slate-700 flex items-center justify-center text-slate-700 group-hover:text-slate-950 bg-transparent transition-colors shrink-0">
+                      <Check className="h-4.5 w-4.5 stroke-[2.5]" />
+                    </span>
+                  </button>
+                </div>
+
+                {/* Right Column (Second): Cancel Submission / Return to Exam */}
                 <div className="flex flex-col items-center justify-between p-6 sm:p-8 rounded-2xl bg-slate-50/70 border-2 border-slate-200/80 hover:border-slate-300 transition-all text-center group">
                   <div className="space-y-2 mb-6">
                     <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest block">
@@ -1541,34 +1590,6 @@ export function CandidateExamView({
                     <span>বাতিল করুন</span>
                     <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-slate-400 group-hover:border-slate-700 flex items-center justify-center text-slate-700 group-hover:text-slate-950 bg-transparent transition-colors shrink-0">
                       <X className="h-4.5 w-4.5 stroke-[2.5]" />
-                    </span>
-                  </button>
-                </div>
-
-                {/* Right Column (Second): Proceed to 2nd Confirmation */}
-                <div className="flex flex-col items-center justify-between p-6 sm:p-8 rounded-2xl bg-slate-50/70 border-2 border-slate-200/80 hover:border-slate-300 transition-all text-center group">
-                  <div className="space-y-2 mb-6">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest block">
-                      পরবর্তী ধাপ
-                    </span>
-                    <h3 className="text-base sm:text-lg font-black text-slate-900 leading-snug">
-                      সব উত্তর জমা দিতে প্রস্তুত হলে,
-                      <br />
-                      এগিয়ে যান
-                    </h3>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowSubmitConfirm(false)
-                      setShowFinalSubmitConfirm(true)
-                    }}
-                    className="inline-flex items-center justify-center gap-3 bg-white hover:bg-slate-100 active:scale-95 text-slate-800 font-bold text-base pl-6 sm:pl-7 pr-2.5 sm:pr-3 py-2.5 rounded-2xl border-2 border-slate-300 hover:border-slate-500 shadow-xs transition-all cursor-pointer group"
-                  >
-                    <span>এগিয়ে যান</span>
-                    <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-slate-400 group-hover:border-slate-700 flex items-center justify-center text-slate-700 group-hover:text-slate-950 bg-transparent transition-colors shrink-0">
-                      <Check className="h-4.5 w-4.5 stroke-[2.5]" />
                     </span>
                   </button>
                 </div>
@@ -1642,7 +1663,7 @@ export function CandidateExamView({
                     <h3 className="text-base sm:text-lg font-black text-slate-900 leading-snug">
                       ফলাফল প্রক্রিয়াজাত করতে,
                       <br />
-                      চূড়ান্ত সাবমিট নিশ্চিত করুন
+                      নিশ্চিত করুন
                     </h3>
                   </div>
 
@@ -1655,7 +1676,7 @@ export function CandidateExamView({
                     disabled={savingResult}
                     className="inline-flex items-center justify-center gap-3 bg-white hover:bg-slate-100 active:scale-95 text-slate-800 font-bold text-base pl-6 sm:pl-7 pr-2.5 sm:pr-3 py-2.5 rounded-2xl border-2 border-slate-300 hover:border-slate-500 shadow-xs transition-all cursor-pointer disabled:opacity-50 group"
                   >
-                    <span>{savingResult ? "সংরক্ষণ হচ্ছে..." : "চূড়ান্ত সাবমিট করুন"}</span>
+                    <span>{savingResult ? "সংরক্ষণ হচ্ছে..." : "নিশ্চিত করুন"}</span>
                     <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-slate-400 group-hover:border-slate-700 flex items-center justify-center text-slate-700 group-hover:text-slate-950 bg-transparent transition-colors shrink-0">
                       <Check className="h-4.5 w-4.5 stroke-[2.5]" />
                     </span>
@@ -1750,6 +1771,59 @@ export function CandidateExamView({
                   </button>
                 </div>
               </div>
+            </motion.div>
+          </div>,
+          document.body
+        )}
+        {/* Post-Exam Thank You / Practical Exam Notification Modal (Matching User's Reference Note) */}
+        {showCompletionModal && mounted && createPortal(
+          <div className="fixed inset-0 z-[99999] bg-slate-900/50 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 overflow-y-auto select-none">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.94, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 15 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="bg-white rounded-3xl shadow-2xl border border-slate-100 max-w-lg w-full p-8 sm:p-12 text-center relative overflow-hidden"
+            >
+              {/* Decorative background glows */}
+              <div className="absolute -top-24 -right-24 w-52 h-52 bg-emerald-100 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-24 -left-24 w-52 h-52 bg-blue-100 rounded-full blur-3xl pointer-events-none" />
+
+              {/* Success Badge */}
+              <div className="mx-auto w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mb-6 shadow-xs relative z-10">
+                <CheckCircle2 className="h-9 w-9 stroke-[2.5]" />
+              </div>
+
+              {/* Title: ধন্যবাদ */}
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-4 relative z-10">
+                ধন্যবাদ
+              </h2>
+
+              {/* Exact note text from image */}
+              <div className="space-y-3 mb-8 relative z-10">
+                <p className="text-base sm:text-lg font-bold text-slate-800 leading-relaxed">
+                  আপনার পরীক্ষা সফলভাবে সম্পন্ন হয়েছে।
+                </p>
+                <p className="text-sm sm:text-base font-bold text-[#005CC1] bg-blue-50/90 py-2.5 px-4 rounded-xl border border-blue-100/80 leading-relaxed">
+                  (আপনি ব্যবহারিক পরীক্ষার জন্য চলে যান)
+                </p>
+              </div>
+
+              {/* Home Action Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowCompletionModal(false)
+                  setScreen("SELECT")
+                  setExamQuestions([])
+                  setAnswers({})
+                  setCurrentIndex(0)
+                }}
+                className="w-full inline-flex items-center justify-center gap-2.5 bg-[#005CC1] hover:bg-[#004ca3] active:scale-98 text-white font-extrabold text-base py-3.5 px-6 rounded-2xl shadow-lg shadow-blue-500/25 transition-all cursor-pointer group relative z-10"
+              >
+                <Home className="h-5 w-5" />
+                <span>হোম পেজে যান (Home)</span>
+              </button>
             </motion.div>
           </div>,
           document.body
