@@ -17,6 +17,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { PageWrapper } from "@/components/shared/page-wrapper"
+import { cn } from "@/lib/utils"
 
 interface ResultItem {
   id: string
@@ -25,6 +26,17 @@ interface ResultItem {
   password?: string
   result: string
   createdAt: string
+}
+
+// Parse correct score from result string (e.g. "12 / 15", "4/15", "8")
+function parseScore(resultStr?: string): { correct: number; isPass: boolean } {
+  if (!resultStr) return { correct: 0, isPass: false }
+  const match = resultStr.match(/(\d+)/)
+  const correct = match ? parseInt(match[1], 10) : 0
+  return {
+    correct,
+    isPass: correct >= 5,
+  }
 }
 
 // Format date to Bengali-style date-time matching the screenshot (e.g. ১৫/৯/২০২৬, ১২:৫৯:৪৩ PM)
@@ -227,12 +239,14 @@ export default function ExamResultsPage() {
                     <th className="py-4 px-4 sm:px-6">পাসপোর্ট নম্বর</th>
                     <th className="py-4 px-4 sm:px-6">পাসওয়ার্ড</th>
                     <th className="py-4 px-4 sm:px-6 text-center">ফলাফল</th>
+                    <th className="py-4 px-4 sm:px-6 text-center">স্ট্যাটাস</th>
                     <th className="py-4 px-4 sm:px-6">তারিখ ও সময়</th>
                     <th className="py-4 px-4 text-right">পদক্ষেপ</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
                   {results.map((item) => {
+                    const { isPass } = parseScore(item.result)
                     return (
                       <tr
                         key={item.id}
@@ -253,19 +267,46 @@ export default function ExamResultsPage() {
                           {item.password || item.passportNumber}
                         </td>
 
-                        {/* 4. ফলাফল (Green pill badge matching image) */}
+                        {/* 4. ফলাফল (Red if < 5, Green if >= 5) */}
                         <td className="py-4 px-4 sm:px-6 text-center">
-                          <span className="inline-block bg-emerald-50 text-emerald-700 border border-emerald-200/80 font-bold px-3.5 py-1 rounded-full text-xs shadow-2xs">
+                          <span
+                            className={cn(
+                              "inline-block font-bold px-3.5 py-1 rounded-full text-xs shadow-2xs border",
+                              isPass
+                                ? "bg-emerald-50 text-emerald-700 border-emerald-200/80"
+                                : "bg-rose-50 text-rose-700 border-rose-200/80"
+                            )}
+                          >
                             {item.result}
                           </span>
                         </td>
 
-                        {/* 5. তারিখ ও সময় (Bengali localized date matching screenshot) */}
+                        {/* 5. পাস / ফেল স্ট্যাটাস (Pass if >= 5, Fail if < 5) */}
+                        <td className="py-4 px-4 sm:px-6 text-center">
+                          <span
+                            className={cn(
+                              "inline-flex items-center gap-1.5 font-bold px-3 py-1 rounded-full text-xs border shadow-2xs",
+                              isPass
+                                ? "bg-emerald-100/80 text-emerald-800 border-emerald-300/80"
+                                : "bg-rose-100/80 text-rose-800 border-rose-300/80"
+                            )}
+                          >
+                            <span
+                              className={cn(
+                                "w-1.5 h-1.5 rounded-full",
+                                isPass ? "bg-emerald-600" : "bg-rose-600"
+                              )}
+                            />
+                            {isPass ? "পাস (Pass)" : "ফেল (Fail)"}
+                          </span>
+                        </td>
+
+                        {/* 6. তারিখ ও সময় (Bengali localized date matching screenshot) */}
                         <td className="py-4 px-4 sm:px-6 text-slate-600 font-medium">
                           {formatBengaliDateTime(item.createdAt)}
                         </td>
 
-                        {/* 6. Delete Action */}
+                        {/* 7. Delete Action */}
                         <td className="py-4 px-4 text-right">
                           <Popconfirm
                             title="মুছে ফেলতে চান?"
