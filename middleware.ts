@@ -34,6 +34,25 @@ const isPublicPath = (path: string) =>
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
+  // Always redirect root '/' to dashboard/admin if authenticated, otherwise to signin
+  if (path === '/') {
+    try {
+      const token = await getToken({ 
+        req: request,
+        secret: NEXTAUTH_SECRET
+      });
+      if (token) {
+        if (token.userType === 'PLATFORM') {
+          return NextResponse.redirect(new URL('/admin', request.url));
+        }
+        return NextResponse.redirect(new URL('/dashboard', request.url));
+      }
+    } catch (error) {
+      console.error('[Middleware] Root token check error:', error);
+    }
+    return NextResponse.redirect(new URL('/auth/signin', request.url));
+  }
+
   // Allow public paths without authentication
   if (isPublicPath(path)) {
     // console.log(`[Middleware] Public path: ${path}, allowing access`);

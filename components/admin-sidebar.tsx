@@ -107,13 +107,13 @@ export function AdminSidebar() {
       >
         {/* Header/Logo */}
         <div className="flex items-center h-20 px-6 border-b border-slate-100 bg-slate-50/50">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/admin" className="flex items-center gap-3 group">
             <div className="relative w-8 h-8 shrink-0 transition-transform duration-500 group-hover:rotate-[360deg]">
               <Image src="/main_log_bgremoved.png" alt="Logo" fill className="object-contain" />
             </div>
             {expanded && (
               <span className="font-black text-slate-900 tracking-tighter text-lg whitespace-nowrap">
-                Travel <span className="text-[#005CC1]">Hisab</span>
+                Travel <span className="text-[#005CC1]">Exam</span>
               </span>
             )}
           </Link>
