@@ -1,0 +1,4145 @@
+{
+  "categories": [
+    {
+      "id": "set-01",
+      "name": "Warehouse Worker",
+      "color": "#1B64F2",
+      "code": "WAREHOUSE"
+    },
+    {
+      "id": "set-02",
+      "name": "Load And Unload Worker",
+      "color": "#10B981",
+      "code": "LOAD_UNLOAD"
+    },
+    {
+      "id": "set-03",
+      "name": "Kitchen Worker",
+      "color": "#F59E0B",
+      "code": "KITCHEN"
+    },
+    {
+      "id": "set-04",
+      "name": "Packaging Worker",
+      "color": "#8B5CF6",
+      "code": "PACKAGING"
+    },
+    {
+      "id": "set-05",
+      "name": "Offices facilities and cleaning worker",
+      "color": "#06B6D4",
+      "code": "CLEANING"
+    },
+    {
+      "id": "set-06",
+      "name": "Garden cleaner",
+      "color": "#10B981",
+      "code": "GARDEN"
+    },
+    {
+      "id": "set-07",
+      "name": "Driver",
+      "color": "#3B82F6",
+      "code": "DRIVER"
+    },
+    {
+      "id": "set-08",
+      "name": "Construction Worker",
+      "color": "#F97316",
+      "code": "CONSTRUCTION"
+    },
+    {
+      "id": "set-09",
+      "name": "Food beverage and counter cervice",
+      "color": "#EC4899",
+      "code": "FOOD_BEVERAGE"
+    },
+    {
+      "id": "set-10",
+      "name": "Load And Unload Worker.2",
+      "color": "#14B8A6",
+      "code": "LOAD_UNLOAD_2"
+    }
+  ],
+  "totalCategories": 10,
+  "totalQuestions": 151,
+  "questions": [
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 1,
+      "questionText": "ওয়ারহাউজে মালামাল বহনের জন্য ব্যবহৃত ছোট গাড়িকে কী বলা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ট্রাক"
+        },
+        {
+          "key": "B",
+          "text": "ক্রেন"
+        },
+        {
+          "key": "C",
+          "text": "প্যালেট জ্যাক"
+        },
+        {
+          "key": "D",
+          "text": "ভ্যান"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 2,
+      "questionText": "ভারী বস্তু তোলার সময় শরীরের কোন অংশের ওপর চাপ দেওয়া উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "পিঠ"
+        },
+        {
+          "key": "B",
+          "text": "কোমর"
+        },
+        {
+          "key": "C",
+          "text": "ঘাড়"
+        },
+        {
+          "key": "D",
+          "text": "পা"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 3,
+      "questionText": "গুদামে আগুন লাগলে প্রথমে কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "পালিয়ে যাওয়া"
+        },
+        {
+          "key": "B",
+          "text": "ফায়ার অ্যালার্ম বাজানো"
+        },
+        {
+          "key": "C",
+          "text": "মালামাল গোছানো"
+        },
+        {
+          "key": "D",
+          "text": "মালিককে ফোন করা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 4,
+      "questionText": "মালামাল রাখার কাঠের বা প্লাস্টিকের ফ্রেমকে কী বলে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "প্যালেট"
+        },
+        {
+          "key": "B",
+          "text": "বক্স"
+        },
+        {
+          "key": "C",
+          "text": "র‍্যাক"
+        },
+        {
+          "key": "D",
+          "text": "কন্টেইনার"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 5,
+      "questionText": "পণ্যের গায়ে থাকা বারকোড স্ক্যান করা হয় কেন?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ধুলো পরিষ্কার করতে"
+        },
+        {
+          "key": "B",
+          "text": "তথ্য সংগ্রহ ও ট্র্যাকিং করতে"
+        },
+        {
+          "key": "C",
+          "text": "পণ্যের রং পরিবর্তন করতে"
+        },
+        {
+          "key": "D",
+          "text": "ওজন মাপতে"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 6,
+      "questionText": "গুদামে মালামাল গণনার প্রক্রিয়াকে কী বলা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "স্টক টেকিং"
+        },
+        {
+          "key": "B",
+          "text": "শিপিং"
+        },
+        {
+          "key": "C",
+          "text": "লোডিং"
+        },
+        {
+          "key": "D",
+          "text": "প্যাকিং"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 7,
+      "questionText": "একজন দক্ষ কর্মীর মধ্যে কোন গুণটি থাকা সবচেয়ে বেশি জরুরি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ফাঁকি দেওয়ার প্রবণতা"
+        },
+        {
+          "key": "B",
+          "text": "কাজের প্রতি মনোযোগ, নিখুঁত নজর এবং নিরাপত্তার নিয়ম মেনে চলা"
+        },
+        {
+          "key": "C",
+          "text": "অনেক জোরে চিৎকার করা"
+        },
+        {
+          "key": "D",
+          "text": "তাড়াহুড়ো করে ভুল কাজ করা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 8,
+      "questionText": "বিষাক্ত রাসায়নিক দ্রব্য রাখার জন্য কেমন জায়গা প্রয়োজন?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সাধারণ তাক"
+        },
+        {
+          "key": "B",
+          "text": "খোলামেলা জায়গা"
+        },
+        {
+          "key": "C",
+          "text": "নির্দিষ্ট ও সুরক্ষিত এলাকা"
+        },
+        {
+          "key": "D",
+          "text": "অন্ধকার ঘর"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 9,
+      "questionText": "ভঙ্গুর (Fragile) পণ্যের বাক্সে কোন চিহ্ন থাকে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ছাতা"
+        },
+        {
+          "key": "B",
+          "text": "আগুনের শিখা"
+        },
+        {
+          "key": "C",
+          "text": "মাথার খুলি"
+        },
+        {
+          "key": "D",
+          "text": "কাঁচের গ্লাস"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 10,
+      "questionText": "প্যাকিং স্লিপ বা প্যাকিং লিস্টের কাজ কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "পণ্যের দাম জানানো"
+        },
+        {
+          "key": "B",
+          "text": "চালানে কী কী পণ্য আছে তা নিশ্চিত করা"
+        },
+        {
+          "key": "C",
+          "text": "কোম্পানির প্রচার করা"
+        },
+        {
+          "key": "D",
+          "text": "ট্যাক্স হিসাব করা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 11,
+      "questionText": "কাজ শেষ করার পর ব্যবহৃত যন্ত্রপাতি কোথায় রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "যেখানে ইচ্ছা"
+        },
+        {
+          "key": "B",
+          "text": "দরজার সামনে"
+        },
+        {
+          "key": "C",
+          "text": "নির্দিষ্ট স্থানে"
+        },
+        {
+          "key": "D",
+          "text": "অন্য কারো টেবিলে"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 12,
+      "questionText": "কোনো পণ্য ক্ষতিগ্রস্ত (Damaged) অবস্থায় পেলে কী করবেন?",
+      "options": [
+        {
+          "key": "A",
+          "text": "রিপোর্ট করবেন ও আলাদা রাখবেন"
+        },
+        {
+          "key": "B",
+          "text": "লুকিয়ে রাখবেন"
+        },
+        {
+          "key": "C",
+          "text": "গ্রাহককে পাঠিয়ে দেবেন"
+        },
+        {
+          "key": "D",
+          "text": "ডাস্টবিনে ফেলে দেবেন"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 13,
+      "questionText": "মেঝেতে তেল বা পানি পড়ে থাকলে কী করবেন?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ওপর দিয়ে হেঁটে যাবেন"
+        },
+        {
+          "key": "B",
+          "text": "সাথে সাথে পরিষ্কার করবেন বা সতর্ক চিহ্ন দেবেন"
+        },
+        {
+          "key": "C",
+          "text": "পরের শিফটের জন্য রেখে দেবেন"
+        },
+        {
+          "key": "D",
+          "text": "কিছু করার নেই"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 14,
+      "questionText": "উচ্চতায় কাজ করার সময় কোনটি ব্যবহার করা নিরাপদ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "নড়বড়ে টুল"
+        },
+        {
+          "key": "B",
+          "text": "টেবিল"
+        },
+        {
+          "key": "C",
+          "text": "মালামালের বক্স"
+        },
+        {
+          "key": "D",
+          "text": "সেফটি হারনেস ও মজবুত মই"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-01",
+      "categoryName": "Warehouse Worker",
+      "order": 15,
+      "questionText": "কোল্ড স্টোরেজ (Cold Storage) সাধারণত কী রাখার জন্য ব্যবহৃত হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "পচনশীল পণ্য (যেমন: মাছ, মাংস)"
+        },
+        {
+          "key": "B",
+          "text": "কাপড়"
+        },
+        {
+          "key": "C",
+          "text": "কাপড়"
+        },
+        {
+          "key": "D",
+          "text": "আসবাবপত্র"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 1,
+      "questionText": "পণ্য বোঝাই করার সময় ট্রাকে কোন ধরনের মালামাল নিচে রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সবচেয়ে ভারী ও শক্ত মালামাল"
+        },
+        {
+          "key": "B",
+          "text": "হালকা ও ভঙ্গুর মালামাল"
+        },
+        {
+          "key": "C",
+          "text": "তরল পদার্থের বোতল"
+        },
+        {
+          "key": "D",
+          "text": "প্লাস্টিকের খালি ড্রাম"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 2,
+      "questionText": "Safety helmet কোন দুর্ঘটনা থেকে রক্ষা করে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "আগুন"
+        },
+        {
+          "key": "B",
+          "text": "কেমিক্যাল"
+        },
+        {
+          "key": "C",
+          "text": "মাথায় আঘাত"
+        },
+        {
+          "key": "D",
+          "text": "শব্দ"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 3,
+      "questionText": "লোড নামানোর সময় কে নির্দেশ দেয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "হেলপার"
+        },
+        {
+          "key": "B",
+          "text": "সিগন্যালম্যান"
+        },
+        {
+          "key": "C",
+          "text": "ড্রাইভার"
+        },
+        {
+          "key": "D",
+          "text": "সুপারভাইজার"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 4,
+      "questionText": "ভারী জিনিস তুলতে হলে কীভাবে তুলতে হবে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কোমর বাঁকিয়ে"
+        },
+        {
+          "key": "B",
+          "text": "এক হাতে"
+        },
+        {
+          "key": "C",
+          "text": "পিঠে ঝুলিয়ে"
+        },
+        {
+          "key": "D",
+          "text": "হাঁটু বাঁকিয়ে সোজা পিঠে"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 5,
+      "questionText": "ট্রাকে লোড দেওয়ার সময় প্রথমে কী করতে হবে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "গান চালানো"
+        },
+        {
+          "key": "B",
+          "text": "ছবি তোলা"
+        },
+        {
+          "key": "C",
+          "text": "ব্রেক  বা জ্যাম লাগানো"
+        },
+        {
+          "key": "D",
+          "text": "মোবাইল ব্যবহার"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 6,
+      "questionText": "গুদামে লোড রাখার সময় কোথায় রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "দরজার সামনে"
+        },
+        {
+          "key": "B",
+          "text": "নির্ধারিত জায়গায়"
+        },
+        {
+          "key": "C",
+          "text": "যেখানেই খালি আছে"
+        },
+        {
+          "key": "D",
+          "text": "সিঁড়ির পাশে"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 7,
+      "questionText": "PPE ব্যবহারের মুল উদ্দেশ্য কি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সুন্দর দেখানো"
+        },
+        {
+          "key": "B",
+          "text": "কর্মীর নিরাপত্তা"
+        },
+        {
+          "key": "C",
+          "text": "কোম্পানির প্রচার"
+        },
+        {
+          "key": "D",
+          "text": "সময় বাঁচানো"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 8,
+      "questionText": "অসমান মাটিতে লোড নামানো কেন বিপজ্জনক?",
+      "options": [
+        {
+          "key": "A",
+          "text": "লোড পড়ে যেতে পারে"
+        },
+        {
+          "key": "B",
+          "text": "সময় বেশি লাগে"
+        },
+        {
+          "key": "C",
+          "text": "সুন্দর লাগে না"
+        },
+        {
+          "key": "D",
+          "text": "Supervisor রাগ করবে"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 9,
+      "questionText": "সবুজ রঙের সাইন কী বোঝায়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Exit/First aid"
+        },
+        {
+          "key": "B",
+          "text": "Danger"
+        },
+        {
+          "key": "C",
+          "text": "Fire"
+        },
+        {
+          "key": "D",
+          "text": "Stop"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 10,
+      "questionText": "Pallet truck কী কাজে ব্যবহৃত হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "বালি পরিবহনে"
+        },
+        {
+          "key": "B",
+          "text": "কেমিক্যাল ঢালায়"
+        },
+        {
+          "key": "C",
+          "text": "প্যালেট বহনে"
+        },
+        {
+          "key": "D",
+          "text": "কাগজ বহনে"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 11,
+      "questionText": "লোডিং শুরু করার আগে কী চেক করতে হবে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "লোডের ওজন"
+        },
+        {
+          "key": "B",
+          "text": "লোডের রং"
+        },
+        {
+          "key": "C",
+          "text": "Supervisor-এর মুড"
+        },
+        {
+          "key": "D",
+          "text": "সময়"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 12,
+      "questionText": "কাজ করার সময় কোনো আঘাত পেলে প্রথমে কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কাজ চালিয়ে যাওয়া"
+        },
+        {
+          "key": "B",
+          "text": "প্রাথমিক চিকিৎসা নেওয়া"
+        },
+        {
+          "key": "C",
+          "text": "বাড়ি চলে যাওয়া"
+        },
+        {
+          "key": "D",
+          "text": "কান্নাকাটি করা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 13,
+      "questionText": "একজন আদর্শ কর্মীর প্রধান গুণ কোনটি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "বেশি কথা বলা"
+        },
+        {
+          "key": "B",
+          "text": "সময়ানুবর্তিতা ও সততা"
+        },
+        {
+          "key": "C",
+          "text": "দেরি করে আসা"
+        },
+        {
+          "key": "D",
+          "text": "অলসতা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 14,
+      "questionText": "লোড রাখার সময় কী নিশ্চিত করতে হবে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ভারসাম্য"
+        },
+        {
+          "key": "B",
+          "text": "আকার"
+        },
+        {
+          "key": "C",
+          "text": "রং"
+        },
+        {
+          "key": "D",
+          "text": "গন্ধ"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-02",
+      "categoryName": "Load And Unload Worker",
+      "order": 15,
+      "questionText": "লোড করার সময় মালামাল ভেঙে গেলে কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কর্তৃপক্ষকে জানানো"
+        },
+        {
+          "key": "B",
+          "text": "লুকিয়ে রাখা"
+        },
+        {
+          "key": "C",
+          "text": "ফেলে দেওয়া"
+        },
+        {
+          "key": "D",
+          "text": "অন্যের ওপর দোষ দেওয়া"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 1,
+      "questionText": "রান্নাঘরে কাজ করার সময় ব্যাক্টেরিয়ার সংক্রমণ এড়াতে প্রথমেই কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সাবান ও গরম পানি দিয়ে ভালোভাবে হাত ধুয়ে নেওয়া"
+        },
+        {
+          "key": "B",
+          "text": "অ্যাপ্রন পরা"
+        },
+        {
+          "key": "C",
+          "text": "ছুরি ধার দেওয়া"
+        },
+        {
+          "key": "D",
+          "text": "ছুরি ধার দেওয়া"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 2,
+      "questionText": "রান্নাঘরে কাজ করার সময় শেফ বা কিচেন ওয়ার্কারদের চুলে কী পরা বাধ্যতামূলক?",
+      "options": [
+        {
+          "key": "A",
+          "text": "হেলমেট"
+        },
+        {
+          "key": "B",
+          "text": "ক্যাপ বা হেয়ারনেট"
+        },
+        {
+          "key": "C",
+          "text": "রুমাল"
+        },
+        {
+          "key": "D",
+          "text": "স্কার্ফ"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 3,
+      "questionText": "রান্নাঘরের মেঝেতে তেল বা পানি পড়লে সাথে সাথে কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "শিফট শেষ হওয়া পর্যন্ত অপেক্ষা করা"
+        },
+        {
+          "key": "B",
+          "text": "ওপর দিয়ে সাবধানে হেঁটে যাওয়া"
+        },
+        {
+          "key": "C",
+          "text": "দ্রুত মুছে শুকনো করে ফেলা যেন কেউ পিছলে না পড়ে"
+        },
+        {
+          "key": "D",
+          "text": "সুপারভাইজারকে ডাকতে যাওয়া"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 4,
+      "questionText": "খাবারে বিষক্রিয়া বা ফুড পয়জনিং (Food Poisoning) এর প্রধান কারণ কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "খাবারে লবণ বেশি হওয়া"
+        },
+        {
+          "key": "B",
+          "text": "বাসি, পচা বা অনিরাপদ তাপমাত্রায় রাখা খাবার পরিবেশন"
+        },
+        {
+          "key": "C",
+          "text": "বেশি মসলা দেওয়া"
+        },
+        {
+          "key": "D",
+          "text": "কম আঁচে রান্না করা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 5,
+      "questionText": "কাঁচা মাংস স্পর্শ করার পর অন্য কোনো কাজ করার আগে কী করতে হবে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "হাত সাবান-পানি দিয়ে ২০ সেকেন্ড ধরে ধুয়ে নেওয়া"
+        },
+        {
+          "key": "B",
+          "text": "তোয়ালে দিয়ে হাত মোছা"
+        },
+        {
+          "key": "C",
+          "text": "গ্লাভস ফুঁ দিয়ে পরিষ্কার করা"
+        },
+        {
+          "key": "D",
+          "text": "সরাসরি রান্না শুরু করা"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 6,
+      "questionText": "সবজি বা মাংস কাটার সময় ছুরি ধরার সঠিক নিয়ম কোনটি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "হাত শিথিল করে ধরা"
+        },
+        {
+          "key": "B",
+          "text": "আঙুল সোজা করে রাখা"
+        },
+        {
+          "key": "C",
+          "text": "দুই হাত দিয়ে ছুরি ধরা"
+        },
+        {
+          "key": "D",
+          "text": "শক্ত গ্রিপ এবং অন্য হাতের আঙুলগুলো ভেতরের দিকে বাঁকা (Claw Grip) রাখা"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 7,
+      "questionText": "শেফ নাইফ (Chef's Knife) সাধারণত কোন কাজে ব্যবহৃত হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "আলুর খোসা ছাড়াতে"
+        },
+        {
+          "key": "B",
+          "text": "রুটি কাটতে"
+        },
+        {
+          "key": "C",
+          "text": "সবজি, মাংস কাটা ও কুচানোর প্রধান ছুরি হিসেবে"
+        },
+        {
+          "key": "D",
+          "text": "হাড় ভাঙতে"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 8,
+      "questionText": "আলু বা গাজরের খোসা দ্রুত ও পাতলা করে ছাড়ানোর জন্য কোন সরঞ্জামটি ব্যবহৃত হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কাঁচি"
+        },
+        {
+          "key": "B",
+          "text": "পিল্যার"
+        },
+        {
+          "key": "C",
+          "text": "গ্রেটার"
+        },
+        {
+          "key": "D",
+          "text": "বড় ছুরি"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 9,
+      "questionText": "কাটিং বোর্ড যেন টেবিল থেকে পিছলে না যায়, সেজন্য বোর্ডের নিচে কী দেওয়া উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "একটি ভেজা তোয়ালে বা ড্যাম্প পেপার টাওয়েল"
+        },
+        {
+          "key": "B",
+          "text": "প্লাস্টিক শিট"
+        },
+        {
+          "key": "C",
+          "text": "তেল"
+        },
+        {
+          "key": "D",
+          "text": "কিছুই না"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 10,
+      "questionText": "দ্ধ করার সময় পানির তাপমাত্রা সাধারণত কত থাকে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "50°C"
+        },
+        {
+          "key": "B",
+          "text": "80°C"
+        },
+        {
+          "key": "C",
+          "text": "100°C"
+        },
+        {
+          "key": "D",
+          "text": "120°C"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 11,
+      "questionText": "রেফ্রিজারেটর বা নরমাল ফ্রিজের ভেতরের সঠিক তাপমাত্রা কত থাকা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "-5°C"
+        },
+        {
+          "key": "B",
+          "text": "1°C থেকে 4°C এর মধ্যে ✔"
+        },
+        {
+          "key": "C",
+          "text": "10°C থেকে 15°C"
+        },
+        {
+          "key": "D",
+          "text": "25°C"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 12,
+      "questionText": "ময়দা, চিনি বা তরল উপাদানের সঠিক পরিমাণ মাপার জন্য বাণিজ্যিক কিচেনে কী ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "মেজারিং কাপ/চামচ এবং ডিজিটাল ওয়েইং স্কেল"
+        },
+        {
+          "key": "B",
+          "text": "আন্দাজ করে নেওয়া"
+        },
+        {
+          "key": "C",
+          "text": "সাধারণ বাটি"
+        },
+        {
+          "key": "D",
+          "text": "চায়ের কাপ"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 13,
+      "questionText": "রান্নাঘরের আবর্জনা বা ময়লার বালতি (Trash Can) সবসময় কেমন রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "খোলা"
+        },
+        {
+          "key": "B",
+          "text": "ঢাকনা দিয়ে বন্ধ এবং ফুট-প্যাডেল চালিত"
+        },
+        {
+          "key": "C",
+          "text": "টেবিলের ওপর"
+        },
+        {
+          "key": "D",
+          "text": "চুলার পাশে"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 14,
+      "questionText": "কাজ শেষে কিচেন বা ওয়ার্কস্টেশন পরিষ্কার করার প্রক্রিয়াকে কী বলা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ডিপ ক্লিনিং ও স্যানিটাইজিং"
+        },
+        {
+          "key": "B",
+          "text": "বুকিং"
+        },
+        {
+          "key": "C",
+          "text": "প্রিপারেশন"
+        },
+        {
+          "key": "D",
+          "text": "স্টোরিং"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-03",
+      "categoryName": "Kitchen Worker",
+      "order": 15,
+      "questionText": "একজন ভালো কিচেন ওয়ার্কারের সবচেয়ে বড় গুণ কোনটি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "খুব দ্রুত কাজ করা কিন্তু অপরিষ্কার থাকা"
+        },
+        {
+          "key": "B",
+          "text": "ধৈর্য, পরিচ্ছন্নতা, নিয়মানুবর্তিতা এবং দলের সবার সাথে মিলে কাজ করা"
+        },
+        {
+          "key": "C",
+          "text": "নিজের মতো রান্না করা"
+        },
+        {
+          "key": "D",
+          "text": "বসের সামনে বেশি কথা বলা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 1,
+      "questionText": "প্যাকেজিংয়ের প্রধান উদ্দেশ্য কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "পণ্যের ওজন বাড়ানো"
+        },
+        {
+          "key": "B",
+          "text": "পণ্যকে সুরক্ষিত রাখা এবং ক্রেতার কাছে অক্ষত অবস্থায় পৌঁছানো"
+        },
+        {
+          "key": "C",
+          "text": "পণ্যের রং পরিবর্তন করা"
+        },
+        {
+          "key": "D",
+          "text": "পণ্য লুকিয়ে রাখা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 2,
+      "questionText": "কোনো ভঙ্গুর পণ্য (যেমন: কাচ বা সিরামিক) প্যাক করার সময় বাক্সের ভেতরে কোনটি ব্যবহার করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কাগজ"
+        },
+        {
+          "key": "B",
+          "text": "প্লাস্টিক ব্যাগ"
+        },
+        {
+          "key": "C",
+          "text": "প্লাস্টিক ব্যাগ"
+        },
+        {
+          "key": "D",
+          "text": "বাবল র‍্যাপ (Bubble Wrap) বা ফোম"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 3,
+      "questionText": "প্যাকেট বা কার্টন সিল করার জন্য সাধারণত কোনটি সবচেয়ে বেশি ব্যবহৃত হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "প্যাকেজিং টেপ"
+        },
+        {
+          "key": "B",
+          "text": "আঠা বা গাম"
+        },
+        {
+          "key": "C",
+          "text": "সুতা"
+        },
+        {
+          "key": "D",
+          "text": "স্ট্যাপলার"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 4,
+      "questionText": "কোনো পণ্যের মোড়কে \"Expiry Date\" বা মেয়াদের তারিখ লেখা কেন জরুরি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "প্যাকেট সুন্দর দেখানোর জন্য"
+        },
+        {
+          "key": "B",
+          "text": "উৎপাদন খরচ কমানোর জন্য"
+        },
+        {
+          "key": "C",
+          "text": "ক্রেতা যেন জানতে পারেন পণ্যটি কতদিন ব্যবহার করা যাবে"
+        },
+        {
+          "key": "D",
+          "text": "সরকারের নিয়ম ফাঁকি দেওয়ার জন্য"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 5,
+      "questionText": "কার্টনে পণ্য ভরার পর তা প্যালেট (Pallet) এর ওপর রেখে শক্ত করে বাঁধার প্রক্রিয়াকে কী বলে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "স্ট্র্যাপিং বা শ্রাঙ্ক র‍্যাপিং"
+        },
+        {
+          "key": "B",
+          "text": "কাটিং"
+        },
+        {
+          "key": "C",
+          "text": "লেবেলিং"
+        },
+        {
+          "key": "D",
+          "text": "সোর্টিং"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 6,
+      "questionText": "একটি কার্টন বা বাক্সে ধারণক্ষমতার চেয়ে অতিরিক্ত পণ্য ভরলে কী হতে পারে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কার্টন মজবুত হয়"
+        },
+        {
+          "key": "B",
+          "text": "কার্টন ফেটে বা ভেঙে পণ্য নষ্ট হতে পারে"
+        },
+        {
+          "key": "C",
+          "text": "পরিবহনে সুবিধা হয়"
+        },
+        {
+          "key": "D",
+          "text": "ওজন কমে যায়"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 7,
+      "questionText": "ভারী কার্টনগুলো এক জায়গা থেকে অন্য জায়গায় নেওয়ার জন্য কোন বোর্ড বা প্ল্যাটফর্ম ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কাঠের বা প্লাস্টিকের প্যালেট"
+        },
+        {
+          "key": "B",
+          "text": "অপশন ২"
+        },
+        {
+          "key": "C",
+          "text": "কার্পেট"
+        },
+        {
+          "key": "D",
+          "text": "টেবিল"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 8,
+      "questionText": "খাদ্য বা ওষুধ প্যাকেজিংয়ের সময় মাথায় কেন ক্যাপ বা নেট (Hairnet) পরতে হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "চুল সুন্দর রাখার জন্য"
+        },
+        {
+          "key": "B",
+          "text": "গরম থেকে বাঁচার জন্য"
+        },
+        {
+          "key": "C",
+          "text": "পণ্যের মধ্যে যেন চুল পড়ে দূষিত না হয়"
+        },
+        {
+          "key": "D",
+          "text": "কোম্পানির নিয়মের কারণে শুধু"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 9,
+      "questionText": "ওষুধ বা কেমিক্যাল প্যাকেজিংয়ের সময় মাস্ক পরা কেন জরুরি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ঠান্ডা থেকে বাঁচতে"
+        },
+        {
+          "key": "B",
+          "text": "রাসায়নিক বা ওষুধের গুঁড়ো ফুসফুসে যাওয়া রোধ করতে"
+        },
+        {
+          "key": "C",
+          "text": "কথা বলা বন্ধ রাখতে"
+        },
+        {
+          "key": "D",
+          "text": "মুখ ঢেকে রাখতে"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 10,
+      "questionText": "প্যাকেজিং করার সময় কোনো পণ্যের সিল ভাঙা বা লিক পাওয়া গেলে কর্মীর কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "পণ্যটি আলাদা করে রিজেক্ট (Reject) বিনে রাখা এবং সুপারভাইজারকে জানানো"
+        },
+        {
+          "key": "B",
+          "text": "ওভাবেই প্যাক করে দেওয়া উচিত"
+        },
+        {
+          "key": "C",
+          "text": "টেপ দিয়ে আটকে দেওয়া উচিত"
+        },
+        {
+          "key": "D",
+          "text": "ব্যাগে লুকিয়ে ফেলা উচিত"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 11,
+      "questionText": "খাদ্য সামগ্রী প্যাক করার সময় প্যাকেটের ভেতর বাতাস বের করে নাইট্রোজেন গ্যাস দেওয়া হয় কেন?",
+      "options": [
+        {
+          "key": "A",
+          "text": "প্যাকেট বড় দেখানোর জন্য"
+        },
+        {
+          "key": "B",
+          "text": "খাবারকে তাজা রাখতে এবং নষ্ট হওয়া থেকে বাঁচাতে"
+        },
+        {
+          "key": "C",
+          "text": "ওজন বাড়ানোর জন্য"
+        },
+        {
+          "key": "D",
+          "text": "প্যাকেট শক্ত করার জন্য"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 12,
+      "questionText": "প্যাকেজিং শেষে প্রতিটি বক্সের ওজন কেন মেপে দেখা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "গাড়ির ক্ষমতা দেখার জন্য"
+        },
+        {
+          "key": "B",
+          "text": "ভেতরে কোনো পণ্য কম বা বেশি আছে কিনা তা নিশ্চিত হতে"
+        },
+        {
+          "key": "C",
+          "text": "এমনি নিয়ম তাই"
+        },
+        {
+          "key": "D",
+          "text": "কার্টনের দাম নির্ধারণ করতে"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 13,
+      "questionText": "প্যাকেজিং লাইনে কাজ শুরুর আগে কর্মীর প্রথম দায়িত্ব কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "গল্প করা"
+        },
+        {
+          "key": "B",
+          "text": "চা খাওয়া"
+        },
+        {
+          "key": "C",
+          "text": "বিশ্রাম নেওয়া"
+        },
+        {
+          "key": "D",
+          "text": "কাজের জায়গা পরিষ্কার করা এবং সঠিক মালামাল গুছিয়ে নেওয়া"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 14,
+      "questionText": ". হ্যান্ড টেপ ডিসপেনসার (Hand Tape Dispenser) কোন কাজে ব্যবহৃত হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সহজে এবং দ্রুত বক্সে টেপ লাগাতে"
+        },
+        {
+          "key": "B",
+          "text": "বক্সের ওজন মাপতে"
+        },
+        {
+          "key": "C",
+          "text": "গর্ত করতে"
+        },
+        {
+          "key": "D",
+          "text": "কাগজ কাটতে"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-04",
+      "categoryName": "Packaging Worker",
+      "order": 15,
+      "questionText": "প্যালেটসহ ভারী মালামাল কারখানার ভেতরে সহজে টেনে নেওয়ার জন্য হাতের চালিত কোন টুলটি ব্যবহৃত হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ক্রেন"
+        },
+        {
+          "key": "B",
+          "text": "স্ক্রু ড্রাইভার"
+        },
+        {
+          "key": "C",
+          "text": "হ্যান্ড প্যালেট জ্যাক বা ট্রলি"
+        },
+        {
+          "key": "D",
+          "text": "বেলচা"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 1,
+      "questionText": "অফিসের ডাস্টবিনগুলোর ময়লা কখন পরিষ্কার করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ডাস্টবিন পুরোপুরি উপচে পড়লে"
+        },
+        {
+          "key": "B",
+          "text": "শিফট শেষে নিয়মিত"
+        },
+        {
+          "key": "C",
+          "text": "দুই দিন পর পর"
+        },
+        {
+          "key": "D",
+          "text": "মাসে একবার"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 2,
+      "questionText": "অফিস পরিষ্কার করার সঠিক সময় বা নিয়ম কোনটি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "অফিস শুরু হওয়ার আগে"
+        },
+        {
+          "key": "B",
+          "text": "সবাই যখন কাজ করে তখন"
+        },
+        {
+          "key": "C",
+          "text": "শুধু দুপুরে লাঞ্চের সময়"
+        },
+        {
+          "key": "D",
+          "text": "সপ্তাহে যেকোনো একদিন"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 3,
+      "questionText": "ডেস্ক বা কম্পিউটার মনিটরের ধুলাবালি পরিষ্কার করার জন্য কোন ধরনের কাপড় ব্যবহার করা সবচেয়ে ভালো?",
+      "options": [
+        {
+          "key": "A",
+          "text": "খসখসে চটের কাপড়"
+        },
+        {
+          "key": "B",
+          "text": "ভেজা সুতির গামছা"
+        },
+        {
+          "key": "C",
+          "text": "নরম মাইক্রোফাইবার কাপড়"
+        },
+        {
+          "key": "D",
+          "text": "খবরের কাগজ"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 4,
+      "questionText": "কাচের জানালা বা দেয়াল পরিষ্কার করার জন্য কোন ধরনের লিকুইড ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "হারপিক"
+        },
+        {
+          "key": "B",
+          "text": "কেরোসিন"
+        },
+        {
+          "key": "C",
+          "text": "শুধু পানি"
+        },
+        {
+          "key": "D",
+          "text": "গ্লাস ক্লিনার"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 5,
+      "questionText": "কার্পেট পরিষ্কার করার জন্য নিচের কোন যন্ত্রটি ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ভ্যাকুয়াম ক্লিনার"
+        },
+        {
+          "key": "B",
+          "text": "ঝাড়ু"
+        },
+        {
+          "key": "C",
+          "text": "মপ"
+        },
+        {
+          "key": "D",
+          "text": "ব্রাশ"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 6,
+      "questionText": "অফিসের সোফা বা কুশন পরিষ্কার করার সেরা উপায় কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "পানি দিয়ে ধুয়ে ফেলা"
+        },
+        {
+          "key": "B",
+          "text": "ভ্যাকুয়াম ক্লিনার ধুলা ঝাড়া"
+        },
+        {
+          "key": "C",
+          "text": "রোদে দেওয়া"
+        },
+        {
+          "key": "D",
+          "text": "ব্লিচিং পাউডার দেওয়া"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 7,
+      "questionText": "মেঝের জীবাণু ধ্বংস করার জন্য ফ্লোর ক্লিনিং লিকুইডের সাথে কী মেশানো উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "জীবাণুনাশক"
+        },
+        {
+          "key": "B",
+          "text": "ডিটারজেন্ট পাউডার"
+        },
+        {
+          "key": "C",
+          "text": "শুধু সুগন্ধি"
+        },
+        {
+          "key": "D",
+          "text": "লবণ"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 8,
+      "questionText": "কেমিক্যাল ব্যবহারের সময় বোতলের গায়ে কী দেখে নেওয়া সবচেয়ে জরুরি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "বোতলের রং"
+        },
+        {
+          "key": "B",
+          "text": "কোম্পানির লোগো"
+        },
+        {
+          "key": "C",
+          "text": "বোতলের আকার"
+        },
+        {
+          "key": "D",
+          "text": "ব্যবহারের নিয়ম"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 9,
+      "questionText": "মেঝের কোনা বা টাইলসের জোড়ার ভেতরের ময়লা পরিষ্কার করতে কোন টুল ব্যবহার করা সুবিধাজনক?",
+      "options": [
+        {
+          "key": "A",
+          "text": "বড় মপ"
+        },
+        {
+          "key": "B",
+          "text": "নরম কাপড়"
+        },
+        {
+          "key": "C",
+          "text": "ছোট স্ক্রাবিং ব্রাশ"
+        },
+        {
+          "key": "D",
+          "text": "ভ্যাকুয়াম ক্লিনার"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 10,
+      "questionText": "ক্লিনিং কেমিক্যাল বা তরল পদার্থ সবসময় কোথায় সংরক্ষণ করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কিচেন বা রান্নাঘরে খাবারের পাশে"
+        },
+        {
+          "key": "B",
+          "text": "কেমিক্যাল স্টোরে"
+        },
+        {
+          "key": "C",
+          "text": "মেঝের যেকোনো কোণায়"
+        },
+        {
+          "key": "D",
+          "text": "ওয়াশরুমের বেসিনের ওপরে"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 11,
+      "questionText": "মাইক্রোফাইবার মপ ব্যবহারের পর কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ওভাবেই রেখে দেওয়া উচিত"
+        },
+        {
+          "key": "B",
+          "text": "রোদে পুড়িয়ে ফেলা উচিত"
+        },
+        {
+          "key": "C",
+          "text": "ডাস্টবিনে ফেলে দেওয়া উচিত"
+        },
+        {
+          "key": "D",
+          "text": "পরিষ্কার পানিতে ধুয়ে শুকিয়ে রাখা উচিত"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 12,
+      "questionText": "ওয়াশরুম বা অফিসের ভেতরে দুর্গন্ধ দূর করতে কোনটি ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "এয়ার ফ্রেশনার বা ন্যাপথলিন বল"
+        },
+        {
+          "key": "B",
+          "text": "ব্লিচিং পাউডার"
+        },
+        {
+          "key": "C",
+          "text": "পানি"
+        },
+        {
+          "key": "D",
+          "text": "ফ্যান"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 13,
+      "questionText": "অফিসের ডেস্কে কর্মকর্তাদের কম্পিউটারের তারগুলো এলোমেলো থাকলে কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "তার কেটে দেওয়া উচিত"
+        },
+        {
+          "key": "B",
+          "text": "অর্গানাইজার দিয়ে সুন্দর করে গুছিয়ে দেওয়া"
+        },
+        {
+          "key": "C",
+          "text": "যেভাবে আছে সেভাবেই রাখা"
+        },
+        {
+          "key": "D",
+          "text": "তারগুলো টেনে বের করা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 14,
+      "questionText": "কর্মকর্তাদের ডেস্কে থাকা জরুরি কাগজপত্র ক্লিনিং কর্মী কীভাবে হ্যান্ডেল করবেন?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ময়লা ভেবে ডাস্টবিনে ফেলে দেবেন"
+        },
+        {
+          "key": "B",
+          "text": "কোনো কাগজ না ফেলে বা না সরিয়ে ডেস্কে শুধু ধুলা পরিষ্কার করবেন"
+        },
+        {
+          "key": "C",
+          "text": "অন্য ডেস্কে চালান করে দেবেন"
+        },
+        {
+          "key": "D",
+          "text": "ড্রয়ারে তালা মেরে দেবেন"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-05",
+      "categoryName": "Offices facilities and cleaning worker",
+      "order": 15,
+      "questionText": "অফিসে কোনো ফার্নিচার বা চেয়ার ভাঙা দেখলে কর্মীর কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সুপারভাইজারকে জানানো"
+        },
+        {
+          "key": "B",
+          "text": "আঠা দিয়ে জোড়া দেওয়া"
+        },
+        {
+          "key": "C",
+          "text": "ইগনোর করা"
+        },
+        {
+          "key": "D",
+          "text": "লুকিয়ে রাখা"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 1,
+      "questionText": "বাগানের পরিচ্ছন্নতার প্রধান কাজ কোনটি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "নতুন গাছ লাগানো"
+        },
+        {
+          "key": "B",
+          "text": "ঝরা পাতা, শুকনো ডালপালা এবং ময়লা-আবর্জনা নিয়মিত পরিষ্কার করা"
+        },
+        {
+          "key": "C",
+          "text": "গাছে রঙ করা"
+        },
+        {
+          "key": "D",
+          "text": "মাটি খুঁড়ে রাখা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 2,
+      "questionText": "বাগানে কাজ করার সময় ধারালো কাঁটা বা পোকামাকড়ের কামড় থেকে হাত বাঁচাতে কী পরা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "রাবারের গার্ডেনিং গ্লাভস"
+        },
+        {
+          "key": "B",
+          "text": "সুতির পাতলা গ্লাভস"
+        },
+        {
+          "key": "C",
+          "text": "প্লাস্টিক গ্লাভস"
+        },
+        {
+          "key": "D",
+          "text": "গ্লাভস না পরলেও চলবে"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 3,
+      "questionText": "প্লাস্টিকের বোতল বা চিপসের প্যাকেট বাগানে পড়ে থাকলে তা উদ্ভিদের কী ক্ষতি করে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "গাছের পুষ্টি বাড়ায়"
+        },
+        {
+          "key": "B",
+          "text": "মাটির উর্বরতা বাড়ায়"
+        },
+        {
+          "key": "C",
+          "text": "পরিবেশ দূষিত করে"
+        },
+        {
+          "key": "D",
+          "text": "কোনো ক্ষতি করে না"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 4,
+      "questionText": "বাগানে কোনো বিষাক্ত বা কাঁটাযুক্ত আগাছা পরিষ্কার করার সময় কী সতর্কতা নেওয়া উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "শরীর ঢাকা পোশাক, গ্লাভস এবং বুট জুতো পরা"
+        },
+        {
+          "key": "B",
+          "text": "দ্রুত টেনে ছেঁড়া"
+        },
+        {
+          "key": "C",
+          "text": "কোনো সতর্কতার প্রয়োজন নেই"
+        },
+        {
+          "key": "D",
+          "text": "খালি পায়ে কাজ করা"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 5,
+      "questionText": "বাগানে 'আগাছা' (Weeds) বলতে কী বোঝায়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "দামি ফুলের গাছ"
+        },
+        {
+          "key": "B",
+          "text": "অনাকাঙ্ক্ষিত উদ্ভিদ যা আসল গাছের পুষ্টি ও আলো কেড়ে নেয়"
+        },
+        {
+          "key": "C",
+          "text": "শুকিয়ে যাওয়া ডাল"
+        },
+        {
+          "key": "D",
+          "text": "ঔষধি গাছ"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 6,
+      "questionText": "টবের গাছের গোড়ার মাটি শক্ত হয়ে গেলে মালীকে কী করতে হবে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "প্রচুর পানি দিতে হবে"
+        },
+        {
+          "key": "B",
+          "text": "মাটি ফেলে দিতে হবে"
+        },
+        {
+          "key": "C",
+          "text": "মাটি আলগা করে দিতে হবে"
+        },
+        {
+          "key": "D",
+          "text": "সার দিতে হবে"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 7,
+      "questionText": "গাছের মরা বা রোগাক্রান্ত অংশ কেটে ফেলার প্রক্রিয়াকে কী বলা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "প্রুনিং বা ছাঁটাই"
+        },
+        {
+          "key": "B",
+          "text": "লেবেলিং"
+        },
+        {
+          "key": "C",
+          "text": "প্লাস্টারিং"
+        },
+        {
+          "key": "D",
+          "text": "হারভেস্টিং"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 8,
+      "questionText": "গাছের গোড়ায় মালচিং বা শুকনো পাতার স্তর দেওয়া হয় কেন?",
+      "options": [
+        {
+          "key": "A",
+          "text": "গাছকে লুকিয়ে রাখতে"
+        },
+        {
+          "key": "B",
+          "text": "মাটির আর্দ্রতা ধরে রাখতে"
+        },
+        {
+          "key": "C",
+          "text": "মাটির ওজন বাড়াতে"
+        },
+        {
+          "key": "D",
+          "text": "পিঁপড়া তাড়াতে"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 9,
+      "questionText": "গাছের পাতা হলুদ হয়ে যাওয়ার একটি প্রধান কারণ কী হতে পারে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "বেশি যত্ন নেওয়া"
+        },
+        {
+          "key": "B",
+          "text": "পাতা পরিষ্কার করা"
+        },
+        {
+          "key": "C",
+          "text": "অতিরিক্ত পানি দেওয়া অথবা নাইট্রোজেনের অভাব"
+        },
+        {
+          "key": "D",
+          "text": "রাতে আলো না পাওয়া"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 10,
+      "questionText": "গাছের ছোট ডালপালা বা ফুল কাটার জন্য কোন বিশেষ কাঁচি ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "দর্জিদের কাঁচি"
+        },
+        {
+          "key": "B",
+          "text": "সাধারণ ছুরি"
+        },
+        {
+          "key": "C",
+          "text": "ব্লেড"
+        },
+        {
+          "key": "D",
+          "text": "প্রুনিং শিয়ার বা গার্ডেন ক্লিপার"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 11,
+      "questionText": "লনের ঘাস সমানভাবে কাটার জন্য কোন মেশিন ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "লন মোয়ার"
+        },
+        {
+          "key": "B",
+          "text": "ড্রিল মেশিন"
+        },
+        {
+          "key": "C",
+          "text": "চেইন স"
+        },
+        {
+          "key": "D",
+          "text": "ট্রাক্টর"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 12,
+      "questionText": "স্প্রে বোতল (Spray Bottle) সাধারণত কোন কাজে ব্যবহৃত হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "গোসল করতে"
+        },
+        {
+          "key": "B",
+          "text": "পানি জমা করতে"
+        },
+        {
+          "key": "C",
+          "text": "মাটি খুঁড়তে"
+        },
+        {
+          "key": "D",
+          "text": "তরল সার"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 13,
+      "questionText": "কাজ শেষ হওয়ার পর গার্ডেনিং টুলসগুলো কীভাবে রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "মাঠের ওপর ফেলে রাখা উচিত"
+        },
+        {
+          "key": "B",
+          "text": "মাটি পরিষ্কার করে, শুকিয়ে নির্দিষ্ট টুল শেড বা বাক্সে রাখা উচিত"
+        },
+        {
+          "key": "C",
+          "text": "পানিতে ডুবিয়ে রাখা উচিত"
+        },
+        {
+          "key": "D",
+          "text": "গাছে ঝুলিয়ে রাখা উচিত"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 14,
+      "questionText": "টবের নিচে ছিদ্র বা গর্ত কেন থাকে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ডিজাইন সুন্দর করার জন্য"
+        },
+        {
+          "key": "B",
+          "text": "বাতাস ঢোকার জন্য"
+        },
+        {
+          "key": "C",
+          "text": "অতিরিক্ত পানি সহজে বের হয়ে যাওয়ার জন্য যেন শিকড় না পচে"
+        },
+        {
+          "key": "D",
+          "text": "মাটি ফেলার জন্য"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-06",
+      "categoryName": "Garden cleaner",
+      "order": 15,
+      "questionText": "রাসায়নিক কীটনাশক (Pesticide) স্প্রে করার সময় মালীকে অবশ্যই কী পরতে হবে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ফেস মাস্ক, গ্লাভস এবং সুরক্ষামূলক চশমা"
+        },
+        {
+          "key": "B",
+          "text": "সাধারণ পোশাক"
+        },
+        {
+          "key": "C",
+          "text": "কোনো কিছুর প্রয়োজন নেই"
+        },
+        {
+          "key": "D",
+          "text": "শুধু সানগ্লাস"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 1,
+      "questionText": "যানবাহন নিয়ে যাত্রা শুরু করার আগে ড্রাইভারের প্রথম কাজ কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "গাড়ির এসি চালু করা"
+        },
+        {
+          "key": "B",
+          "text": "গাড়ির চারপাশ, টায়ার এবং তেল-জল পর্যবেক্ষণ করা"
+        },
+        {
+          "key": "C",
+          "text": "জোরে গান বাজানো"
+        },
+        {
+          "key": "D",
+          "text": "দ্রুত গতিতে ইঞ্জিন চালু করা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 2,
+      "questionText": "ইঞ্জিন ওয়েল (Engine Oil) পরিমাপের জন্য কোন যন্ত্রটি ব্যবহৃত হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ডিপস্টিক"
+        },
+        {
+          "key": "B",
+          "text": "স্পিডোমিটার"
+        },
+        {
+          "key": "C",
+          "text": "রেডিয়েটর ক্যাপ"
+        },
+        {
+          "key": "D",
+          "text": "অডোমিটার"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 3,
+      "questionText": "রেডিয়েটরে কুল্যান্ট বা পানি ঢালার উপযুক্ত সময় কোনটি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "গাড়ি অনেক দূর চলবার পর"
+        },
+        {
+          "key": "B",
+          "text": "ইঞ্জিন চালু থাকা অবস্থায়"
+        },
+        {
+          "key": "C",
+          "text": "ইঞ্জিন সম্পূর্ণ ঠান্ডা থাকা অবস্থায়"
+        },
+        {
+          "key": "D",
+          "text": "গাড়ি দ্রুত গতিতে চলার সময়"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 4,
+      "questionText": "রাস্তায় লাল ট্রাফিক লাইট জ্বললে একজন ড্রাইভারের কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "স্টপ লাইনের পেছনে গাড়ি সম্পূর্ণ থামানো"
+        },
+        {
+          "key": "B",
+          "text": "গতি বাড়িয়ে দ্রুত পার হওয়া"
+        },
+        {
+          "key": "C",
+          "text": "হর্ন বাজিয়ে সামনে যাওয়া"
+        },
+        {
+          "key": "D",
+          "text": "সাইড দিয়ে পার হওয়া"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 5,
+      "questionText": "হলুদ রঙের ট্রাফিক সংকেত কী নির্দেশ করে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "গাড়ি দ্রুত চালান"
+        },
+        {
+          "key": "B",
+          "text": "গাড়ি থামানোর প্রস্তুতি নিন বা সাবধানে এগিয়ে যান"
+        },
+        {
+          "key": "C",
+          "text": "পার্কিং করুন"
+        },
+        {
+          "key": "D",
+          "text": "ইউ-টার্ন নিন"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 6,
+      "questionText": "ওভারটেকিং করার জন্য সঠিক নিয়ম কোনটি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "বাম পাশ দিয়ে দ্রুত পার হওয়া"
+        },
+        {
+          "key": "B",
+          "text": "হর্ন না দিয়ে হুট করে যাওয়া"
+        },
+        {
+          "key": "C",
+          "text": "ইন্ডিকেটর ব্যবহার করে"
+        },
+        {
+          "key": "D",
+          "text": "বাকের (Curve) মুখে ওভারটেক করা"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 7,
+      "questionText": "গাড়ির ফুয়েল গেজ 'E' চিহ্নের কাছাকাছি আসলে কী বুঝায়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ফুয়েল ফুল আছে"
+        },
+        {
+          "key": "B",
+          "text": "ইঞ্জিনের তাপমাত্রা বেশি"
+        },
+        {
+          "key": "C",
+          "text": "ইকনোমি মোড চালু"
+        },
+        {
+          "key": "D",
+          "text": "জ্বালানি প্রায় শেষ"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 8,
+      "questionText": "পাহাড়ি বা ঢালু রাস্তায় গাড়ি নামার সময় কোন গিয়ারে রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "নিউট্রাল"
+        },
+        {
+          "key": "B",
+          "text": "লো গিয়ার (১ম বা ২য় গিয়ার)"
+        },
+        {
+          "key": "C",
+          "text": "ইঞ্জিন বন্ধ রেখে নামা"
+        },
+        {
+          "key": "D",
+          "text": "সর্বোচ্চ গিয়ার (৪র্থ বা ৫ম গিয়ার)"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 9,
+      "questionText": "ত্রিভুজ আকৃতির (Triangle Sign) ট্রাফিক সংকেত দ্বারা কী বোঝানো হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "পার্কিং স্থান"
+        },
+        {
+          "key": "B",
+          "text": "সতর্কতামূলক সংকেত"
+        },
+        {
+          "key": "C",
+          "text": "প্রবেশ নিষেধ"
+        },
+        {
+          "key": "D",
+          "text": "গতির সীমা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 10,
+      "questionText": "কোন কোন স্থানে হর্ন বাজানো সম্পূর্ণ নিষিদ্ধ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "হাসপাতাল"
+        },
+        {
+          "key": "B",
+          "text": "হাইওয়ে ও ফ্লাইওভারে"
+        },
+        {
+          "key": "C",
+          "text": "চৌরাস্তায়"
+        },
+        {
+          "key": "D",
+          "text": "গ্যাস স্টেশনে"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 11,
+      "questionText": "লুকিং গ্লাস বা সাইড মিরর কখন সামঞ্জস্য (Adjust) করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "হাইওয়েতে চলার সময়"
+        },
+        {
+          "key": "B",
+          "text": "গাড়ি চালু করে যাত্রা শুরুর আগে"
+        },
+        {
+          "key": "C",
+          "text": "ব্রেক করার সময়"
+        },
+        {
+          "key": "D",
+          "text": "ব্যাক গিয়ার নেওয়ার সময়"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 12,
+      "questionText": "গিয়ার লিভারে 'N' এর অর্থ কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "নাইট মোড"
+        },
+        {
+          "key": "B",
+          "text": "নিউট্রাল"
+        },
+        {
+          "key": "C",
+          "text": "নেক্সট গিয়ার"
+        },
+        {
+          "key": "D",
+          "text": "পার্কিং মুড"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 13,
+      "questionText": "ত্রিভুজ আকৃতির ট্রাফিক চিহ্নের অর্থ কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সতর্কতামূলক"
+        },
+        {
+          "key": "B",
+          "text": "তথ্যমূলক"
+        },
+        {
+          "key": "C",
+          "text": "আদেশমূলক"
+        },
+        {
+          "key": "D",
+          "text": "কোনোটিই নয়"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 14,
+      "questionText": "একটি আদর্শ ড্রাইভিং সিট অ্যাডজাস্টমেন্ট কেমন হওয়া উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "স্টিয়ারিং থেকে অনেক দূরে"
+        },
+        {
+          "key": "B",
+          "text": "স্টিয়ারিং, পেডেল এবং ভিউ মিরর আরামে ও নিয়ন্ত্রণযোগ্য দূরত্বে থাকা"
+        },
+        {
+          "key": "C",
+          "text": "স্টিয়ারিংয়ের একদম সাথে লেগে থাকা"
+        },
+        {
+          "key": "D",
+          "text": "পুরো শুয়ে থাকার মতো"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-07",
+      "categoryName": "Driver",
+      "order": 15,
+      "questionText": "হাইড্রোলিক ব্রেকের মাস্টার সিলিন্ডারে কী থাকে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "মবিল"
+        },
+        {
+          "key": "B",
+          "text": "পানি"
+        },
+        {
+          "key": "C",
+          "text": "ব্রেক ফ্লুইড"
+        },
+        {
+          "key": "D",
+          "text": "গিয়ার অয়েল"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 1,
+      "questionText": "কংক্রিট তৈরির প্রধান উপাদানগুলো কী কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "শুধু বালু ও পানি"
+        },
+        {
+          "key": "B",
+          "text": "সিমেন্ট ও ইট"
+        },
+        {
+          "key": "C",
+          "text": "সিমেন্ট, বালু, খোয়া/পাথর এবং পানি"
+        },
+        {
+          "key": "D",
+          "text": "চুন ও সুরকি"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 2,
+      "questionText": "সিমেন্ট সবসময় কেমন জায়গায় সংরক্ষণ বা গুদামজাত করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "খোলা আকাশে নিচে"
+        },
+        {
+          "key": "B",
+          "text": "শুকনো এবং আর্দ্রতামুক্ত জায়গায়"
+        },
+        {
+          "key": "C",
+          "text": "পানির ট্যাংকের পাশে"
+        },
+        {
+          "key": "D",
+          "text": "ভেজা মাটিতে"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 3,
+      "questionText": "নির্মাণ সাইটে মাথায় আঘাত থেকে বাঁচার জন্য কোন সরঞ্জামটি বাধ্যতামূলক?",
+      "options": [
+        {
+          "key": "A",
+          "text": "মাস্ক"
+        },
+        {
+          "key": "B",
+          "text": "হেলমেট"
+        },
+        {
+          "key": "C",
+          "text": "চশমা"
+        },
+        {
+          "key": "D",
+          "text": "গ্লাভস"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 4,
+      "questionText": "ঢালাইয়ের কাজে কংক্রিটে অতিরিক্ত পানি দিলে কী ক্ষতি হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কংক্রিটের শক্তি কমে যায়"
+        },
+        {
+          "key": "B",
+          "text": "কংক্রিট মসৃণ হয়"
+        },
+        {
+          "key": "C",
+          "text": "দ্রুত শুকিয়ে যায়"
+        },
+        {
+          "key": "D",
+          "text": "কোনো ক্ষতি হয় না"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 5,
+      "questionText": "কোনো দেয়াল বা মেঝে সমান্তরাল (Level) আছে কিনা তা দেখার জন্য কী ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "স্পিরিট লেভেল"
+        },
+        {
+          "key": "B",
+          "text": "সুতা"
+        },
+        {
+          "key": "C",
+          "text": "ফিতা"
+        },
+        {
+          "key": "D",
+          "text": "লাঠি"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 6,
+      "questionText": "ভারী লোহার বিম বা মালামাল ওপরে তোলার জন্য কোন বড় যন্ত্রটি ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ট্রাক"
+        },
+        {
+          "key": "B",
+          "text": "বুলডোজার"
+        },
+        {
+          "key": "C",
+          "text": "রোলার"
+        },
+        {
+          "key": "D",
+          "text": "ক্রেন (Crane)"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 7,
+      "questionText": "আগুন লাগলে তা নেভানোর জন্য নিচের কোনটি দ্রুত ব্যবহার করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "বালতি"
+        },
+        {
+          "key": "B",
+          "text": "ফায়ার এক্সটিঙ্গুইশার"
+        },
+        {
+          "key": "C",
+          "text": "কাপড়"
+        },
+        {
+          "key": "D",
+          "text": "বালু"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 8,
+      "questionText": "সাইটে চোখের সুরক্ষার জন্য কোনটি ব্যবহার করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সেফটি গগলস"
+        },
+        {
+          "key": "B",
+          "text": "ফেস শিল্ড"
+        },
+        {
+          "key": "C",
+          "text": "সানগ্লাস"
+        },
+        {
+          "key": "D",
+          "text": "কোনোটিই নয়"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 9,
+      "questionText": "রড বাঁধানোর জন্য কোন জিনিসটি ব্যবহার করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "জিআই তার বা বাইন্ডিং ওয়্যার"
+        },
+        {
+          "key": "B",
+          "text": "সুতা"
+        },
+        {
+          "key": "C",
+          "text": "দড়ি"
+        },
+        {
+          "key": "D",
+          "text": "কস্টেপ"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 10,
+      "questionText": "গাথুনির কাজের জন্য সিমেন্ট ও বালুর সাধারণ অনুপাত (Ratio) কত হওয়া উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1:1"
+        },
+        {
+          "key": "B",
+          "text": "1:4"
+        },
+        {
+          "key": "C",
+          "text": "1:10"
+        },
+        {
+          "key": "D",
+          "text": "1:20"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 11,
+      "questionText": "বহুতল ভবনের বাইরে কাজ করার জন্য যে অস্থায়ী কাঠের বা লোহার কাঠামো তৈরি করা হয় তাকে কী বলে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সিঁড়ি"
+        },
+        {
+          "key": "B",
+          "text": "ছাদ"
+        },
+        {
+          "key": "C",
+          "text": "স্কাফোল্ডিং বা মাচা"
+        },
+        {
+          "key": "D",
+          "text": "পিলিং"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 12,
+      "questionText": "সাধারণত কংক্রিট জমার পর শক্ত হওয়ার জন্য কতদিন পানি দিয়ে ভিজিয়ে রাখতে হয় (Curing)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1-2 দিন"
+        },
+        {
+          "key": "B",
+          "text": "3-5 দিন"
+        },
+        {
+          "key": "C",
+          "text": "7-14 দিন"
+        },
+        {
+          "key": "D",
+          "text": "প্রয়োজন নাই"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 13,
+      "questionText": "মাটির নিচে ভবনের যে অংশটি তৈরি করা হয় এবং যার ওপর পুরো ভবনের ভার থাকে তাকে কী বলে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ছাদ"
+        },
+        {
+          "key": "B",
+          "text": "ফাউন্ডেশন বা ভিত্তি"
+        },
+        {
+          "key": "C",
+          "text": "কলাম"
+        },
+        {
+          "key": "D",
+          "text": "দেয়াল"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 14,
+      "questionText": "সাইটে কোনো দুর্ঘটনা ঘটলে প্রথমেই কার সাথে যোগাযোগ করতে হবে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সেফটি অফিসার বা সুপারভাইজার"
+        },
+        {
+          "key": "B",
+          "text": "সহকর্মী"
+        },
+        {
+          "key": "C",
+          "text": "বাড়ির মালিক"
+        },
+        {
+          "key": "D",
+          "text": "পুলিশ"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-08",
+      "categoryName": "Construction Worker",
+      "order": 15,
+      "questionText": "সাইটে বৈদ্যুতিক কাজের সময় কোন ধরনের গ্লাভস ব্যবহার করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কাপড়ের গ্লাভস"
+        },
+        {
+          "key": "B",
+          "text": "চামড়ার গ্লাভস"
+        },
+        {
+          "key": "C",
+          "text": "ইনসুলেটেড রাবার গ্লাভস"
+        },
+        {
+          "key": "D",
+          "text": "প্লাস্টিক গ্লাভস"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 1,
+      "questionText": "একজন কাস্টমার কাউন্টারে আসলে সার্ভিস কর্মীর প্রথম কাজ কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "বিল কত হয়েছে তা জিজ্ঞেস করা"
+        },
+        {
+          "key": "B",
+          "text": "মুখে হাসি নিয়ে ভদ্রভাবে স্বাগত জানানো"
+        },
+        {
+          "key": "C",
+          "text": "অর্ডারের কাগজ এগিয়ে দেওয়া"
+        },
+        {
+          "key": "D",
+          "text": "নিজের কাজ করতে থাকা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 2,
+      "questionText": "কাস্টমারকে খাবার বা পানীয় পরিবেশনের সময় কোন হাত ব্যবহার করা বা কোন দিক থেকে দেওয়া উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ডান হাত দিয়ে কাস্টমারের ডান পাশ থেকে আলতো করে টেবিলে রাখা"
+        },
+        {
+          "key": "B",
+          "text": "বাম হাত দিয়ে সামনে বাড়িয়ে দেওয়া"
+        },
+        {
+          "key": "C",
+          "text": "যেকোনোভাবে দিলেই হয়"
+        },
+        {
+          "key": "D",
+          "text": "দূর থেকে ছুড়ে দেওয়া"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 3,
+      "questionText": "কাউন্টার সার্ভিস এরিয়া সবসময় কেমন রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "মেন্যু কার্ডে ছড়ানো"
+        },
+        {
+          "key": "B",
+          "text": "পানির বোতল দিয়ে ভরা"
+        },
+        {
+          "key": "C",
+          "text": "একদম পরিষ্কার, পরিপাটি, শুকনো এবং জীবাণুমুক্ত"
+        },
+        {
+          "key": "D",
+          "text": "যেকোনো অবস্থায় রাখা যায়"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 4,
+      "questionText": "কাউন্টারে খাবার স্পর্শ করার আগে বা গ্লাভস পরার আগে কর্মীর প্রধান দায়িত্ব কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "হ্যান্ড স্যানিটাইজার লাগানো"
+        },
+        {
+          "key": "B",
+          "text": "সাবান ও গরম পানি দিয়ে অন্তত ২০ সেকেন্ড হাত ধুয়ে নেওয়া"
+        },
+        {
+          "key": "C",
+          "text": "তোয়ালে দিয়ে হাত মোছা"
+        },
+        {
+          "key": "D",
+          "text": "টিস্যু দিয়ে হাত পরিষ্কার করা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 5,
+      "questionText": "বেভারেজ বা জুস তৈরির সময় বরফ (Ice) তোলার জন্য কোনটি ব্যবহার করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "নির্দিষ্ট বরফ তোলার চামচ বা চিমটা"
+        },
+        {
+          "key": "B",
+          "text": "খালি হাত"
+        },
+        {
+          "key": "C",
+          "text": "কাচের গ্লাস"
+        },
+        {
+          "key": "D",
+          "text": "প্লাস্টিকের কাপ"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 6,
+      "questionText": "খাবারে চুল পড়া রোধ করতে কাউন্টার কর্মীর মাথায় কী থাকা বাধ্যতামূলক?",
+      "options": [
+        {
+          "key": "A",
+          "text": "স্কার্ফ"
+        },
+        {
+          "key": "B",
+          "text": "ব্যান্ডানা"
+        },
+        {
+          "key": "C",
+          "text": "হেয়ারনেট, ক্যাপ বা শেফ হ্যাট"
+        },
+        {
+          "key": "D",
+          "text": "কোনো কিছুর প্রয়োজন নেই"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 7,
+      "questionText": "ঠান্ডা খাবার (যেমন: সালাদ, পেস্ট্রি) কত তাপমাত্রার নিচে ডিসপ্লেতে রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4°C বা তার কম"
+        },
+        {
+          "key": "B",
+          "text": "10°C"
+        },
+        {
+          "key": "C",
+          "text": "15°C"
+        },
+        {
+          "key": "D",
+          "text": "20°C"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 8,
+      "questionText": "গরম খাবার (যেমন: স্যুপ, বার্গারের পেটি) কাস্টমারকে দেওয়ার আগ পর্যন্ত কত তাপমাত্রায় গরম রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "30°C"
+        },
+        {
+          "key": "B",
+          "text": "60°C বা তার বেশি"
+        },
+        {
+          "key": "C",
+          "text": "40°C"
+        },
+        {
+          "key": "D",
+          "text": "50°C"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 9,
+      "questionText": "কাউন্টারে কাজ করার সময় নখ কেমন হওয়া উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ছোট, পরিষ্কার এবং কোনো নেলপলিশ ছাড়া"
+        },
+        {
+          "key": "B",
+          "text": "বড় এবং নেলপলিশসহ"
+        },
+        {
+          "key": "C",
+          "text": "যেকোনোভাবে রাখা যায়"
+        },
+        {
+          "key": "D",
+          "text": "শুধু মেহেদি লাগানো"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 10,
+      "questionText": "কোনো খাবার মেঝেতে পড়ে গেলে কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ফু দিয়ে কাস্টমারকে দিয়ে দেওয়া"
+        },
+        {
+          "key": "B",
+          "text": "কিচেনে ফেরত পাঠানো"
+        },
+        {
+          "key": "C",
+          "text": "সাথে সাথে ডাস্টবিনে ফেলে দেওয়া এবং মেঝের ওই জায়গাটি পরিষ্কার করা"
+        },
+        {
+          "key": "D",
+          "text": "ডিসপ্লেতে আবার সাজিয়ে রাখা"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 11,
+      "questionText": "ব্ল্যাক কফিতে বরফ এবং ঠান্ডা পানি মিশিয়ে যে কফি তৈরি হয় তাকে কী বলে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "আইসড আমেরিকান"
+        },
+        {
+          "key": "B",
+          "text": "মকা"
+        },
+        {
+          "key": "C",
+          "text": "এক্সপ্রেসো"
+        },
+        {
+          "key": "D",
+          "text": "লাতে"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 12,
+      "questionText": "কার্বোনেটেড ওয়াটার বা সোডার সাথে ফ্লেভারড সিরাপ ও বরফ মিশিয়ে তৈরি পানীয়কে কী বলা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "স্মুদি"
+        },
+        {
+          "key": "B",
+          "text": "মিল্কশেক"
+        },
+        {
+          "key": "C",
+          "text": "জুস"
+        },
+        {
+          "key": "D",
+          "text": "মকটেল বা ফ্লেভারড সোডা"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 13,
+      "questionText": "দুধ বা দইয়ের সাথে ফল এবং বরফ ব্লেন্ড করে ঘন যে ড্রিংক তৈরি করা হয় তাকে কী বলে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "জুস"
+        },
+        {
+          "key": "B",
+          "text": "স্মুদি"
+        },
+        {
+          "key": "C",
+          "text": "লিমোনেড"
+        },
+        {
+          "key": "D",
+          "text": "এসপ্রেসো"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 14,
+      "questionText": "কফি মেশিনের স্টিম ওয়ান্ড (Steam Wand) দিয়ে কী করা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "দুধ গরম এবং ফেনা (Foam) তৈরি করা হয়"
+        },
+        {
+          "key": "B",
+          "text": "কফি পেষা হয়"
+        },
+        {
+          "key": "C",
+          "text": "কাপ ধোয়া হয়"
+        },
+        {
+          "key": "D",
+          "text": "বরফ ভাঙা হয়"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-09",
+      "categoryName": "Food beverage and counter cervice",
+      "order": 15,
+      "questionText": "কফি বিন (Coffee Beans) গুঁড়ো করার মেশিনকে কী বলা হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কফি গ্রাইন্ডার"
+        },
+        {
+          "key": "B",
+          "text": "ব্লেন্ডার"
+        },
+        {
+          "key": "C",
+          "text": "মিক্সার"
+        },
+        {
+          "key": "D",
+          "text": "রোস্টার"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 1,
+      "questionText": "ভারী মালামাল বহন করার সময় শরীরকে কীভাবে রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "সোজা এবং মালামাল শরীরের কাছাকাছি রাখা"
+        },
+        {
+          "key": "B",
+          "text": "শরীরকে সামনের দিকে ঝুঁকিয়ে রাখা"
+        },
+        {
+          "key": "C",
+          "text": "এক হাত দিয়ে মালামাল দূরে রাখা"
+        },
+        {
+          "key": "D",
+          "text": "শরীর পেছনের দিকে বাঁকিয়ে রাখা"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 2,
+      "questionText": "মালামাল আনলোড করার পর তা রাখার সঠিক স্থান কোনটি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "প্রধান দরজার ঠিক সামনে"
+        },
+        {
+          "key": "B",
+          "text": "হাঁটার রাস্তার মাঝখানে"
+        },
+        {
+          "key": "C",
+          "text": "নির্ধারিত নির্দিষ্ট জোন বা র‍্যাকে"
+        },
+        {
+          "key": "D",
+          "text": "যেকোনো ফাঁকা জায়গায়"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 3,
+      "questionText": "ধারালো বা খসখসে কাঠের বক্স ধরার সময় হাতকে সুরক্ষিত রাখতে কী ব্যবহার করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "রুমাল"
+        },
+        {
+          "key": "B",
+          "text": "সেফটি গ্লাভস (হ্যান্ড গ্লাভস)"
+        },
+        {
+          "key": "C",
+          "text": "প্লাস্টিকের ব্যাগ"
+        },
+        {
+          "key": "D",
+          "text": "কোনো কিছুর প্রয়োজন নেই"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 4,
+      "questionText": "গুদামে বা কাজের জায়গায় আগুন লাগলে প্রথম কাজ কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "মালামাল বাঁচানোর জন্য দৌড়াদৌড়ি করা"
+        },
+        {
+          "key": "B",
+          "text": "মালামাল লুকিয়ে রাখা"
+        },
+        {
+          "key": "C",
+          "text": "ফায়ার অ্যালার্ম বাজানো এবং নিরাপদ স্থানে সরে যাওয়া"
+        },
+        {
+          "key": "D",
+          "text": "ঘরের দরজা-জানালা বন্ধ করে দেওয়া"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 5,
+      "questionText": "কেমিক্যাল বা রাসায়নিক দ্রব্যের ড্রাম লোড-আনলোড করার সময় কোন বিশেষ সতর্কতা নেওয়া উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "মাস্ক, চশমা এবং বিশেষ গ্লাভস পরা যেন গায়ে বা চোখে না লাগে"
+        },
+        {
+          "key": "B",
+          "text": "ড্রামটি খালি হাতে ধরা"
+        },
+        {
+          "key": "C",
+          "text": "ড্রামটি ঝাঁকানো"
+        },
+        {
+          "key": "D",
+          "text": "মুখে মাস্ক না দেওয়া"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 6,
+      "questionText": "লোড বা আনলোড করার আগে কোন কাগজটি দেখে মালামালের সংখ্যা মেলাতে হয়?",
+      "options": [
+        {
+          "key": "A",
+          "text": "জন্ম নিবন্ধন"
+        },
+        {
+          "key": "B",
+          "text": "চালান বা ডেলিভারি চালান"
+        },
+        {
+          "key": "C",
+          "text": "ভিজিটিং কার্ড"
+        },
+        {
+          "key": "D",
+          "text": "ব্যাংক পাসবই"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 7,
+      "questionText": "আনলোড করার সময় কোনো কার্টন ভাঙা বা ছেঁড়া দেখলে কর্মীর প্রথম দায়িত্ব কী?",
+      "options": [
+        {
+          "key": "A",
+          "text": "কার্টনটি লুকিয়ে রাখা"
+        },
+        {
+          "key": "B",
+          "text": "মালামালটি ফেলে দেওয়া"
+        },
+        {
+          "key": "C",
+          "text": "নিজের কাছে রেখে দেওয়া"
+        },
+        {
+          "key": "D",
+          "text": "তাৎক্ষণিকভাবে সুপারভাইজার বা কর্তৃপক্ষকে জানানো"
+        }
+      ],
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 8,
+      "questionText": "সুপারভাইজার যদি আপনাকে একটি কাজ যেভাবে করতে বলেছেন, আপনি তা বুঝতে না পারলে কী করবেন?",
+      "options": [
+        {
+          "key": "A",
+          "text": "বিনয়ের সাথে আবার বুঝিয়ে বলতে বলবেন"
+        },
+        {
+          "key": "B",
+          "text": "চুপচাপ দাঁড়িয়ে থাকবেন"
+        },
+        {
+          "key": "C",
+          "text": "নিজের ইচ্ছামতো করে ফেলবেন"
+        },
+        {
+          "key": "D",
+          "text": "অন্য সহকর্মীকে জিজ্ঞেস না করেই ভুল কাজ করবেন"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 9,
+      "questionText": "কোনো কারণে কাজ করতে করতে মালামালের ক্ষতি (Damage) হলে কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ভয় পেয়ে পালিয়ে যাওয়া"
+        },
+        {
+          "key": "B",
+          "text": "সততার সাথে নিজের ভুল স্বীকার করে কর্তৃপক্ষকে জানানো"
+        },
+        {
+          "key": "C",
+          "text": "অন্য সহকর্মীর ওপর দোষ চাপানো"
+        },
+        {
+          "key": "D",
+          "text": "ক্ষতিগ্রস্ত মালামালটি ভালো মালের নিচে লুকিয়ে রাখা"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 10,
+      "questionText": "একজন ভালো লোড-আনলোড কর্মীর প্রধান গুণ কোনটি হওয়া উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "শারীরিক সক্ষমতা, সততা এবং নিয়মানুবর্তিতা"
+        },
+        {
+          "key": "B",
+          "text": "ফাঁকি দেওয়ার প্রবণতা"
+        },
+        {
+          "key": "C",
+          "text": "অনেক জোরে কথা বলা"
+        },
+        {
+          "key": "D",
+          "text": "সবসময় রেগে থাকা"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 11,
+      "questionText": "মালামাল ট্রাকে বোঝাই করার পর তা রাস্তায় যেন পড়ে না যায় সেজন্য কী করা জরুরি?",
+      "options": [
+        {
+          "key": "A",
+          "text": "আলতো করে রাখা"
+        },
+        {
+          "key": "B",
+          "text": "মালামালের ওপর ত্রিপল না দেওয়া"
+        },
+        {
+          "key": "C",
+          "text": "রশি বা বেল্ট দিয়ে শক্ত করে বেঁধে ফেলা"
+        },
+        {
+          "key": "D",
+          "text": "কোনো কিছু না করা"
+        }
+      ],
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 12,
+      "questionText": "কার্টন বা বস্তা এক জায়গা থেকে অন্য জায়গায় নেওয়ার সময় ঘষটে বা টেনে হিঁচড়ে নিলে কী ক্ষতি হতে পারে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "মালামাল পরিষ্কার হয়"
+        },
+        {
+          "key": "B",
+          "text": "কার্টন বা বস্তা ছিঁড়ে ভেতরের মাল নষ্ট হতে পারে"
+        },
+        {
+          "key": "C",
+          "text": "ওজন বাড়ে"
+        },
+        {
+          "key": "D",
+          "text": "সময় বাঁচে"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 13,
+      "questionText": "মালামাল আনলোড করার পর খালি প্যালেট বা কাঠের তক্তাগুলো কোথায় রাখা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "এলোমেলোভাবে ছড়িয়ে ছিটিয়ে"
+        },
+        {
+          "key": "B",
+          "text": "নির্দিষ্ট খালি জায়গায় সুন্দর করে স্তূপ করে"
+        },
+        {
+          "key": "C",
+          "text": "ট্রাকের ভেতরেই রেখে দেওয়া"
+        },
+        {
+          "key": "D",
+          "text": "আবর্জনার বাক্সে ফেলে দেওয়া"
+        }
+      ],
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 14,
+      "questionText": "মালামাল গণনা করার (Counting) সময় ভুল এড়াতে কী করা উচিত?",
+      "options": [
+        {
+          "key": "A",
+          "text": "একটি একটি করে আলাদা করে গুনে টিক চিহ্ন দেওয়া"
+        },
+        {
+          "key": "B",
+          "text": "আনুমানিক একটা সংখ্যা বলে দেওয়া"
+        },
+        {
+          "key": "C",
+          "text": "একবারে অনেকগুলো গোনা"
+        },
+        {
+          "key": "D",
+          "text": "অন্যের গণনার ওপর ভরসা করা"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 15,
+      "questionText": "তরল পদার্থের ড্রাম বা গ্যালন লোড করার সময় কোন দিকে খেয়াল রাখতে হবে?",
+      "options": [
+        {
+          "key": "A",
+          "text": "মুখ বা ছিপি যেন ওপরের দিকে এবং শক্তভাবে আটকানো থাকে"
+        },
+        {
+          "key": "B",
+          "text": "ড্রামটি যেন উপুড় হয়ে থাকে"
+        },
+        {
+          "key": "C",
+          "text": "ড্রামটি যেন গড়িয়ে দেওয়া হয়"
+        },
+        {
+          "key": "D",
+          "text": "কোনো কিছু দেখার প্রয়োজন নেই"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    },
+    {
+      "setId": "set-10",
+      "categoryName": "Load And Unload Worker.2",
+      "order": 16,
+      "questionText": "নতুন প্রশ্ন",
+      "options": [
+        {
+          "key": "A",
+          "text": "অপশন ১"
+        },
+        {
+          "key": "B",
+          "text": "অপশন ২"
+        },
+        {
+          "key": "C",
+          "text": "অপশন ৩"
+        },
+        {
+          "key": "D",
+          "text": "অপশন ৪"
+        }
+      ],
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "medium"
+    }
+  ]
+}

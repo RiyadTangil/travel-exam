@@ -15,6 +15,8 @@ const QuestionSchema = new Schema(
     categoryId: { type: Types.ObjectId, ref: "QuestionCategory", required: true, index: true },
     categoryName: { type: String, trim: true },
     questionText: { type: String, required: true, trim: true },
+    imageUrl: { type: String, trim: true },
+    imageKey: { type: String, trim: true },
     type: {
       type: String,
       enum: ["MCQ", "TRUE_FALSE"],
@@ -42,6 +44,7 @@ const QuestionSchema = new Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
+    order: { type: Number, default: 0, index: true },
     createdBy: { type: Types.ObjectId, ref: "User" },
     updatedBy: { type: Types.ObjectId, ref: "User" },
   },

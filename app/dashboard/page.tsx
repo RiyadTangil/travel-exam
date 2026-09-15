@@ -152,7 +152,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="bg-slate-50 p-3 rounded-xl">
                   <span className="text-[11px] font-medium text-slate-400 block">সময় বরাদ্দ</span>
-                  <span className="text-xs font-bold text-slate-700 mt-0.5 block">৬০ মিনিট</span>
+                  <span className="text-xs font-bold text-slate-700 mt-0.5 block">30 মিনিট</span>
                 </div>
                 <div className="bg-slate-50 p-3 rounded-xl">
                   <span className="text-[11px] font-medium text-slate-400 block">পাস নম্বর</span>

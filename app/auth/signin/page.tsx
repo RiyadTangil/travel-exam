@@ -123,14 +123,8 @@ function SignInContent() {
                 priority
               />
             </div>
-            <div className="text-center space-y-1">
-              <CardTitle className="text-xl font-black text-slate-900 tracking-tight">
-                Overseas Exam Portal Login
-              </CardTitle>
-              <CardDescription className="text-xs text-slate-500 font-medium">
-                Candidates: Enter Passport No, Name, or Email
-              </CardDescription>
-            </div>
+         
+           
           </CardHeader>
           <CardContent className="space-y-6 px-8 pb-8">
             <form onSubmit={handleSubmit} className="space-y-5">

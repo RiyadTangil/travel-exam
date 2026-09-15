@@ -1,10 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import { message, Popconfirm, Drawer, Modal } from "antd"
+import { Image as AntImage, message, Popconfirm, Drawer, Modal, Popover, InputNumber } from "antd"
+import imageCompression from "browser-image-compression"
+import { motion, AnimatePresence } from "framer-motion"
 import {
   HelpCircle,
   Plus,
@@ -17,8 +19,13 @@ import {
   Folder,
   Check,
   ChevronDown,
+  ChevronUp,
   Layers,
   Sparkles,
+  UploadCloud,
+  ImageIcon,
+  X,
+  Loader2,
 } from "lucide-react"
 import { PageWrapper } from "@/components/shared/page-wrapper"
 import { Button } from "@/components/ui/button"
@@ -43,15 +50,139 @@ interface QuestionItem {
   categoryId: string
   categoryName: string
   questionText: string
+  imageUrl?: string
+  imageKey?: string
   type: string
   options: Option[]
   correctAnswer: string
   marks: number
+  order?: number
   explanation?: string
   difficulty: "easy" | "medium" | "hard"
   status: string
   createdAt: string
 }
+
+function QuestionPositionControl({
+  index,
+  total,
+  disabled,
+  onMove,
+  onDirectChange,
+}: {
+  index: number
+  total: number
+  disabled?: boolean
+  onMove: (curr: number, target: number) => void
+  onDirectChange: (curr: number, newPos: number) => void
+}) {
+  const [open, setOpen] = useState(false)
+  const [targetNum, setTargetNum] = useState<number | null>(index + 1)
+
+  useEffect(() => {
+    setTargetNum(index + 1)
+  }, [index])
+
+  const handleApply = () => {
+    if (targetNum !== null && targetNum >= 1 && targetNum <= total) {
+      onDirectChange(index, targetNum)
+      setOpen(false)
+    } else {
+      message.warning(`১ থেকে ${total}-এর মধ্যে নম্বর লিখুন`)
+    }
+  }
+
+  return (
+    <div className="flex items-center gap-0.5 bg-slate-100/90 hover:bg-slate-100 rounded-xl p-0.5 border border-slate-200/80 shadow-2xs">
+      {/* Up Button */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation()
+          onMove(index, index - 1)
+        }}
+        disabled={index === 0 || disabled}
+        className={cn(
+          "h-6 w-6 rounded-lg flex items-center justify-center transition-all",
+          index === 0 || disabled
+            ? "text-slate-300 cursor-not-allowed opacity-30"
+            : "text-slate-600 hover:text-[#005CC1] hover:bg-white hover:shadow-2xs active:scale-95 cursor-pointer"
+        )}
+        title="উপরে নিন (Move Up)"
+      >
+        <ChevronUp className="h-4 w-4" />
+      </button>
+
+      {/* Direct number click / popover */}
+      <Popover
+        open={open}
+        onOpenChange={setOpen}
+        trigger="click"
+        placement="bottom"
+        content={
+          <div className="p-2 space-y-2.5 w-52">
+            <div className="text-xs font-bold text-slate-800">
+              প্রশ্নের নম্বর / অবস্থান পরিবর্তন
+            </div>
+            <div className="text-[11px] text-slate-500">
+              বর্তমান অবস্থান: <strong className="text-[#005CC1]">#{index + 1}</strong>
+            </div>
+            <div className="flex items-center gap-2">
+              <InputNumber
+                min={1}
+                max={total}
+                value={targetNum}
+                onChange={(val) => setTargetNum(val)}
+                onPressEnter={handleApply}
+                className="w-full text-xs font-bold rounded-lg"
+                autoFocus
+              />
+              <Button
+                size="sm"
+                onClick={handleApply}
+                className="bg-[#005CC1] hover:bg-[#004ca3] text-white text-xs px-3 h-8 rounded-lg shadow-xs"
+              >
+                যাও
+              </Button>
+            </div>
+            <div className="text-[10px] text-slate-400">
+              ১ থেকে {total}-এর মধ্যে যে কোনো নম্বর লিখুন
+            </div>
+          </div>
+        }
+      >
+        <button
+          type="button"
+          className="min-w-6 h-6 px-1.5 rounded-lg bg-white text-slate-800 font-extrabold text-xs flex items-center justify-center shadow-2xs hover:bg-blue-50 hover:text-[#005CC1] hover:border-blue-300 border border-slate-200/70 transition-all cursor-pointer group"
+          title="নম্বর পরিবর্তন করতে ক্লিক করুন"
+        >
+          <span>{index + 1}</span>
+        </button>
+      </Popover>
+
+      {/* Down Button */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation()
+          onMove(index, index + 1)
+        }}
+        disabled={index === total - 1 || disabled}
+        className={cn(
+          "h-6 w-6 rounded-lg flex items-center justify-center transition-all",
+          index === total - 1 || disabled
+            ? "text-slate-300 cursor-not-allowed opacity-30"
+            : "text-slate-600 hover:text-[#005CC1] hover:bg-white hover:shadow-2xs active:scale-95 cursor-pointer"
+        )}
+        title="নিচে নিন (Move Down)"
+      >
+        <ChevronDown className="h-4 w-4" />
+      </button>
+    </div>
+  )
+}
+
+const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 
 const PRESET_COLORS = [
   "#1B64F2", // Blue
@@ -262,6 +393,8 @@ export default function QuestionsPage() {
   const [qForm, setQForm] = useState({
     categoryId: "",
     questionText: "",
+    imageUrl: "",
+    imageKey: "",
     options: [
       { key: "A", text: "" },
       { key: "B", text: "" },
@@ -273,6 +406,10 @@ export default function QuestionsPage() {
     difficulty: "medium" as "easy" | "medium" | "hard",
     explanation: "",
   })
+
+  const [isUploadingImage, setIsUploadingImage] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   // Category Modal State
   const [catModalOpen, setCatModalOpen] = useState(false)
@@ -343,12 +480,163 @@ export default function QuestionsPage() {
     }
   }, [companyId, session?.user?.role, selectedCategory, selectedDifficulty, search])
 
+  // Option Dynamic Handlers
+  const handleAddOption = () => {
+    if (qForm.options.length >= 8) {
+      message.warning("সর্বোচ্চ ৮টি অপশন যোগ করা যাবে")
+      return
+    }
+    const nextIdx = qForm.options.length
+    const nextKey = LETTERS[nextIdx] || String.fromCharCode(65 + nextIdx)
+    setQForm((prev) => ({
+      ...prev,
+      options: [...prev.options, { key: nextKey, text: "" }],
+    }))
+  }
+
+  const handleRemoveOption = (indexToRemove: number) => {
+    if (qForm.options.length <= 2) {
+      message.warning("কমপক্ষে ২টি উত্তর অপশন আবশ্যক")
+      return
+    }
+
+    const removedKey = qForm.options[indexToRemove].key
+    const filtered = qForm.options.filter((_, idx) => idx !== indexToRemove)
+    const reindexed = filtered.map((opt, idx) => ({
+      key: LETTERS[idx] || String.fromCharCode(65 + idx),
+      text: opt.text,
+    }))
+
+    let newAnswer = qForm.correctAnswer
+    if (qForm.correctAnswer === removedKey) {
+      newAnswer = reindexed[0]?.key || "A"
+    } else {
+      const oldIdx = qForm.options.findIndex((o) => o.key === qForm.correctAnswer)
+      if (oldIdx > indexToRemove) {
+        newAnswer = LETTERS[oldIdx - 1] || "A"
+      }
+    }
+
+    setQForm((prev) => ({
+      ...prev,
+      options: reindexed,
+      correctAnswer: newAnswer,
+    }))
+  }
+
+  const handleSetPresetOptions = (count: number) => {
+    if (count === 2) {
+      setQForm((prev) => ({
+        ...prev,
+        options: [
+          { key: "A", text: "সত্য (True)" },
+          { key: "B", text: "মিথ্যা (False)" },
+        ],
+        correctAnswer: "A",
+      }))
+    } else if (count === 4) {
+      setQForm((prev) => {
+        const existing = prev.options
+        const opts = [
+          { key: "A", text: existing[0]?.text || "" },
+          { key: "B", text: existing[1]?.text || "" },
+          { key: "C", text: existing[2]?.text || "" },
+          { key: "D", text: existing[3]?.text || "" },
+        ]
+        const validAns = opts.some((o) => o.key === prev.correctAnswer) ? prev.correctAnswer : "A"
+        return {
+          ...prev,
+          options: opts,
+          correctAnswer: validAns,
+        }
+      })
+    }
+  }
+
+  // Image Upload with Client Compression & MongoDB GridFS Storage
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (!file.type.startsWith("image/")) {
+      message.error("অনুগ্রহ করে একটি ছবি ফাইল (JPG, PNG, WebP) নির্বাচন করুন")
+      return
+    }
+
+    setIsUploadingImage(true)
+    setUploadError(null)
+
+    try {
+      // 1. Compress image with browser-image-compression
+      let fileToUpload: File = file
+      try {
+        const compressed = await imageCompression(file, {
+          maxSizeMB: 0.8,
+          maxWidthOrHeight: 1200,
+          useWebWorker: true,
+          fileType: file.type.includes("png") ? "image/png" : "image/jpeg",
+        })
+        fileToUpload = new File([compressed], file.name, {
+          type: compressed.type || file.type,
+        })
+      } catch (compErr) {
+        console.warn("Client image compression fallback:", compErr)
+      }
+
+      // 2. Direct upload to MongoDB GridFS via FormData (No AWS required)
+      const formData = new FormData()
+      formData.append("file", fileToUpload)
+
+      const uploadRes = await axios.post("/api/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+
+      const { publicUrl, fileKey } = uploadRes.data.data
+
+      setQForm((prev) => ({
+        ...prev,
+        imageUrl: publicUrl,
+        imageKey: fileKey,
+      }))
+      message.success("ছবি MongoDB-তে সফলভাবে সংরক্ষিত হয়েছে!")
+    } catch (err: any) {
+      console.error("Image upload error:", err)
+      setUploadError(err.message || "ছবি আপলোড ব্যর্থ হয়েছে")
+      message.error("ছবি আপলোড ব্যর্থ হয়েছে")
+    } finally {
+      setIsUploadingImage(false)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""
+      }
+    }
+  }
+
+  const handleRemoveImage = async () => {
+    if (qForm.imageKey || qForm.imageUrl) {
+      try {
+        await axios.delete("/api/upload", {
+          params: { key: qForm.imageKey || qForm.imageUrl },
+        })
+      } catch (err) {
+        console.warn("Could not delete from MongoDB immediately:", err)
+      }
+    }
+    setQForm((prev) => ({
+      ...prev,
+      imageUrl: "",
+      imageKey: "",
+    }))
+    setUploadError(null)
+  }
+
   // Question handlers
   const handleOpenAddQuestion = () => {
     setEditingQuestionId(null)
     setQForm({
       categoryId: categories[0]?.id || "",
       questionText: "",
+      imageUrl: "",
+      imageKey: "",
       options: [
         { key: "A", text: "" },
         { key: "B", text: "" },
@@ -360,6 +648,7 @@ export default function QuestionsPage() {
       difficulty: "medium",
       explanation: "",
     })
+    setUploadError(null)
     setDrawerOpen(true)
   }
 
@@ -368,20 +657,24 @@ export default function QuestionsPage() {
     setQForm({
       categoryId: q.categoryId,
       questionText: q.questionText,
+      imageUrl: q.imageUrl || "",
+      imageKey: q.imageKey || "",
       options:
-        q.options.length >= 4
-          ? q.options
+        Array.isArray(q.options) && q.options.length >= 2
+          ? q.options.map((opt, idx) => ({
+              key: opt.key || LETTERS[idx] || String.fromCharCode(65 + idx),
+              text: opt.text || "",
+            }))
           : [
-              { key: "A", text: q.options[0]?.text || "" },
-              { key: "B", text: q.options[1]?.text || "" },
-              { key: "C", text: q.options[2]?.text || "" },
-              { key: "D", text: q.options[3]?.text || "" },
+              { key: "A", text: "" },
+              { key: "B", text: "" },
             ],
-      correctAnswer: q.correctAnswer,
+      correctAnswer: q.correctAnswer || "A",
       marks: q.marks || 1,
       difficulty: q.difficulty || "medium",
       explanation: q.explanation || "",
     })
+    setUploadError(null)
     setDrawerOpen(true)
   }
 
@@ -394,25 +687,46 @@ export default function QuestionsPage() {
       message.error("ক্যাটাগরি নির্বাচন করুন")
       return
     }
-    const emptyOpt = qForm.options.some((o) => !o.text.trim())
-    if (emptyOpt) {
-      message.error("সকল ৪টি উত্তর অপশন পূরণ করুন")
+
+    // Auto-filter blank options so if user only filled 2 options, we automatically discard empty ones
+    const filledOptions = qForm.options
+      .map((o) => ({ ...o, text: o.text.trim() }))
+      .filter((o) => o.text.length > 0)
+      .map((opt, idx) => ({
+        key: LETTERS[idx] || String.fromCharCode(65 + idx),
+        text: opt.text,
+      }))
+
+    if (filledOptions.length < 2) {
+      message.error("কমপক্ষে ২টি উত্তর অপশন পূরণ করুন")
       return
     }
-    if (!qForm.correctAnswer) {
-      message.error("সঠিক উত্তর নির্বাচন করুন")
-      return
+
+    // Match correct answer among filled options
+    let selectedAnswer = qForm.correctAnswer
+    const originalSelected = qForm.options.find((o) => o.key === qForm.correctAnswer)
+    const matchedOpt = filledOptions.find((o) => o.text === originalSelected?.text)
+    if (matchedOpt) {
+      selectedAnswer = matchedOpt.key
+    } else if (!filledOptions.some((o) => o.key === selectedAnswer)) {
+      selectedAnswer = filledOptions[0].key
+    }
+
+    const payload = {
+      ...qForm,
+      options: filledOptions,
+      correctAnswer: selectedAnswer,
     }
 
     setSavingQuestion(true)
     try {
       if (editingQuestionId) {
-        await axios.put(`/api/questions/${editingQuestionId}`, qForm, {
+        await axios.put(`/api/questions/${editingQuestionId}`, payload, {
           headers: { "x-company-id": companyId },
         })
         message.success("প্রশ্ন সফলভাবে আপডেট হয়েছে!")
       } else {
-        await axios.post("/api/questions", qForm, {
+        await axios.post("/api/questions", payload, {
           headers: { "x-company-id": companyId },
         })
         message.success("নতুন প্রশ্ন সফলভাবে যুক্ত হয়েছে!")
@@ -432,7 +746,7 @@ export default function QuestionsPage() {
       await axios.delete(`/api/questions/${id}`, {
         headers: { "x-company-id": companyId },
       })
-      message.success("প্রশ্ন মুছে ফেলা হয়েছে")
+      message.success("প্রশ্ন এবং ছবি মুছে ফেলা হয়েছে")
       setQuestions((prev) => prev.filter((q) => q.id !== id))
       fetchCategories()
     } catch (error: any) {
@@ -482,6 +796,72 @@ export default function QuestionsPage() {
     }
   }
 
+  const [seeding, setSeeding] = useState(false)
+
+  const handleSeedRealData = async () => {
+    if (!companyId) return
+    setSeeding(true)
+    try {
+      const res = await axios.post("/api/questions/seed", {}, {
+        headers: { "x-company-id": companyId },
+      })
+      message.success(res.data?.message || "রিয়েল ক্যাটাগরি এবং প্রশ্ন সফলভাবে যুক্ত হয়েছে!")
+      await fetchCategories()
+      await fetchQuestions()
+      if (res.data?.data?.loadUnloadCategoryId) {
+        setSelectedCategory(res.data.data.loadUnloadCategoryId)
+      }
+    } catch (err: any) {
+      message.error(err.response?.data?.message || "রিয়েল ডেটা লোড করতে ব্যর্থ হয়েছে")
+    } finally {
+      setSeeding(false)
+    }
+  }
+
+  const [reordering, setReordering] = useState(false)
+
+  const handleMoveQuestion = async (currentIndex: number, targetIndex: number) => {
+    if (targetIndex < 0 || targetIndex >= questions.length || currentIndex === targetIndex) {
+      return
+    }
+
+    const updated = [...questions]
+    const [movedItem] = updated.splice(currentIndex, 1)
+    updated.splice(targetIndex, 0, movedItem)
+
+    // Immediate optimistic update for smooth Framer Motion layout transition
+    setQuestions(updated)
+
+    const items = updated.map((item, idx) => ({
+      id: item.id,
+      order: idx + 1,
+    }))
+
+    try {
+      setReordering(true)
+      await axios.put(
+        "/api/questions/reorder",
+        { items },
+        { headers: { "x-company-id": companyId } }
+      )
+    } catch (err: any) {
+      console.error("Failed to persist question order:", err)
+      message.error("প্রশ্নের অবস্থান সংরক্ষণে সমস্যা হয়েছে")
+      fetchQuestions()
+    } finally {
+      setReordering(false)
+    }
+  }
+
+  const handleDirectPositionChange = async (currentIndex: number, newPositionOneBased: number) => {
+    const targetIndex = newPositionOneBased - 1
+    if (isNaN(targetIndex) || targetIndex < 0 || targetIndex >= questions.length) {
+      message.warning(`অনুগ্রহ করে ১ থেকে ${questions.length}-এর মধ্যে একটি নম্বর লিখুন`)
+      return
+    }
+    await handleMoveQuestion(currentIndex, targetIndex)
+  }
+
   if (session?.user?.role === "CANDIDATE") {
     return null
   }
@@ -492,9 +872,9 @@ export default function QuestionsPage() {
         { label: "প্রশ্ন ব্যাংক" },
       ]}
     >
-      <div className="max-w-6xl mx-auto space-y-5 px-3 sm:px-6 py-2">
+      <div className="max-w-7xl mx-auto space-y-5 px-3 sm:px-6 py-2">
         
-        {/* Header Bar - Clean & Lightweight */}
+        {/* Top Header Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
           <div>
             <div className="flex items-center gap-2.5">
@@ -512,18 +892,15 @@ export default function QuestionsPage() {
 
           <div className="flex items-center gap-2.5 shrink-0">
             <Button
-              onClick={() => {
-                setEditingCatId(null)
-                setCatForm({ name: "", description: "", color: "#1B64F2" })
-                setCatModalOpen(true)
-              }}
+              onClick={handleSeedRealData}
+              disabled={seeding}
               variant="outline"
-              className="border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold text-xs h-10 px-3.5 rounded-xl"
+              className="border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 font-bold text-xs h-10 px-3.5 rounded-xl shadow-2xs flex items-center gap-1.5 transition-all"
+              title="রেফারেন্স ইমেজ অনুযায়ী ৯টি রিয়েল ক্যাটাগরি ও ১৬টি প্রশ্ন যোগ করুন"
             >
-              <FolderPlus className="h-4 w-4 mr-1.5 text-slate-500" />
-              ক্যাটাগরি ({categories.length})
+              <Sparkles className="h-4 w-4 text-emerald-600" />
+              {seeding ? "লোড হচ্ছে..." : "রিয়েল প্রশ্ন সিড করুন"}
             </Button>
-
             <Button
               onClick={handleOpenAddQuestion}
               className="bg-[#005CC1] hover:bg-[#004ca3] text-white font-semibold text-xs h-10 px-4 rounded-xl shadow-sm flex items-center gap-1.5 transition-all hover:-translate-y-0.5"
@@ -534,97 +911,179 @@ export default function QuestionsPage() {
           </div>
         </div>
 
-        {/* Filter & Search Bar */}
-        <div className="bg-white rounded-2xl border border-slate-200/90 p-3 sm:p-4 shadow-xs space-y-3">
+        {/* 2-Column Main Layout: Left Category Nav + Right Questions Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           
-          {/* Category Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-            <button
-              onClick={() => setSelectedCategory("all")}
-              className={cn(
-                "px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-1.5",
-                selectedCategory === "all"
-                  ? "bg-[#005CC1] text-white shadow-xs"
-                  : "bg-slate-100/80 hover:bg-slate-200/70 text-slate-600"
-              )}
-            >
-              <span>সকল প্রশ্ন</span>
-              <span className={cn(
-                "text-[10px] px-1.5 py-0.2 rounded-full",
-                selectedCategory === "all" ? "bg-white/20 text-white" : "bg-white text-slate-600"
-              )}>
-                {totalCount}
-              </span>
-            </button>
-
-            {categories.map((cat) => {
-              const active = selectedCategory === cat.id
-              const cleanName = (cat.name || "").split("/")[0].trim()
-              return (
+          {/* Left Side: Category Navigation Sidebar */}
+          <div className="lg:col-span-4 xl:col-span-3">
+            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-3 space-y-3 sticky top-4">
+              
+              {/* Category Nav Header */}
+              <div className="flex items-center justify-between px-2 pt-1 pb-2 border-b border-slate-100">
+                <div className="flex items-center gap-2">
+                  <Folder className="h-4 w-4 text-[#005CC1]" />
+                  <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                    ক্যাটাগরি সমূহ
+                  </span>
+                  <span className="text-[11px] font-bold text-slate-400">
+                    ({categories.length})
+                  </span>
+                </div>
                 <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={cn(
-                    "px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 border",
-                    active
-                      ? "border-transparent text-white shadow-xs"
-                      : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700"
-                  )}
-                  style={{
-                    backgroundColor: active ? (cat.color || "#005CC1") : undefined,
+                  type="button"
+                  onClick={() => {
+                    setEditingCatId(null)
+                    setCatForm({ name: "", description: "", color: "#1B64F2" })
+                    setCatModalOpen(true)
                   }}
+                  className="text-[11px] font-bold text-[#005CC1] hover:text-[#004ca3] flex items-center gap-1 transition-colors hover:underline"
+                  title="ক্যাটাগরি সম্পাদনা বা পরিচালনা"
                 >
+                  <FolderPlus className="h-3.5 w-3.5" />
+                  <span>পরিচালনা</span>
+                </button>
+              </div>
+
+              {/* Category Nav List */}
+              <div className="space-y-1">
+                {/* All Questions Item */}
+                <button
+                  type="button"
+                  onClick={() => setSelectedCategory("all")}
+                  className={cn(
+                    "w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all text-left group",
+                    selectedCategory === "all"
+                      ? "bg-[#005CC1] text-white shadow-xs"
+                      : "text-slate-700 hover:bg-slate-50"
+                  )}
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <Layers
+                      className={cn(
+                        "h-4 w-4 shrink-0 transition-colors",
+                        selectedCategory === "all" ? "text-white" : "text-slate-400 group-hover:text-slate-600"
+                      )}
+                    />
+                    <span className="truncate">সকল প্রশ্ন</span>
+                  </div>
                   <span
-                    className="w-2 h-2 rounded-full shrink-0"
-                    style={{ backgroundColor: active ? "#ffffff" : cat.color }}
-                  />
-                  <span>{cleanName}</span>
-                  <span className={cn(
-                    "text-[10px] px-1.5 py-0.2 rounded-full",
-                    active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
-                  )}>
-                    {cat.questionCount}
+                    className={cn(
+                      "text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0",
+                      selectedCategory === "all" ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
+                    )}
+                  >
+                    {totalCount}
                   </span>
                 </button>
-              )
-            })}
+
+                {/* Individual Categories */}
+                {categories.map((cat) => {
+                  const active = selectedCategory === cat.id
+                  const cleanName = (cat.name || "").split("/")[0].trim()
+
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={cn(
+                        "w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all text-left group",
+                        active
+                          ? "bg-[#005CC1] text-white shadow-xs"
+                          : "text-slate-700 hover:bg-slate-50"
+                      )}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span
+                          className="w-2.5 h-2.5 rounded-full shrink-0 transition-transform group-hover:scale-110"
+                          style={{
+                            backgroundColor: active ? "#ffffff" : cat.color || "#005CC1",
+                          }}
+                        />
+                        <span className="truncate">{cleanName}</span>
+                      </div>
+                      <span
+                        className={cn(
+                          "text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0",
+                          active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
+                        )}
+                      >
+                        {cat.questionCount}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Add Category Shortcut at bottom of nav */}
+              <div className="pt-2 border-t border-slate-100 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingCatId(null)
+                    setCatForm({ name: "", description: "", color: "#1B64F2" })
+                    setCatModalOpen(true)
+                  }}
+                  className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl border border-dashed border-slate-300 text-slate-600 hover:text-[#005CC1] hover:border-blue-300 hover:bg-blue-50/50 text-xs font-semibold transition-all"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  <span>নতুন ক্যাটাগরি যোগ করুন</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleSeedRealData}
+                  disabled={seeding}
+                  className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-emerald-50/90 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 text-xs font-bold transition-all shadow-2xs"
+                  title="৯টি রিয়েল ট্রেড ক্যাটাগরি ও ১৬টি প্রশ্ন সিড করুন"
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
+                  <span>{seeding ? "লোড হচ্ছে..." : "রিয়েল ক্যাটাগরি ও প্রশ্ন সিড"}</span>
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* Search & Difficulty */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-slate-100">
-            <div className="relative w-full sm:w-80">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="প্রশ্ন বা অপশন খুঁজুন..."
-                className="w-full h-10 pl-10 pr-3 rounded-xl border border-slate-200 bg-slate-50/50 text-xs sm:text-sm outline-none focus:bg-white focus:border-[#005CC1] focus:ring-2 focus:ring-blue-500/10 transition-all"
-              />
-            </div>
+          {/* Right Side: Search, Filters & Question Cards */}
+          <div className="lg:col-span-8 xl:col-span-9 space-y-4">
+            
+            {/* Search & Filter Bar */}
+            <div className="bg-white rounded-2xl border border-slate-200/90 p-3 sm:p-3.5 shadow-xs">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="relative w-full sm:flex-1">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="প্রশ্ন বা অপশন খুঁজুন..."
+                    className="w-full h-10 pl-10 pr-3 rounded-xl border border-slate-200 bg-slate-50/50 text-xs sm:text-sm outline-none focus:bg-white focus:border-[#005CC1] focus:ring-2 focus:ring-blue-500/10 transition-all"
+                  />
+                </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-              <select
-                value={selectedDifficulty}
-                onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="h-10 px-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 outline-none focus:border-[#005CC1]"
-              >
-                <option value="all">সকল মাত্রা</option>
-                <option value="easy">সহজ</option>
-                <option value="medium">মাঝারি</option>
-                <option value="hard">কঠিন</option>
-              </select>
+                <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                  <select
+                    value={selectedDifficulty}
+                    onChange={(e) => setSelectedDifficulty(e.target.value)}
+                    className="h-10 px-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 outline-none focus:border-[#005CC1]"
+                  >
+                    <option value="all">সকল মাত্রা</option>
+                    <option value="easy">সহজ</option>
+                    <option value="medium">মাঝারি</option>
+                    <option value="hard">কঠিন</option>
+                  </select>
 
-              <button
-                onClick={() => fetchQuestions()}
-                className="p-2.5 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 transition-colors border border-slate-200 shrink-0"
-                title="রিফ্রেশ"
-              >
-                <RefreshCw className="h-4 w-4" />
-              </button>
+                  <button
+                    type="button"
+                    onClick={() => fetchQuestions()}
+                    className="p-2.5 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 transition-colors border border-slate-200 shrink-0"
+                    title="রিফ্রেশ"
+                  >
+                    <RefreshCw className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
         {/* Questions List Cards */}
         <div className="space-y-3.5">
@@ -651,31 +1110,44 @@ export default function QuestionsPage() {
               </Button>
             </div>
           ) : (
-            questions.map((q, index) => {
-              const category = categories.find((c) => c.id === q.categoryId)
-              const badgeColor = category?.color || "#1B64F2"
-              const cleanCatName = (q.categoryName || category?.name || "সাধারণ").split("/")[0].trim()
+            <AnimatePresence mode="popLayout">
+              {questions.map((q, index) => {
+                const category = categories.find((c) => c.id === q.categoryId)
+                const badgeColor = category?.color || "#1B64F2"
+                const cleanCatName = (q.categoryName || category?.name || "সাধারণ").split("/")[0].trim()
 
-              const difficultyLabel =
-                q.difficulty === "easy" ? "সহজ" : q.difficulty === "medium" ? "মাঝারি" : "কঠিন"
+                const difficultyLabel =
+                  q.difficulty === "easy" ? "সহজ" : q.difficulty === "medium" ? "মাঝারি" : "কঠিন"
 
-              return (
-                <div
-                  key={q.id}
-                  className="bg-white rounded-2xl border border-slate-200/90 hover:border-blue-300 transition-all shadow-xs hover:shadow-md hover:shadow-blue-500/5 p-5 space-y-3.5"
-                >
-                  {/* Card Header Info */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-100">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="h-6 w-6 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center">
-                        {index + 1}
-                      </span>
-                      <span
-                        className="px-2.5 py-0.5 rounded-full text-[11px] font-bold text-white shadow-2xs"
-                        style={{ backgroundColor: badgeColor }}
-                      >
-                        {cleanCatName}
-                      </span>
+                return (
+                  <motion.div
+                    key={q.id}
+                    layout
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 350, damping: 28 },
+                      opacity: { duration: 0.2 },
+                    }}
+                    className="bg-white rounded-2xl border border-slate-200/90 hover:border-blue-300 transition-all shadow-xs hover:shadow-md hover:shadow-blue-500/5 p-5 space-y-3.5"
+                  >
+                    {/* Card Header Info */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-100">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <QuestionPositionControl
+                          index={index}
+                          total={questions.length}
+                          disabled={reordering}
+                          onMove={handleMoveQuestion}
+                          onDirectChange={handleDirectPositionChange}
+                        />
+                        <span
+                          className="px-2.5 py-0.5 rounded-full text-[11px] font-bold text-white shadow-2xs"
+                          style={{ backgroundColor: badgeColor }}
+                        >
+                          {cleanCatName}
+                        </span>
                       <span className={cn(
                         "px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wider",
                         q.difficulty === "easy" && "bg-emerald-50 text-emerald-700 border border-emerald-200",
@@ -721,7 +1193,41 @@ export default function QuestionsPage() {
                     {q.questionText}
                   </h2>
 
-                  {/* MCQ 4 Options Grid */}
+                  {/* Optional Question Image Card */}
+                  {q.imageUrl && (
+                    <div className="pt-1 pb-1">
+                      <div className="rounded-2xl border border-slate-200/90 bg-slate-50/70 p-3 max-w-sm sm:max-w-md shadow-2xs">
+                        <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-200/60">
+                          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                            <ImageIcon className="h-3.5 w-3.5 text-[#005CC1]" />
+                            প্রশ্নের চিত্র / ছবি
+                          </span>
+                          <span className="text-[11px] font-semibold text-[#005CC1] flex items-center gap-1">
+                            ক্লিক করে জুম করুন
+                          </span>
+                        </div>
+                        <div className="w-full h-44 sm:h-52 rounded-xl bg-white border border-slate-200/70 flex items-center justify-center overflow-hidden p-2 group relative">
+                          <AntImage
+                            src={q.imageUrl}
+                            alt={q.questionText}
+                            height="100%"
+                            style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
+                            className="rounded-lg transition-transform duration-200 group-hover:scale-105 cursor-pointer"
+                            preview={{
+                              mask: (
+                                <div className="flex items-center gap-1.5 text-xs text-white font-semibold bg-black/60 px-3 py-1.5 rounded-full backdrop-blur-xs shadow-md">
+                                  <ImageIcon className="h-3.5 w-3.5" />
+                                  পূর্ণ আকারে দেখুন
+                                </div>
+                              ),
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Options Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {q.options.map((opt) => {
                       const isCorrect = opt.key.toUpperCase() === q.correctAnswer.toUpperCase()
@@ -765,11 +1271,14 @@ export default function QuestionsPage() {
                       <span>{q.explanation}</span>
                     </p>
                   )}
-                </div>
-              )
-            })
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
           )}
         </div>
+      </div>
+    </div>
 
         {/* Add / Edit Question Drawer with Floating Inputs */}
         <Drawer
@@ -845,16 +1354,157 @@ export default function QuestionsPage() {
               />
             </div>
 
-            {/* 4 Options with Letter Pills acting as Correct Answer Selector */}
-            <div className="space-y-3 pt-1">
+            {/* Question Image (Optional) with compression & preview */}
+            <div className="space-y-2 pt-0.5">
               <div className="flex items-center justify-between pb-1 border-b border-slate-100">
-                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                  ৪টি উত্তর অপশন *
+                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <ImageIcon className="h-3.5 w-3.5 text-[#005CC1]" />
+                  প্রশ্নের ছবি (ঐচ্ছিক)
                 </span>
-                <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  সঠিক উত্তরের বর্ণ বাটনে ক্লিক করুন
-                </span>
+                {qForm.imageUrl && (
+                  <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    ছবি সংযুক্ত আছে
+                  </span>
+                )}
+              </div>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageSelect}
+                className="hidden"
+              />
+
+              {qForm.imageUrl ? (
+                <div className="relative rounded-2xl border border-slate-200/90 p-2.5 bg-slate-50/50 flex items-center gap-3">
+                  <div className="h-16 w-20 shrink-0 rounded-xl overflow-hidden border border-slate-200 bg-white flex items-center justify-center p-1">
+                    <AntImage
+                      src={qForm.imageUrl}
+                      alt="Preview"
+                      height="100%"
+                      style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
+                      className="rounded-lg"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-slate-800 truncate">
+                      {qForm.imageKey || "সংযুক্ত ছবি"}
+                    </p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      স্বয়ংক্রিয়ভাবে অপটিমাইজ ও কম্প্রেস করা হয়েছে
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isUploadingImage}
+                      className="h-8 text-xs font-semibold px-2.5 rounded-xl border-slate-200 hover:bg-white"
+                    >
+                      পরিবর্তন
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleRemoveImage}
+                      disabled={isUploadingImage}
+                      className="h-8 w-8 p-0 text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-xl"
+                      title="ছবি সরান"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  onClick={() => !isUploadingImage && fileInputRef.current?.click()}
+                  className={cn(
+                    "cursor-pointer border-2 border-dashed rounded-2xl p-4 text-center transition-all",
+                    isUploadingImage
+                      ? "border-blue-300 bg-blue-50/40"
+                      : "border-slate-200 hover:border-[#005CC1] hover:bg-blue-50/20 bg-slate-50/40"
+                  )}
+                >
+                  {isUploadingImage ? (
+                    <div className="flex flex-col items-center justify-center py-2 space-y-2">
+                      <Loader2 className="h-6 w-6 text-[#005CC1] animate-spin" />
+                      <p className="text-xs font-semibold text-slate-700">ছবি অপটিমাইজ ও আপলোড হচ্ছে...</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-1 space-y-1.5">
+                      <div className="h-9 w-9 rounded-xl bg-blue-50 text-[#005CC1] flex items-center justify-center">
+                        <UploadCloud className="h-5 w-5" />
+                      </div>
+                      <div className="text-center">
+                        <span className="text-xs font-bold text-slate-800 hover:text-[#005CC1]">
+                          প্রশ্নের জন্য ছবি আপলোড করতে ক্লিক করুন
+                        </span>
+                        <span className="text-xs text-slate-400 block mt-0.5">
+                          PNG, JPG, WebP (ব্রাউজারেই কম্প্রেসড ও অপটিমাইজড হবে)
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              {uploadError && (
+                <p className="text-[11px] font-semibold text-rose-500">{uploadError}</p>
+              )}
+            </div>
+
+            {/* Dynamic Options with Letter Pills acting as Correct Answer Selector */}
+            <div className="space-y-3 pt-1">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-1 border-b border-slate-100">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    উত্তর অপশন ({qForm.options.length} টি) *
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => handleSetPresetOptions(4)}
+                      className={cn(
+                        "text-[10px] font-bold px-2 py-0.5 rounded-md border transition-all",
+                        qForm.options.length === 4
+                          ? "bg-blue-50 text-[#005CC1] border-blue-200 font-black"
+                          : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100"
+                      )}
+                      title="৪টি অপশন সেট করুন"
+                    >
+                      MCQ (৪)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSetPresetOptions(2)}
+                      className={cn(
+                        "text-[10px] font-bold px-2 py-0.5 rounded-md border transition-all",
+                        qForm.options.length === 2
+                          ? "bg-blue-50 text-[#005CC1] border-blue-200 font-black"
+                          : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100"
+                      )}
+                      title="সত্য / মিথ্যা সেট করুন"
+                    >
+                      সত্য/মিথ্যা (২)
+                    </button>
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleAddOption}
+                  disabled={qForm.options.length >= 8}
+                  className="h-7 text-xs font-bold text-[#005CC1] border-blue-200 hover:bg-blue-50 hover:border-[#005CC1] flex items-center gap-1 px-2.5 rounded-lg"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  অপশন যোগ করুন
+                </Button>
               </div>
 
               <div className="space-y-3">
@@ -862,7 +1512,7 @@ export default function QuestionsPage() {
                   const isChecked = qForm.correctAnswer === opt.key
 
                   return (
-                    <div key={opt.key} className="flex items-center gap-2.5">
+                    <div key={opt.key} className="flex items-center gap-2">
                       {/* Interactive Correct Answer Letter Button */}
                       <button
                         type="button"
@@ -900,10 +1550,27 @@ export default function QuestionsPage() {
                           className={isChecked ? "border-emerald-300" : ""}
                         />
                       </div>
+
+                      {/* Delete Option Button (available if more than 2 options) */}
+                      {qForm.options.length > 2 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveOption(idx)}
+                          className="h-10 w-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0"
+                          title={`অপশন ${opt.key} বাদ দিন`}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      )}
                     </div>
                   )
                 })}
               </div>
+
+              <p className="text-[11px] text-slate-400 flex items-center gap-1.5 pt-0.5">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                <span>সঠিক উত্তরের বর্ণ বাটনে ক্লিক করুন। প্রয়োজন অনুযায়ী অপশন যোগ বা বাদ দিন (কমপক্ষে ২টি)।</span>
+              </p>
             </div>
 
             {/* Marks & Difficulty in 2 Columns */}

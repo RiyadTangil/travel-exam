@@ -104,15 +104,26 @@ export async function createQuestion(body: any, companyId: string, userId?: stri
     if (!body?.categoryId || !isValidObjectId(body.categoryId)) {
       return badRequest("ক্যাটাগরি নির্বাচন করুন / Please select a category")
     }
-    if (!Array.isArray(body?.options) || body.options.length < 2) {
-      return badRequest("কমপক্ষে ২টি উত্তর অপশন আবশ্যক / At least 2 options are required")
+    const rawOptions = Array.isArray(body?.options) ? body.options : []
+    const cleanOptions = rawOptions
+      .filter((o: any) => typeof o?.text === "string" && o.text.trim().length > 0)
+      .map((o: any, idx: number) => ({
+        key: String.fromCharCode(65 + idx),
+        text: o.text.trim(),
+      }))
+
+    if (cleanOptions.length < 2) {
+      return badRequest("কমপক্ষে ২টি উত্তর অপশন পূরণ করুন / At least 2 options are required")
     }
-    const hasEmptyOption = body.options.some((o: any) => !o.text || !o.text.trim())
-    if (hasEmptyOption) {
-      return badRequest("সকল অপশনের টেক্সট পূরণ করুন / All options must have text")
-    }
-    if (!body?.correctAnswer) {
-      return badRequest("সঠিক উত্তর নির্বাচন করুন / Please select the correct answer")
+
+    // Ensure correctAnswer is valid
+    let validCorrectAnswer = (body?.correctAnswer || "A").toUpperCase().trim()
+    const origSelected = rawOptions.find((o: any) => (o?.key || "").toUpperCase().trim() === validCorrectAnswer)
+    const matched = cleanOptions.find((o: any) => o.text === origSelected?.text?.trim())
+    if (matched) {
+      validCorrectAnswer = matched.key
+    } else if (!cleanOptions.some((o: any) => o.key === validCorrectAnswer)) {
+      validCorrectAnswer = cleanOptions[0].key
     }
 
     const created = await questionService.createQuestion(
@@ -120,9 +131,11 @@ export async function createQuestion(body: any, companyId: string, userId?: stri
         companyId,
         categoryId: body.categoryId,
         questionText: body.questionText,
+        imageUrl: body.imageUrl,
+        imageKey: body.imageKey,
         type: body.type || "MCQ",
-        options: body.options,
-        correctAnswer: body.correctAnswer,
+        options: cleanOptions,
+        correctAnswer: validCorrectAnswer,
         marks: Number(body.marks) || 1,
         explanation: body.explanation,
         difficulty: body.difficulty || "medium",
@@ -141,7 +154,30 @@ export async function updateQuestion(id: string, body: any, companyId: string, u
     if (!id || !isValidObjectId(id) || !companyId || !isValidObjectId(companyId)) {
       return badRequest("Valid IDs are required")
     }
-    const updated = await questionService.updateQuestion(id, companyId, body, userId)
+
+    const updateData = { ...body }
+    if (Array.isArray(body?.options)) {
+      const cleanOptions = body.options
+        .filter((o: any) => typeof o?.text === "string" && o.text.trim().length > 0)
+        .map((o: any, idx: number) => ({
+          key: String.fromCharCode(65 + idx),
+          text: o.text.trim(),
+        }))
+
+      if (cleanOptions.length < 2) {
+        return badRequest("কমপক্ষে ২টি উত্তর অপশন পূরণ করুন / At least 2 options are required")
+      }
+      updateData.options = cleanOptions
+      if (body.correctAnswer) {
+        const origSelected = body.options.find(
+          (o: any) => (o?.key || "").toUpperCase().trim() === body.correctAnswer.toUpperCase().trim()
+        )
+        const matched = cleanOptions.find((o: any) => o.text === origSelected?.text?.trim())
+        updateData.correctAnswer = matched ? matched.key : cleanOptions[0].key
+      }
+    }
+
+    const updated = await questionService.updateQuestion(id, companyId, updateData, userId)
     if (!updated) {
       return notFound("Question not found")
     }
@@ -170,6 +206,21 @@ export async function getQuestionStats(companyId: string) {
     }
     const stats = await questionService.getQuestionStats(companyId)
     return ok(stats)
+  } catch (error: any) {
+    return fail(error)
+  }
+}
+
+export async function reorderQuestions(companyId: string, items: Array<{ id: string; order: number }>, userId?: string) {
+  try {
+    if (!companyId || !isValidObjectId(companyId)) {
+      return badRequest("Valid Company ID is required")
+    }
+    if (!Array.isArray(items) || items.length === 0) {
+      return badRequest("Items array is required")
+    }
+    const result = await questionService.reorderQuestions(companyId, items, userId)
+    return ok(result, 200, "Questions reordered successfully")
   } catch (error: any) {
     return fail(error)
   }

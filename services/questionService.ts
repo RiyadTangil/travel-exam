@@ -2,14 +2,83 @@ import { Question } from "@/models/question"
 import { QuestionCategory } from "@/models/question-category"
 import connectMongoose from "@/lib/mongoose"
 import { Types } from "mongoose"
+import { deleteFileFromGridFS } from "@/lib/gridfs"
 
-const DEFAULT_CATEGORIES = [
-  { name: "সাধারণ ও নিরাপত্তা", color: "#1B64F2", code: "SAFETY" },
-  { name: "ড্রাইভিং ও ট্রাফিক নিয়ম", color: "#10B981", code: "DRIVING" },
-  { name: "ইলেকট্রিক্যাল ও ওয়্যারিং", color: "#F59E0B", code: "ELECTRICAL" },
-  { name: "ওয়েল্ডিং ও মেটাল", color: "#8B5CF6", code: "WELDING" },
-  { name: "মৌলিক ভাষা দক্ষতা", color: "#EC4899", code: "LANGUAGE" },
-]
+async function deleteMediaAttachment(keyOrUrl?: string) {
+  if (!keyOrUrl) return
+  await deleteFileFromGridFS(keyOrUrl)
+}
+
+import realExamData from "@/data/real-exam-questions.json"
+
+export const DEFAULT_CATEGORIES = realExamData.categories
+export const REAL_EXAM_QUESTIONS = realExamData.questions
+
+export async function seedRealCategoriesAndQuestions(companyId: string, userId?: string) {
+  await connectMongoose()
+  const companyOid = new Types.ObjectId(companyId)
+  const userOid = userId ? new Types.ObjectId(userId) : undefined
+
+  // 1. Ensure all real categories exist
+  const catMap = new Map<string, any>()
+  for (const cat of realExamData.categories) {
+    let existing: any = await QuestionCategory.findOne({
+      companyId: companyOid,
+      name: cat.name,
+    })
+    if (!existing) {
+      existing = await QuestionCategory.create({
+        name: cat.name,
+        code: cat.code,
+        color: cat.color,
+        companyId: companyOid,
+        status: "active",
+        createdBy: userOid,
+        updatedBy: userOid,
+      })
+    }
+    catMap.set(cat.name, existing)
+  }
+
+  // 2. Fetch existing questions to avoid duplicates in bulk
+  const existingQuestions = await Question.find({ companyId: companyOid }).select("questionText categoryId").lean()
+  const existingSet = new Set(existingQuestions.map((q: any) => `${q.categoryId}_${q.questionText}`))
+
+  const docsToInsert: any[] = []
+  for (const q of realExamData.questions) {
+    const categoryDoc = catMap.get(q.categoryName)
+    if (!categoryDoc) continue
+
+    const key = `${categoryDoc._id}_${q.questionText}`
+    if (!existingSet.has(key)) {
+      docsToInsert.push({
+        companyId: companyOid,
+        categoryId: categoryDoc._id,
+        categoryName: categoryDoc.name,
+        questionText: q.questionText,
+        type: "MCQ",
+        options: q.options,
+        correctAnswer: q.correctAnswer,
+        marks: q.marks || 1,
+        difficulty: q.difficulty || "medium",
+        status: "active",
+        createdBy: userOid,
+        updatedBy: userOid,
+      })
+      existingSet.add(key)
+    }
+  }
+
+  if (docsToInsert.length > 0) {
+    await Question.insertMany(docsToInsert)
+  }
+
+  return {
+    categoriesCount: catMap.size,
+    questionsAdded: docsToInsert.length,
+  }
+}
+
 
 export async function listCategories(companyId: string) {
   await connectMongoose()
@@ -185,7 +254,7 @@ export async function listQuestions(companyId: string, params: ListQuestionsPara
   const [total, items] = await Promise.all([
     Question.countDocuments(query),
     Question.find(query)
-      .sort({ createdAt: -1 })
+      .sort({ order: 1, createdAt: 1 })
       .skip(skip)
       .limit(pageSize)
       .lean(),
@@ -196,10 +265,13 @@ export async function listQuestions(companyId: string, params: ListQuestionsPara
     categoryId: String(q.categoryId),
     categoryName: (q.categoryName || "সাধারণ").split("/")[0].trim(),
     questionText: q.questionText,
+    imageUrl: q.imageUrl || undefined,
+    imageKey: q.imageKey || undefined,
     type: q.type || "MCQ",
     options: q.options || [],
     correctAnswer: q.correctAnswer,
     marks: q.marks || 1,
+    order: q.order ?? 0,
     explanation: q.explanation || "",
     difficulty: q.difficulty || "medium",
     status: q.status || "active",
@@ -220,10 +292,13 @@ export async function createQuestion(
     companyId: string
     categoryId: string
     questionText: string
+    imageUrl?: string
+    imageKey?: string
     type?: string
     options: Array<{ key: string; text: string }>
     correctAnswer: string
     marks?: number
+    order?: number
     explanation?: string
     difficulty?: string
   },
@@ -238,11 +313,23 @@ export async function createQuestion(
   const category: any = await QuestionCategory.findById(categoryOid).lean()
   const categoryName = category?.name || "General"
 
+  // Determine order if not specified
+  let order = data.order
+  if (order === undefined) {
+    const highest: any = await Question.findOne({ companyId: companyOid, categoryId: categoryOid })
+      .sort({ order: -1 })
+      .select("order")
+      .lean()
+    order = (highest?.order ?? 0) + 1
+  }
+
   const question = await Question.create({
     companyId: companyOid,
     categoryId: categoryOid,
     categoryName,
     questionText: data.questionText.trim(),
+    imageUrl: data.imageUrl?.trim() || undefined,
+    imageKey: data.imageKey?.trim() || undefined,
     type: data.type || "MCQ",
     options: data.options.map((opt) => ({
       key: opt.key.toUpperCase().trim(),
@@ -250,6 +337,7 @@ export async function createQuestion(
     })),
     correctAnswer: data.correctAnswer.toUpperCase().trim(),
     marks: data.marks || 1,
+    order,
     explanation: data.explanation?.trim() || "",
     difficulty: data.difficulty || "medium",
     status: "active",
@@ -262,10 +350,13 @@ export async function createQuestion(
     categoryId: String(question.categoryId),
     categoryName: question.categoryName,
     questionText: question.questionText,
+    imageUrl: question.imageUrl,
+    imageKey: question.imageKey,
     type: question.type,
     options: question.options,
     correctAnswer: question.correctAnswer,
     marks: question.marks,
+    order: question.order,
     explanation: question.explanation,
     difficulty: question.difficulty,
     createdAt: question.createdAt,
@@ -278,9 +369,12 @@ export async function updateQuestion(
   data: {
     categoryId?: string
     questionText?: string
+    imageUrl?: string
+    imageKey?: string
     options?: Array<{ key: string; text: string }>
     correctAnswer?: string
     marks?: number
+    order?: number
     explanation?: string
     difficulty?: string
     status?: string
@@ -291,41 +385,101 @@ export async function updateQuestion(
   const questionOid = new Types.ObjectId(id)
   const companyOid = new Types.ObjectId(companyId)
 
-  const update: any = { updatedBy: userId ? new Types.ObjectId(userId) : undefined }
+  const setFields: any = { updatedBy: userId ? new Types.ObjectId(userId) : undefined }
+  const unsetFields: any = {}
 
   if (data.categoryId) {
     const catOid = new Types.ObjectId(data.categoryId)
-    update.categoryId = catOid
+    setFields.categoryId = catOid
     const cat: any = await QuestionCategory.findById(catOid).lean()
-    if (cat) update.categoryName = cat.name
+    if (cat) setFields.categoryName = cat.name
   }
 
-  if (data.questionText) update.questionText = data.questionText.trim()
+  if (data.questionText) setFields.questionText = data.questionText.trim()
+
+  if (data.imageUrl !== undefined) {
+    // If the image has changed or was removed, clean up the previous attachment from MongoDB / S3
+    const existing: any = await Question.findOne({ _id: questionOid, companyId: companyOid }).lean()
+    const oldKey = existing?.imageKey || existing?.imageUrl
+    const newKey = data.imageKey || data.imageUrl
+    if (oldKey && oldKey !== newKey) {
+      await deleteMediaAttachment(oldKey)
+    }
+
+    if (data.imageUrl && data.imageUrl.trim()) {
+      setFields.imageUrl = data.imageUrl.trim()
+      setFields.imageKey = data.imageKey?.trim() || undefined
+    } else {
+      // Removed! Cleanly unset from MongoDB document
+      unsetFields.imageUrl = 1
+      unsetFields.imageKey = 1
+    }
+  }
+
   if (data.options) {
-    update.options = data.options.map((opt) => ({
+    setFields.options = data.options.map((opt) => ({
       key: opt.key.toUpperCase().trim(),
       text: opt.text.trim(),
     }))
   }
-  if (data.correctAnswer) update.correctAnswer = data.correctAnswer.toUpperCase().trim()
-  if (data.marks !== undefined) update.marks = Number(data.marks) || 1
-  if (data.explanation !== undefined) update.explanation = data.explanation.trim()
-  if (data.difficulty) update.difficulty = data.difficulty
-  if (data.status) update.status = data.status
+  if (data.correctAnswer) setFields.correctAnswer = data.correctAnswer.toUpperCase().trim()
+  if (data.marks !== undefined) setFields.marks = Number(data.marks) || 1
+  if (data.order !== undefined) setFields.order = Number(data.order)
+  if (data.explanation !== undefined) setFields.explanation = data.explanation.trim()
+  if (data.difficulty) setFields.difficulty = data.difficulty
+  if (data.status) setFields.status = data.status
+
+  const updateOps: any = {}
+  if (Object.keys(setFields).length > 0) updateOps.$set = setFields
+  if (Object.keys(unsetFields).length > 0) updateOps.$unset = unsetFields
 
   const updated = await Question.findOneAndUpdate(
     { _id: questionOid, companyId: companyOid },
-    { $set: update },
+    updateOps,
     { new: true }
   ).lean()
 
   return updated
 }
 
+export async function reorderQuestions(
+  companyId: string,
+  items: Array<{ id: string; order: number }>,
+  userId?: string
+) {
+  await connectMongoose()
+  const companyOid = new Types.ObjectId(companyId)
+  const userOid = userId ? new Types.ObjectId(userId) : undefined
+
+  const bulkOps = items.map((item) => ({
+    updateOne: {
+      filter: { _id: new Types.ObjectId(item.id), companyId: companyOid },
+      update: {
+        $set: {
+          order: item.order,
+          updatedBy: userOid,
+        },
+      },
+    },
+  }))
+
+  if (bulkOps.length > 0) {
+    await Question.bulkWrite(bulkOps)
+  }
+
+  return { success: true, count: bulkOps.length }
+}
+
 export async function deleteQuestion(id: string, companyId: string) {
   await connectMongoose()
   const questionOid = new Types.ObjectId(id)
   const companyOid = new Types.ObjectId(companyId)
+
+  // Find question and delete associated image from MongoDB / S3 if present
+  const question: any = await Question.findOne({ _id: questionOid, companyId: companyOid }).lean()
+  if (question && (question.imageKey || question.imageUrl)) {
+    await deleteMediaAttachment(question.imageKey || question.imageUrl)
+  }
 
   await Question.deleteOne({ _id: questionOid, companyId: companyOid })
   return { success: true }
