@@ -4,11 +4,11 @@ import connectMongoose from "@/lib/mongoose"
 import { Types } from "mongoose"
 
 const DEFAULT_CATEGORIES = [
-  { name: "সাধারণ ও নিরাপত্তা / General Trade & Safety", color: "#1B64F2", code: "SAFETY" },
-  { name: "ড্রাইভিং ও ট্রাফিক নিয়ম / Driving & Road Safety", color: "#10B981", code: "DRIVING" },
-  { name: "ইলেকট্রিক্যাল ও ওয়্যারিং / Electrical & Wiring", color: "#F59E0B", code: "ELECTRICAL" },
-  { name: "ওয়েল্ডিং ও মেটাল / Welding & Fabrication", color: "#8B5CF6", code: "WELDING" },
-  { name: "মৌলিক ভাষা দক্ষতা / Basic Language (English/Arabic)", color: "#EC4899", code: "LANGUAGE" },
+  { name: "সাধারণ ও নিরাপত্তা", color: "#1B64F2", code: "SAFETY" },
+  { name: "ড্রাইভিং ও ট্রাফিক নিয়ম", color: "#10B981", code: "DRIVING" },
+  { name: "ইলেকট্রিক্যাল ও ওয়্যারিং", color: "#F59E0B", code: "ELECTRICAL" },
+  { name: "ওয়েল্ডিং ও মেটাল", color: "#8B5CF6", code: "WELDING" },
+  { name: "মৌলিক ভাষা দক্ষতা", color: "#EC4899", code: "LANGUAGE" },
 ]
 
 export async function listCategories(companyId: string) {
@@ -50,7 +50,7 @@ export async function listCategories(companyId: string) {
       })
       return {
         id: String(cat._id),
-        name: cat.name,
+        name: (cat.name || "").split("/")[0].trim(),
         code: cat.code || "",
         description: cat.description || "",
         color: cat.color || "#1B64F2",
@@ -194,7 +194,7 @@ export async function listQuestions(companyId: string, params: ListQuestionsPara
   const mapped = items.map((q: any) => ({
     id: String(q._id),
     categoryId: String(q.categoryId),
-    categoryName: q.categoryName || "General",
+    categoryName: (q.categoryName || "সাধারণ").split("/")[0].trim(),
     questionText: q.questionText,
     type: q.type || "MCQ",
     options: q.options || [],

@@ -56,12 +56,12 @@ export function Sidebar() {
     if (userRole === "CANDIDATE") {
       return [
         {
-          title: "আমার পরীক্ষা / My Exam",
+          title: "আমার পরীক্ষা",
           icon: <GraduationCap className="h-5 w-5" />,
           href: "/dashboard",
         },
         {
-          title: "আমার প্রোফাইল / My Profile",
+          title: "আমার প্রোফাইল",
           icon: <User className="h-5 w-5" />,
           href: "/dashboard/profile",
         },

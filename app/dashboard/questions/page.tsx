@@ -325,7 +325,7 @@ export default function QuestionsPage() {
       setQuestions(res.data.data || [])
       setTotalCount(res.data.meta?.total || (res.data.data || []).length)
     } catch (error: any) {
-      message.error("প্রশ্ন তালিকা লোড করতে ব্যর্থ হয়েছে / Failed to load questions")
+      message.error("প্রশ্ন তালিকা লোড করতে ব্যর্থ হয়েছে")
     } finally {
       setLoading(false)
     }
@@ -387,20 +387,20 @@ export default function QuestionsPage() {
 
   const handleSaveQuestion = async () => {
     if (!qForm.questionText.trim()) {
-      message.error("প্রশ্নের বিবরণ আবশ্যক / Question text is required")
+      message.error("প্রশ্নের বিবরণ আবশ্যক")
       return
     }
     if (!qForm.categoryId) {
-      message.error("ক্যাটাগরি নির্বাচন করুন / Please select category")
+      message.error("ক্যাটাগরি নির্বাচন করুন")
       return
     }
     const emptyOpt = qForm.options.some((o) => !o.text.trim())
     if (emptyOpt) {
-      message.error("সকল ৪টি উত্তর অপশন পূরণ করুন / Please fill all 4 options")
+      message.error("সকল ৪টি উত্তর অপশন পূরণ করুন")
       return
     }
     if (!qForm.correctAnswer) {
-      message.error("সঠিক উত্তর নির্বাচন করুন / Please pick the correct answer")
+      message.error("সঠিক উত্তর নির্বাচন করুন")
       return
     }
 
@@ -410,18 +410,18 @@ export default function QuestionsPage() {
         await axios.put(`/api/questions/${editingQuestionId}`, qForm, {
           headers: { "x-company-id": companyId },
         })
-        message.success("প্রশ্ন সফলভাবে আপডেট হয়েছে! / Question updated successfully!")
+        message.success("প্রশ্ন সফলভাবে আপডেট হয়েছে!")
       } else {
         await axios.post("/api/questions", qForm, {
           headers: { "x-company-id": companyId },
         })
-        message.success("নতুন প্রশ্ন সফলভাবে যুক্ত হয়েছে! / Question created successfully!")
+        message.success("নতুন প্রশ্ন সফলভাবে যুক্ত হয়েছে!")
       }
       setDrawerOpen(false)
       fetchQuestions()
       fetchCategories()
     } catch (error: any) {
-      message.error(error.response?.data?.message || "সংরক্ষণ ব্যর্থ হয়েছে / Failed to save")
+      message.error(error.response?.data?.message || "সংরক্ষণ ব্যর্থ হয়েছে")
     } finally {
       setSavingQuestion(false)
     }
@@ -432,18 +432,18 @@ export default function QuestionsPage() {
       await axios.delete(`/api/questions/${id}`, {
         headers: { "x-company-id": companyId },
       })
-      message.success("প্রশ্ন মুছে ফেলা হয়েছে / Question deleted")
+      message.success("প্রশ্ন মুছে ফেলা হয়েছে")
       setQuestions((prev) => prev.filter((q) => q.id !== id))
       fetchCategories()
     } catch (error: any) {
-      message.error(error.response?.data?.message || "মুছে ফেলতে ব্যর্থ হয়েছে / Failed to delete")
+      message.error(error.response?.data?.message || "মুছে ফেলতে ব্যর্থ হয়েছে")
     }
   }
 
   // Category handlers
   const handleSaveCategory = async () => {
     if (!catForm.name.trim()) {
-      message.error("ক্যাটাগরির নাম দিন / Category name is required")
+      message.error("ক্যাটাগরির নাম দিন")
       return
     }
 
@@ -453,18 +453,18 @@ export default function QuestionsPage() {
         await axios.put(`/api/question-categories/${editingCatId}`, catForm, {
           headers: { "x-company-id": companyId },
         })
-        message.success("ক্যাটাগরি আপডেট করা হয়েছে / Category updated")
+        message.success("ক্যাটাগরি আপডেট করা হয়েছে")
       } else {
         await axios.post("/api/question-categories", catForm, {
           headers: { "x-company-id": companyId },
         })
-        message.success("নতুন ক্যাটাগরি তৈরি হয়েছে / Category created")
+        message.success("নতুন ক্যাটাগরি তৈরি হয়েছে")
       }
       setCatForm({ name: "", description: "", color: "#1B64F2" })
       setEditingCatId(null)
       fetchCategories()
     } catch (error: any) {
-      message.error(error.response?.data?.message || "ব্যর্থ হয়েছে / Failed to save category")
+      message.error(error.response?.data?.message || "ব্যর্থ হয়েছে")
     } finally {
       setSavingCat(false)
     }
@@ -475,10 +475,10 @@ export default function QuestionsPage() {
       await axios.delete(`/api/question-categories/${catId}`, {
         headers: { "x-company-id": companyId },
       })
-      message.success("ক্যাটাগরি মুছে ফেলা হয়েছে / Category deleted")
+      message.success("ক্যাটাগরি মুছে ফেলা হয়েছে")
       fetchCategories()
     } catch (error: any) {
-      message.error(error.response?.data?.message || "মুছে ফেলতে ব্যর্থ হয়েছে / Failed to delete")
+      message.error(error.response?.data?.message || "মুছে ফেলতে ব্যর্থ হয়েছে")
     }
   }
 
@@ -489,8 +489,7 @@ export default function QuestionsPage() {
   return (
     <PageWrapper
       breadcrumbs={[
-        { label: "Dashboard", href: "/dashboard" },
-        { label: "প্রশ্ন ব্যাংক / Question Bank" },
+        { label: "প্রশ্ন ব্যাংক" },
       ]}
     >
       <div className="max-w-6xl mx-auto space-y-5 px-3 sm:px-6 py-2">
@@ -500,7 +499,7 @@ export default function QuestionsPage() {
           <div>
             <div className="flex items-center gap-2.5">
               <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                প্রশ্ন ব্যাংক / Question Bank
+                প্রশ্ন ব্যাংক
               </h1>
               <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#005CC1] border border-blue-200/60 font-bold text-xs">
                 {totalCount} টি প্রশ্ন
@@ -560,6 +559,7 @@ export default function QuestionsPage() {
 
             {categories.map((cat) => {
               const active = selectedCategory === cat.id
+              const cleanName = (cat.name || "").split("/")[0].trim()
               return (
                 <button
                   key={cat.id}
@@ -578,7 +578,7 @@ export default function QuestionsPage() {
                     className="w-2 h-2 rounded-full shrink-0"
                     style={{ backgroundColor: active ? "#ffffff" : cat.color }}
                   />
-                  <span>{cat.name}</span>
+                  <span>{cleanName}</span>
                   <span className={cn(
                     "text-[10px] px-1.5 py-0.2 rounded-full",
                     active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
@@ -598,7 +598,7 @@ export default function QuestionsPage() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="প্রশ্ন খুঁজুন... / Search by question or option"
+                placeholder="প্রশ্ন বা অপশন খুঁজুন..."
                 className="w-full h-10 pl-10 pr-3 rounded-xl border border-slate-200 bg-slate-50/50 text-xs sm:text-sm outline-none focus:bg-white focus:border-[#005CC1] focus:ring-2 focus:ring-blue-500/10 transition-all"
               />
             </div>
@@ -609,16 +609,16 @@ export default function QuestionsPage() {
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
                 className="h-10 px-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 outline-none focus:border-[#005CC1]"
               >
-                <option value="all">সকল মাত্রা / All Difficulties</option>
-                <option value="easy">সহজ / Easy</option>
-                <option value="medium">মাঝারি / Medium</option>
-                <option value="hard">কঠিন / Hard</option>
+                <option value="all">সকল মাত্রা</option>
+                <option value="easy">সহজ</option>
+                <option value="medium">মাঝারি</option>
+                <option value="hard">কঠিন</option>
               </select>
 
               <button
                 onClick={() => fetchQuestions()}
                 className="p-2.5 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 transition-colors border border-slate-200 shrink-0"
-                title="Refresh"
+                title="রিফ্রেশ"
               >
                 <RefreshCw className="h-4 w-4" />
               </button>
@@ -631,7 +631,7 @@ export default function QuestionsPage() {
           {loading ? (
             <div className="py-20 text-center bg-white rounded-3xl border border-slate-200">
               <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-600 border-t-transparent mx-auto mb-3" />
-              <p className="text-xs text-slate-500 font-medium">প্রশ্ন লোড হচ্ছে... / Loading questions...</p>
+              <p className="text-xs text-slate-500 font-medium">প্রশ্ন লোড হচ্ছে...</p>
             </div>
           ) : questions.length === 0 ? (
             <div className="py-16 text-center bg-white rounded-3xl border border-slate-200 p-8 space-y-3">
@@ -654,6 +654,10 @@ export default function QuestionsPage() {
             questions.map((q, index) => {
               const category = categories.find((c) => c.id === q.categoryId)
               const badgeColor = category?.color || "#1B64F2"
+              const cleanCatName = (q.categoryName || category?.name || "সাধারণ").split("/")[0].trim()
+
+              const difficultyLabel =
+                q.difficulty === "easy" ? "সহজ" : q.difficulty === "medium" ? "মাঝারি" : "কঠিন"
 
               return (
                 <div
@@ -670,15 +674,15 @@ export default function QuestionsPage() {
                         className="px-2.5 py-0.5 rounded-full text-[11px] font-bold text-white shadow-2xs"
                         style={{ backgroundColor: badgeColor }}
                       >
-                        {q.categoryName}
+                        {cleanCatName}
                       </span>
                       <span className={cn(
-                        "px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider",
+                        "px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wider",
                         q.difficulty === "easy" && "bg-emerald-50 text-emerald-700 border border-emerald-200",
                         q.difficulty === "medium" && "bg-amber-50 text-amber-700 border border-amber-200",
                         q.difficulty === "hard" && "bg-rose-50 text-rose-700 border border-rose-200"
                       )}>
-                        {q.difficulty}
+                        {difficultyLabel}
                       </span>
                       <span className="text-[11px] font-semibold text-slate-400">
                         • {q.marks} নম্বর
@@ -689,7 +693,7 @@ export default function QuestionsPage() {
                       <button
                         onClick={() => handleOpenEditQuestion(q)}
                         className="p-1.5 rounded-lg text-slate-400 hover:text-[#005CC1] hover:bg-blue-50 transition-colors"
-                        title="Edit Question"
+                        title="সম্পাদনা করুন"
                       >
                         <Edit2 className="h-4 w-4" />
                       </button>
@@ -704,7 +708,7 @@ export default function QuestionsPage() {
                       >
                         <button
                           className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
-                          title="Delete Question"
+                          title="মুছে ফেলুন"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -772,7 +776,7 @@ export default function QuestionsPage() {
           title={
             <div className="flex flex-col">
               <span className="text-base font-bold text-slate-900">
-                {editingQuestionId ? "প্রশ্ন সম্পাদনা / Edit Question" : "নতুন প্রশ্ন তৈরি করুন / Create Question"}
+                {editingQuestionId ? "প্রশ্ন সম্পাদনা" : "নতুন প্রশ্ন তৈরি করুন"}
               </span>
               <span className="text-xs text-slate-500 font-normal">
                 প্রার্থীদের পরীক্ষার জন্য বহুনির্বাচনী প্রশ্ন (MCQ)
@@ -785,14 +789,14 @@ export default function QuestionsPage() {
           footer={
             <div className="flex items-center justify-end gap-2 p-3 bg-white border-t">
               <Button variant="outline" onClick={() => setDrawerOpen(false)} disabled={savingQuestion}>
-                বাতিল / Cancel
+                বাতিল
               </Button>
               <Button
                 onClick={handleSaveQuestion}
                 disabled={savingQuestion}
                 className="bg-[#005CC1] hover:bg-[#004ca3] text-white font-semibold px-6 shadow-sm"
               >
-                {savingQuestion ? "সংরক্ষণ হচ্ছে..." : "প্রশ্ন সংরক্ষণ করুন / Save Question"}
+                {savingQuestion ? "সংরক্ষণ হচ্ছে..." : "প্রশ্ন সংরক্ষণ করুন"}
               </Button>
             </div>
           }
@@ -819,10 +823,13 @@ export default function QuestionsPage() {
 
               <FloatingSelect
                 id="q-category"
-                label="ক্যাটাগরি / Category *"
+                label="ক্যাটাগরি *"
                 value={qForm.categoryId}
                 onChange={(e) => setQForm({ ...qForm, categoryId: e.target.value })}
-                options={categories.map((c) => ({ label: c.name, value: c.id }))}
+                options={categories.map((c) => ({
+                  label: (c.name || "").split("/")[0].trim(),
+                  value: c.id,
+                }))}
               />
             </div>
 
@@ -830,7 +837,7 @@ export default function QuestionsPage() {
             <div>
               <FloatingTextarea
                 id="q-text"
-                label="প্রশ্নের বিবরণ / Question Statement *"
+                label="প্রশ্নের বিবরণ *"
                 value={qForm.questionText}
                 onChange={(e) => setQForm({ ...qForm, questionText: e.target.value })}
                 rows={3}
@@ -842,7 +849,7 @@ export default function QuestionsPage() {
             <div className="space-y-3 pt-1">
               <div className="flex items-center justify-between pb-1 border-b border-slate-100">
                 <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                  ৪টি উত্তর অপশন / 4 Answer Options *
+                  ৪টি উত্তর অপশন *
                 </span>
                 <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
                   <CheckCircle2 className="h-3.5 w-3.5" />
@@ -882,7 +889,7 @@ export default function QuestionsPage() {
                       <div className="flex-1">
                         <FloatingInput
                           id={`opt-${opt.key}`}
-                          label={`উত্তর অপশন ${opt.key} / Option ${opt.key} *`}
+                          label={`অপশন ${opt.key} এর উত্তর *`}
                           value={opt.text}
                           onChange={(e) => {
                             const newOpts = [...qForm.options]
@@ -904,20 +911,20 @@ export default function QuestionsPage() {
               <FloatingInput
                 id="q-marks"
                 type="number"
-                label="নম্বর / Marks"
+                label="নম্বর"
                 value={qForm.marks}
                 onChange={(e) => setQForm({ ...qForm, marks: Number(e.target.value) || 1 })}
               />
 
               <FloatingSelect
                 id="q-difficulty"
-                label="কঠিনতা / Difficulty"
+                label="কঠিনতার মাত্রা"
                 value={qForm.difficulty}
                 onChange={(e) => setQForm({ ...qForm, difficulty: e.target.value as any })}
                 options={[
-                  { label: "সহজ / Easy", value: "easy" },
-                  { label: "মাঝারি / Medium", value: "medium" },
-                  { label: "কঠিন / Hard", value: "hard" },
+                  { label: "সহজ", value: "easy" },
+                  { label: "মাঝারি", value: "medium" },
+                  { label: "কঠিন", value: "hard" },
                 ]}
               />
             </div>
@@ -926,7 +933,7 @@ export default function QuestionsPage() {
             <div>
               <FloatingInput
                 id="q-explanation"
-                label="সমাধানের ব্যাখ্যা (ঐচ্ছিক) / Explanation (Optional)"
+                label="সমাধানের ব্যাখ্যা (ঐচ্ছিক)"
                 value={qForm.explanation}
                 onChange={(e) => setQForm({ ...qForm, explanation: e.target.value })}
               />
@@ -940,7 +947,7 @@ export default function QuestionsPage() {
             <div className="flex items-center gap-2">
               <Folder className="h-5 w-5 text-[#005CC1]" />
               <span className="font-bold text-base text-slate-900">
-                ক্যাটাগরি পরিচালনা / Question Categories
+                ক্যাটাগরি পরিচালনা
               </span>
             </div>
           }
@@ -953,12 +960,12 @@ export default function QuestionsPage() {
             {/* Create or Edit Category Form */}
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3.5">
               <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
-                {editingCatId ? "ক্যাটাগরি সম্পাদনা করুন" : "নতুন ক্যাটাগরি তৈরি করুন / Add New"}
+                {editingCatId ? "ক্যাটাগরি সম্পাদনা করুন" : "নতুন ক্যাটাগরি তৈরি করুন"}
               </span>
 
               <FloatingInput
                 id="cat-name"
-                label="ক্যাটাগরির নাম / Category Name *"
+                label="ক্যাটাগরির নাম *"
                 value={catForm.name}
                 onChange={(e) => setCatForm({ ...catForm, name: e.target.value })}
                 required
@@ -1016,51 +1023,54 @@ export default function QuestionsPage() {
               </span>
 
               <div className="divide-y divide-slate-100 border border-slate-200/80 rounded-2xl overflow-hidden bg-white max-h-56 overflow-y-auto">
-                {categories.map((cat) => (
-                  <div key={cat.id} className="p-3 flex items-center justify-between gap-3 hover:bg-slate-50/70">
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span
-                        className="w-3 h-3 rounded-full shrink-0"
-                        style={{ backgroundColor: cat.color }}
-                      />
-                      <span className="text-xs font-bold text-slate-800 truncate">{cat.name}</span>
-                      <span className="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full shrink-0">
-                        {cat.questionCount} প্রশ্ন
-                      </span>
-                    </div>
+                {categories.map((cat) => {
+                  const cleanCatName = (cat.name || "").split("/")[0].trim()
+                  return (
+                    <div key={cat.id} className="p-3 flex items-center justify-between gap-3 hover:bg-slate-50/70">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span
+                          className="w-3 h-3 rounded-full shrink-0"
+                          style={{ backgroundColor: cat.color }}
+                        />
+                        <span className="text-xs font-bold text-slate-800 truncate">{cleanCatName}</span>
+                        <span className="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full shrink-0">
+                          {cat.questionCount} প্রশ্ন
+                        </span>
+                      </div>
 
-                    <div className="flex items-center gap-1 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setEditingCatId(cat.id)
-                          setCatForm({ name: cat.name, description: cat.description || "", color: cat.color })
-                        }}
-                        className="p-1 text-slate-400 hover:text-[#005CC1] rounded"
-                        title="Edit"
-                      >
-                        <Edit2 className="h-3.5 w-3.5" />
-                      </button>
-
-                      <Popconfirm
-                        title="ক্যাটাগরি মুছে ফেলতে চান?"
-                        description="ক্যাটাগরির অধীনে প্রশ্ন থাকলে মুছে ফেলা যাবে না।"
-                        okText="মুছুন"
-                        cancelText="বাতিল"
-                        okButtonProps={{ danger: true }}
-                        onConfirm={() => handleDeleteCategory(cat.id)}
-                      >
+                      <div className="flex items-center gap-1 shrink-0">
                         <button
                           type="button"
-                          className="p-1 text-slate-400 hover:text-rose-600 rounded"
-                          title="Delete"
+                          onClick={() => {
+                            setEditingCatId(cat.id)
+                            setCatForm({ name: cleanCatName, description: cat.description || "", color: cat.color })
+                          }}
+                          className="p-1 text-slate-400 hover:text-[#005CC1] rounded"
+                          title="সম্পাদনা"
                         >
-                          <Trash2 className="h-3.5 w-3.5" />
+                          <Edit2 className="h-3.5 w-3.5" />
                         </button>
-                      </Popconfirm>
+
+                        <Popconfirm
+                          title="ক্যাটাগরি মুছে ফেলতে চান?"
+                          description="ক্যাটাগরির অধীনে প্রশ্ন থাকলে মুছে ফেলা যাবে না।"
+                          okText="মুছুন"
+                          cancelText="বাতিল"
+                          okButtonProps={{ danger: true }}
+                          onConfirm={() => handleDeleteCategory(cat.id)}
+                        >
+                          <button
+                            type="button"
+                            className="p-1 text-slate-400 hover:text-rose-600 rounded"
+                            title="মুছে ফেলুন"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </Popconfirm>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           </div>
