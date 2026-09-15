@@ -1381,15 +1381,19 @@ export function CandidateExamView({
                   ফেরত যান
                 </Button>
 
-                {currentIndex < examQuestions.length - 1 && (
-                  <Button
-                    onClick={() => setCurrentIndex((prev) => Math.min(examQuestions.length - 1, prev + 1))}
-                    className="bg-[#005CC1] hover:bg-[#004ca3] text-white text-xs sm:text-sm font-bold px-6 py-2.5 rounded-xl shadow-xs transition-all hover:scale-102"
-                  >
-                    এগিয়ে যান
-                    <ChevronRight className="h-4 w-4 ml-1.5" />
-                  </Button>
-                )}
+                <Button
+                  disabled={currentIndex >= examQuestions.length - 1}
+                  onClick={() => setCurrentIndex((prev) => Math.min(examQuestions.length - 1, prev + 1))}
+                  className={cn(
+                    "text-xs sm:text-sm font-bold px-6 py-2.5 rounded-xl shadow-xs transition-all",
+                    currentIndex >= examQuestions.length - 1
+                      ? "bg-slate-200 hover:bg-slate-200 text-slate-400 border border-slate-200 cursor-not-allowed opacity-70"
+                      : "bg-[#005CC1] hover:bg-[#004ca3] text-white hover:scale-102"
+                  )}
+                >
+                  এগিয়ে যান
+                  <ChevronRight className="h-4 w-4 ml-1.5" />
+                </Button>
               </div>
             </div>
 
@@ -1404,14 +1408,14 @@ export function CandidateExamView({
 
           {/* RIGHT: Candidate / Student Profile in Right Space (Compact & Clean) */}
           <div className="hidden md:flex flex-col shrink-0 pt-2 select-none md:sticky md:top-20">
-            <div className="space-y-1 text-slate-900 font-serif text-left whitespace-nowrap">
+            <div className="space-y-1.5 text-slate-900 font-sans text-left whitespace-nowrap">
               <div className="text-sm sm:text-base leading-tight">
                 <span className="font-bold text-slate-900">Name: </span>
-                <span className="font-medium text-slate-800">{candidateName || "Mamun"}</span>
+                <span className="font-medium text-slate-700">{candidateName || "Mamun"}</span>
               </div>
               <div className="text-sm sm:text-base leading-tight">
                 <span className="font-bold text-slate-900">Passport No: </span>
-                <span className="font-medium text-slate-800">{passportNo || "A12345678"}</span>
+                <span className="font-medium text-slate-700">{passportNo || "A12345678"}</span>
               </div>
             </div>
           </div>
