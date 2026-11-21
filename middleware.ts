@@ -4,6 +4,26 @@ import { getToken } from 'next-auth/jwt';
 
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "your_secret_key";
 
+async function getAuthToken(request: NextRequest) {
+  const isSecure =
+    request.nextUrl.protocol === 'https:' ||
+    request.headers.get('x-forwarded-proto') === 'https';
+
+  const token = await getToken({
+    req: request,
+    secret: NEXTAUTH_SECRET,
+    secureCookie: isSecure,
+  });
+  if (token) return token;
+
+  // Fallback in case NEXTAUTH_URL protocol differs from incoming request
+  return await getToken({
+    req: request,
+    secret: NEXTAUTH_SECRET,
+    secureCookie: !isSecure,
+  });
+}
+
 // Public paths that don't require authentication
 const publicPaths = [
   '/',
@@ -37,10 +57,7 @@ export async function middleware(request: NextRequest) {
   // Always redirect root '/' to dashboard/admin if authenticated, otherwise to signin
   if (path === '/') {
     try {
-      const token = await getToken({ 
-        req: request,
-        secret: NEXTAUTH_SECRET
-      });
+      const token = await getAuthToken(request);
       if (token) {
         if (token.userType === 'PLATFORM') {
           return NextResponse.redirect(new URL('/admin', request.url));
@@ -62,10 +79,7 @@ export async function middleware(request: NextRequest) {
   // Get the NextAuth token
   try {
     
-    const token = await getToken({ 
-      req: request,
-      secret: NEXTAUTH_SECRET
-    });
+    const token = await getAuthToken(request);
     
     // console.log(`[Middleware] NextAuth token found: ${!!token}`);
     

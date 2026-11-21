@@ -62,9 +62,16 @@ function SignInContent() {
     );
   }
 
-  // Don't render form if already authenticated (and session is valid)
+  // Show loading while redirecting if already authenticated (avoid blank white screen)
   if (status === "authenticated" && (session as any)?.error !== "UserDeletedOrInactive") {
-    return null;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#E6F0F9] to-[#F0F7FD] flex items-center justify-center p-4">
+        <div className="flex flex-col items-center justify-center gap-4 p-8 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white">
+          <Loader2 className="w-8 h-8 text-[#005CC1] animate-spin" />
+          <p className="text-slate-600 font-semibold text-sm tracking-wider">Redirecting to dashboard...</p>
+        </div>
+      </div>
+    );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
